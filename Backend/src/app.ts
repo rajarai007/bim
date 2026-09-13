@@ -8,6 +8,7 @@ import { logger } from "./config/logger";
 import { checkDatabaseConnection } from "./config/database";
 import { apiRateLimit } from "./middleware/rate-limit";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
+import { serveStoredUploads } from "./middleware/serve-uploads";
 import { apiRouter } from "./routes";
 
 export function createApp() {
@@ -34,7 +35,7 @@ export function createApp() {
   // Static media: seeded catalogue images + admin uploads.
   const staticOptions = { maxAge: "7d", immutable: false, fallthrough: true } as const;
   app.use("/images", express.static(path.join(env.assetsDir, "images"), staticOptions));
-  app.use("/uploads", express.static(env.uploadDir, staticOptions));
+  app.use("/uploads", serveStoredUploads, express.static(env.uploadDir, staticOptions));
 
   app.get("/health", async (_req, res) => {
     try {

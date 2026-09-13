@@ -9,6 +9,7 @@ import { Client, Pool } from "pg";
 dotenv.config({ path: path.resolve(__dirname, "../.env"), quiet: true });
 process.env.NODE_ENV = "test";
 process.env.RATE_LIMIT_ENABLED = "false";
+process.env.UPLOAD_STORAGE ??= "db";
 process.env.SEED_DEMO_DATA = "true";
 process.env.JWT_SECRET ??= "test-secret-test-secret-test-secret";
 

@@ -58,7 +58,7 @@ export async function listAppliedMigrations(pool: Pool): Promise<AppliedMigratio
 export async function dropAllTables(pool: Pool): Promise<void> {
   await pool.query(`
     DROP TABLE IF EXISTS
-      password_reset_tokens, enquiry_notes, enquiries, faqs, faq_categories, projects, testimonials, trainers,
+      upload_files, password_reset_tokens, enquiry_notes, enquiries, faqs, faq_categories, projects, testimonials, trainers,
       courses, categories, media, site_pages, site_settings, admin_users, schema_migrations
     CASCADE;
     DROP FUNCTION IF EXISTS set_updated_at();

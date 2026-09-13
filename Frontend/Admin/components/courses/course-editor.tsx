@@ -40,7 +40,9 @@ export function CourseEditor({
   const [title, setTitle] = useState(course?.title ?? "");
   const [slug, setSlug] = useState(course?.slug ?? "");
   const [slugTouched, setSlugTouched] = useState(Boolean(course));
-  const [active, setActive] = useState(course ? course.status === "active" : true);
+  // Drafts keep the switch on so "Publish Course" actually publishes them;
+  // only an explicitly deactivated course starts with it off.
+  const [active, setActive] = useState(course ? course.status !== "inactive" : true);
   const [featured, setFeatured] = useState(course?.isFeatured ?? false);
   const [imageUrl, setImageUrl] = useState<string | null>(course?.imageUrl ?? null);
   const [intent, setIntent] = useState<"draft" | "publish">("publish");

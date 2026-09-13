@@ -48,6 +48,10 @@ const BENIGN: RegExp[] = [
   /\/__nextjs_original-stack-frames/,
   // React DevTools promotional message is logged at "info" level, listed here defensively.
   /Download the React DevTools/,
+  // Dev-only false positive from next/image: when two <Image>s share a source (e.g. a course
+  // hero and a related-course card), the lazy one overwrites the eager one in Next's LCP
+  // bookkeeping map. The course tests assert `loading="eager"` on the hero directly instead.
+  /was detected as the Largest Contentful Paint \(LCP\)/,
 ];
 
 type Fixtures = { audit: Audit };

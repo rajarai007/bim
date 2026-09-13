@@ -32,6 +32,8 @@ const schema = z.object({
   SEED_DEMO_DATA: booleanFromString,
 
   UPLOAD_DIR: z.string().default("./uploads"),
+  /** `disk` (UPLOAD_DIR) or `db` (upload_files table) — see services/upload-storage.ts. */
+  UPLOAD_STORAGE: z.enum(["disk", "db"]).default("disk"),
   MAX_UPLOAD_MB: z.coerce.number().positive().default(5),
 
   RATE_LIMIT_ENABLED: booleanFromString,
@@ -67,6 +69,7 @@ export const env = {
   rateLimitEnabled: raw.RATE_LIMIT_ENABLED ?? !isTest,
   corsOrigins: raw.CORS_ORIGINS.split(",").map((o) => o.trim()).filter(Boolean),
   uploadDir: path.resolve(__dirname, "../../", raw.UPLOAD_DIR),
+  uploadStorage: raw.UPLOAD_STORAGE,
   assetsDir: path.resolve(__dirname, "../../assets"),
   maxUploadBytes: Math.round(raw.MAX_UPLOAD_MB * 1024 * 1024),
   adminUrl: raw.ADMIN_URL.replace(/\/$/, ""),

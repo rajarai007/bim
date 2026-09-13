@@ -68,7 +68,9 @@ describe("admin media", () => {
     const bad = await api().post("/api/v1/admin/media").set(auth).attach("file", Buffer.from("hello"), { filename: "x.txt", contentType: "text/plain" });
     expect(bad.status).toBe(422);
     expect((await api().post("/api/v1/admin/media").set(auth)).status).toBe(422);
-    expect((await api().post("/api/v1/admin/media").attach("file", file)).status).toBe(401);
+    // Small body: the 401 is sent before the upload is consumed, and a large body would EPIPE the client.
+    const unauth = await api().post("/api/v1/admin/media").attach("file", Buffer.from("x"), { filename: "x.png", contentType: "image/png" });
+    expect(unauth.status).toBe(401);
 
     const del = await api().delete(`/api/v1/admin/media/${up.body.data.id}`).set(auth);
     expect(del.status).toBe(200);

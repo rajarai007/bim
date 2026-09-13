@@ -47,7 +47,8 @@ See [`.env.example`](.env.example). The important ones:
 | `JWT_EXPIRES_IN` / `JWT_REMEMBER_EXPIRES_IN` | Token lifetime (default `12h`, "remember me" `30d`) |
 | `ADMIN_NAME` / `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Initial super-admin created by the seeder |
 | `CORS_ORIGINS` | Comma-separated browser origins allowed to call the API directly |
-| `UPLOAD_DIR` / `MAX_UPLOAD_MB` | Where admin uploads are stored (served at `/uploads`) |
+| `UPLOAD_STORAGE` | `disk` (default, files under `UPLOAD_DIR`) or `db` (PostgreSQL `upload_files` table — for hosts without a persistent disk). `npm run uploads:import` migrates disk files into the table |
+| `UPLOAD_DIR` / `MAX_UPLOAD_MB` | Where admin uploads are stored with `disk` storage (served at `/uploads`) |
 | `SEED_DEMO_DATA` | Seed demo enquiries (defaults to true outside production) |
 | `RATE_LIMIT_ENABLED` | Disable rate limiting (tests set this to `false`) |
 | `ADMIN_URL` | Origin of the admin console, used to build password-reset links |

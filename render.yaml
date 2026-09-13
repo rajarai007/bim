@@ -1,0 +1,41 @@
+# Render Blueprint for the backend API (free tier).
+#
+# Render dashboard → New → Blueprint → select this repo. Render reads this file,
+# creates the service and prompts for the two secrets marked `sync: false`.
+# The frontends deploy separately on Netlify; only the API lives here.
+#
+# Free-tier notes:
+#  - The instance sleeps after 15 min idle; .github/workflows/keep-alive.yml pings
+#    /health every 10 min so visitors never wait for a cold start.
+#  - The filesystem is ephemeral, so uploads are stored in Postgres (UPLOAD_STORAGE=db).
+services:
+  - type: web
+    name: bim-api
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: Backend
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm run db:migrate:prod && npm run db:seed:prod && npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: UPLOAD_STORAGE
+        value: db
+      - key: SEED_DEMO_DATA
+        value: "false"
+      - key: LOG_LEVEL
+        value: info
+      - key: PUBLIC_URL
+        value: https://api.bimcareeracademy.com
+      - key: CORS_ORIGINS
+        value: https://bimcareeracademy.com,https://www.bimcareeracademy.com,https://admin.bimcareeracademy.com
+      - key: ADMIN_URL
+        value: https://admin.bimcareeracademy.com
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false

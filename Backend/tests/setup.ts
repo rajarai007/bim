@@ -2,6 +2,7 @@ import { afterAll } from "vitest";
 
 process.env.NODE_ENV = "test";
 process.env.RATE_LIMIT_ENABLED = "false";
+process.env.UPLOAD_STORAGE ??= "db";
 process.env.JWT_SECRET ??= "test-secret-test-secret-test-secret";
 
 afterAll(async () => {

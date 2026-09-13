@@ -77,9 +77,14 @@
 /* Base -------------------------------------------------------------------- */
 html {
   scroll-behavior: smooth;
+  /* Scroll-reveal elements start translated sideways (see Motion system); `clip`
+     keeps them from widening the page on phones without creating a scroll
+     container, so the sticky header keeps working. */
+  overflow-x: clip;
 }
 
 body {
+  overflow-x: clip;
   background-color: var(--color-canvas);
   color: var(--color-body);
   font-family: var(--font-sans);
