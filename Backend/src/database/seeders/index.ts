@@ -39,6 +39,10 @@ export async function seedAdminUser(client: PoolClient, log: Log): Promise<numbe
   const email = env.ADMIN_EMAIL ?? (env.isProduction ? undefined : "admin@bimcareeracademy.com");
   const password = env.ADMIN_PASSWORD ?? (env.isProduction ? undefined : "admin123");
   if (!email || !password) {
+    // Credentials are only needed to create the very first admin; an already
+    // provisioned database (e.g. production redeploys) keeps its existing admins.
+    const first = await client.query<{ id: number }>("SELECT id FROM admin_users ORDER BY id LIMIT 1");
+    if (first.rows[0]) return first.rows[0].id;
     throw new Error("ADMIN_EMAIL and ADMIN_PASSWORD must be set to seed the initial admin user");
   }
   const existing = await client.query<{ id: number }>("SELECT id FROM admin_users WHERE lower(email) = lower($1)", [email]);
