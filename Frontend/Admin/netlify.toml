@@ -1,0 +1,13 @@
+# Netlify build config for this Next.js app. In the Netlify UI set
+# "Base directory" to this folder; everything else is defined here so the
+# Next.js runtime is always used (a missing runtime deploys static files and
+# every route 404s).
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
