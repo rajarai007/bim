@@ -1,0 +1,62 @@
+import Image from "next/image";
+import { Breadcrumb, type Crumb } from "@/components/layout/breadcrumb";
+import { Container } from "@/components/layout/container";
+import { SplitWords } from "@/components/motion/split-words";
+import { cn } from "@/lib/utils";
+
+/**
+ * Page hero used by every inner page: background photo with a 90% canvas
+ * overlay, H1, optional intro copy and a breadcrumb.
+ */
+export function PageBanner({
+  title,
+  description,
+  crumbs,
+  image = "/images/page-banner.png",
+  glyph = "lucide",
+}: {
+  title: string;
+  description?: string;
+  crumbs: Crumb[];
+  image?: string;
+  glyph?: "lucide" | "wide";
+}) {
+  return (
+    <section className="relative w-full overflow-hidden">
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div data-parallax="0.3" className="absolute inset-x-0 -inset-y-[20%] will-change-transform">
+          <Image
+            src={image}
+            alt=""
+            fill
+            sizes="100vw"
+            preload
+            className="object-cover"
+          />
+        </div>
+        <div className="absolute inset-0 bg-overlay-banner" />
+        <span className="orb absolute -top-24 right-[10%] size-[360px] rounded-full bg-primary opacity-20 blur-[100px]" />
+      </div>
+      <Container className={cn("relative flex flex-col items-start py-12 md:py-16 xl:py-20", description ? "gap-5" : "gap-4")}>
+        <h1
+          data-reveal="words"
+          className="font-heading text-32 font-black leading-native text-white md:text-40 xl:text-48"
+        >
+          <SplitWords text={title} />
+        </h1>
+        {description ? (
+          <p
+            data-reveal="up"
+            data-reveal-delay="3"
+            className="max-w-[1120px] font-sans text-16 leading-normal text-body md:text-18"
+          >
+            {description}
+          </p>
+        ) : null}
+        <div data-reveal="up" data-reveal-delay="4">
+          <Breadcrumb items={crumbs} glyph={glyph} />
+        </div>
+      </Container>
+    </section>
+  );
+}

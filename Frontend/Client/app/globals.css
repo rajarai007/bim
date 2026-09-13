@@ -1,0 +1,496 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens extracted from the Figma file "Bim" (cPit0RIu9HRAeUyqi9HxnD).
+ * Every value below maps 1:1 to a value used in the design; components should
+ * consume these tokens rather than raw hex/px values.
+ */
+@theme {
+  /* ---- Colors ---------------------------------------------------------- */
+  --color-canvas: #0a0d14; /* page background */
+  --color-surface: #131824; /* alternating section bg, cards on canvas */
+  --color-elevated: #1e2538; /* cards on surface, secondary buttons, chips */
+  --color-line: #1e293b; /* borders / dividers */
+
+  --color-primary: #ff5a1f; /* brand orange */
+  --color-primary-soft: rgb(255 90 31 / 0.1);
+  --color-accent: #00f5d4; /* brand teal */
+  --color-accent-soft: rgb(0 245 212 / 0.1);
+  --color-whatsapp: #25d366;
+  --color-whatsapp-soft: rgb(37 211 102 / 0.13);
+  --color-whatsapp-line: rgb(37 211 102 / 0.27);
+
+  --color-heading: #ffffff;
+  --color-body: #e2e8f0;
+  --color-muted: #94a3b8;
+  --color-muted-soft: rgb(148 163 184 / 0.1);
+
+  --color-overlay-hero: rgb(10 13 20 / 0.85);
+  --color-overlay-banner: rgb(10 13 20 / 0.9);
+  --color-surface-translucent: rgb(19 24 36 / 0.5);
+
+  /* ---- Typography ------------------------------------------------------ */
+  --font-heading: var(--font-outfit), "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
+
+  /* Pixel scale used across the design (text-11 … text-56). */
+  --text-10: 10px;
+  --text-11: 11px;
+  --text-12: 12px;
+  --text-13: 13px;
+  --text-14: 14px;
+  --text-15: 15px;
+  --text-16: 16px;
+  --text-18: 18px;
+  --text-20: 20px;
+  --text-22: 22px;
+  --text-24: 24px;
+  --text-28: 28px;
+  --text-32: 32px;
+  --text-36: 36px;
+  --text-40: 40px;
+  --text-48: 48px;
+  --text-56: 56px;
+
+  /* Line heights used in Figma. */
+  --leading-native: normal; /* Figma "Auto" line height */
+  --leading-hero: 1.15;
+  --leading-compact: 1.4;
+  --leading-body: 1.6;
+
+  /* ---- Radius ---------------------------------------------------------- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 100px;
+
+  /* ---- Layout ---------------------------------------------------------- */
+  --container-page: 1440px; /* Figma frame width */
+  --spacing-gutter: 80px; /* Figma horizontal page padding */
+
+  /* ---- Motion ---------------------------------------------------------- */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  --default-transition-duration: 200ms;
+}
+
+/* Base -------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  line-height: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  color: var(--color-heading);
+}
+
+::selection {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+/* Focus ring shared by all interactive elements. */
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Motion system                                                             */
+/*                                                                           */
+/* Scroll reveals are opt-in via data attributes and driven by a single      */
+/* IntersectionObserver in `components/motion/motion-provider.tsx`:          */
+/*                                                                           */
+/*   data-reveal="up|down|left|right|scale|fade|blur|clip|words"             */
+/*   data-reveal-delay="1..8"        (+100ms per step)                       */
+/*   data-reveal-stagger="up|scale|left|right|fade"  (cascades children;     */
+/*     tune with --stagger-step / --stagger-offset on the container)          */
+/*   data-spotlight                  (cursor-tracking glow on cards)         */
+/*   data-parallax="0.2"             (scroll-linked drift for backgrounds)   */
+/*                                                                           */
+/* Reveals use animations (not transitions) so hover transforms on the same  */
+/* element keep their own timing once the element is visible.               */
+/* Everything is gated behind scripting:enabled + reduced-motion so content  */
+/* is never hidden without JS or for users who opt out of motion.            */
+/* ------------------------------------------------------------------------ */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  :root {
+    --reveal-duration: 800ms;
+    --stagger-step: 80ms;
+  }
+
+  /* ---- Hidden states --------------------------------------------------- */
+  [data-reveal] {
+    --reveal-delay: 0ms;
+  }
+  /* Stagger children start from the container's optional `--stagger-offset`. */
+  [data-reveal-stagger] > * {
+    --reveal-delay: var(--stagger-offset, 0ms);
+  }
+
+  :is(
+      [data-reveal]:not([data-reveal="words"]),
+      [data-reveal-stagger] > *
+    ):not([data-visible]) {
+    opacity: 0;
+  }
+  :is([data-reveal=""], [data-reveal="up"], [data-reveal-stagger=""] > *, [data-reveal-stagger="up"] > *):not([data-visible]) {
+    transform: translateY(28px);
+  }
+  [data-reveal="down"]:not([data-visible]) {
+    transform: translateY(-28px);
+  }
+  :is([data-reveal="left"], [data-reveal-stagger="left"] > *):not([data-visible]) {
+    transform: translateX(-40px);
+  }
+  :is([data-reveal="right"], [data-reveal-stagger="right"] > *):not([data-visible]) {
+    transform: translateX(40px);
+  }
+  :is([data-reveal="scale"], [data-reveal-stagger="scale"] > *):not([data-visible]) {
+    transform: scale(0.9);
+  }
+  [data-reveal="blur"]:not([data-visible]) {
+    transform: translateY(16px);
+    filter: blur(12px);
+  }
+  [data-reveal="clip"]:not([data-visible]) {
+    opacity: 1;
+    clip-path: inset(0 100% 0 0);
+  }
+  [data-reveal="clip"]:not([data-visible]) img {
+    transform: scale(1.15);
+  }
+  [data-reveal="words"]:not([data-visible]) .word {
+    opacity: 0;
+    transform: translateY(110%);
+  }
+
+  /* ---- Revealed: play the entrance animation --------------------------- */
+  :is([data-reveal], [data-reveal-stagger] > *)[data-visible] {
+    animation-duration: var(--reveal-duration);
+    animation-timing-function: var(--ease-brand);
+    animation-delay: var(--reveal-delay);
+    animation-fill-mode: backwards;
+  }
+  :is([data-reveal=""], [data-reveal="up"], [data-reveal-stagger=""] > *, [data-reveal-stagger="up"] > *)[data-visible] {
+    animation-name: reveal-up;
+  }
+  [data-reveal="down"][data-visible] {
+    animation-name: reveal-down;
+  }
+  :is([data-reveal="left"], [data-reveal-stagger="left"] > *)[data-visible] {
+    animation-name: reveal-left;
+  }
+  :is([data-reveal="right"], [data-reveal-stagger="right"] > *)[data-visible] {
+    animation-name: reveal-right;
+  }
+  :is([data-reveal="scale"], [data-reveal-stagger="scale"] > *)[data-visible] {
+    animation-name: reveal-scale;
+  }
+  :is([data-reveal="fade"], [data-reveal-stagger="fade"] > *)[data-visible] {
+    animation-name: reveal-fade;
+  }
+  [data-reveal="blur"][data-visible] {
+    animation-name: reveal-blur;
+  }
+  [data-reveal="clip"][data-visible] {
+    animation-name: reveal-clip;
+    animation-duration: 1100ms;
+  }
+  [data-reveal="clip"][data-visible] img {
+    animation: img-settle 1400ms var(--ease-brand) var(--reveal-delay) backwards;
+  }
+  [data-reveal="words"][data-visible] .word {
+    animation: word-rise 900ms var(--ease-brand) backwards;
+    animation-delay: calc(var(--reveal-delay) + var(--word-index, 0) * 55ms);
+  }
+
+  /* ---- Delays ---------------------------------------------------------- */
+  [data-reveal-delay="1"] { --reveal-delay: 100ms; }
+  [data-reveal-delay="2"] { --reveal-delay: 200ms; }
+  [data-reveal-delay="3"] { --reveal-delay: 300ms; }
+  [data-reveal-delay="4"] { --reveal-delay: 400ms; }
+  [data-reveal-delay="5"] { --reveal-delay: 500ms; }
+  [data-reveal-delay="6"] { --reveal-delay: 600ms; }
+  [data-reveal-delay="7"] { --reveal-delay: 700ms; }
+  [data-reveal-delay="8"] { --reveal-delay: 800ms; }
+
+  [data-reveal-stagger] > :nth-child(2) { --reveal-delay: calc(var(--stagger-offset, 0ms) + var(--stagger-step) * 1); }
+  [data-reveal-stagger] > :nth-child(3) { --reveal-delay: calc(var(--stagger-offset, 0ms) + var(--stagger-step) * 2); }
+  [data-reveal-stagger] > :nth-child(4) { --reveal-delay: calc(var(--stagger-offset, 0ms) + var(--stagger-step) * 3); }
+  [data-reveal-stagger] > :nth-child(5) { --reveal-delay: calc(var(--stagger-offset, 0ms) + var(--stagger-step) * 4); }
+  [data-reveal-stagger] > :nth-child(6) { --reveal-delay: calc(var(--stagger-offset, 0ms) + var(--stagger-step) * 5); }
+  [data-reveal-stagger] > :nth-child(7) { --reveal-delay: calc(var(--stagger-offset, 0ms) + var(--stagger-step) * 6); }
+  [data-reveal-stagger] > :nth-child(8) { --reveal-delay: calc(var(--stagger-offset, 0ms) + var(--stagger-step) * 7); }
+  [data-reveal-stagger] > :nth-child(n + 9) { --reveal-delay: calc(var(--stagger-offset, 0ms) + var(--stagger-step) * 8); }
+
+  /* ---- Safety net: if hydration never happens, show everything at 3s. --- */
+  html:not([data-motion="ready"]) :is([data-reveal], [data-reveal-stagger] > *, .word) {
+    animation: reveal-fallback 0s 3s forwards;
+  }
+
+  /* ---- Ambient / continuous motion ------------------------------------- */
+  .kenburns {
+    animation: kenburns 26s ease-in-out infinite alternate;
+  }
+  .orb {
+    animation: orb-float 16s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  /* No fill-mode: a filled transform animation would make the header the
+     containing block for its fixed mobile drawer. */
+  .header-in {
+    animation: header-in 700ms var(--ease-brand);
+  }
+  .page-enter {
+    animation: page-in 600ms var(--ease-brand);
+  }
+
+  /* Stars on testimonial cards pop in one after another once the card shows. */
+  [data-visible] .star-icon {
+    animation: star-pop 500ms var(--ease-brand) both;
+    animation-delay: calc(var(--reveal-delay) + 250ms + var(--star-index, 0) * 70ms);
+  }
+}
+
+/* ---- Keyframes ----------------------------------------------------------- */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-down {
+  from { opacity: 0; transform: translateY(-28px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-left {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-right {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-scale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes reveal-blur {
+  from { opacity: 0; transform: translateY(16px); filter: blur(12px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes reveal-clip {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes img-settle {
+  from { transform: scale(1.15); }
+  to { transform: none; }
+}
+@keyframes word-rise {
+  from { opacity: 0; transform: translateY(110%); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-fallback {
+  to { opacity: 1; transform: none; filter: none; clip-path: none; }
+}
+@keyframes star-pop {
+  0% { opacity: 0; transform: scale(0.4) rotate(-30deg); }
+  60% { opacity: 1; transform: scale(1.25) rotate(8deg); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes kenburns {
+  from { transform: scale(1) translate(0, 0); }
+  to { transform: scale(1.12) translate(-1.5%, 1%); }
+}
+@keyframes orb-float {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(40px, -30px, 0) scale(1.08); }
+  to { transform: translate3d(-30px, 30px, 0) scale(0.96); }
+}
+@keyframes header-in {
+  from { transform: translateY(-100%); }
+  to { transform: none; }
+}
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes shimmer {
+  from { transform: translateX(-150%) skewX(-20deg); }
+  to { transform: translateX(250%) skewX(-20deg); }
+}
+
+/* ---- Split-word headings ------------------------------------------------- */
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.15em; /* room for descenders inside the clip */
+  margin-bottom: -0.15em;
+}
+.word {
+  display: inline-block;
+}
+
+/* ---- Cursor spotlight on cards ------------------------------------------ */
+[data-spotlight] {
+  position: relative;
+  isolation: isolate;
+  --mx: 50%;
+  --my: 50%;
+  --spot-color: rgb(255 90 31 / 0.14);
+  --spot-ring: rgb(255 90 31 / 0.7);
+}
+[data-spotlight="accent"] {
+  --spot-color: rgb(0 245 212 / 0.12);
+  --spot-ring: rgb(0 245 212 / 0.7);
+}
+/* Soft light that follows the cursor, painted between background and content. */
+[data-spotlight]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    380px circle at var(--mx) var(--my),
+    var(--spot-color),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 400ms var(--ease-brand);
+}
+/* 1px ring that lights up nearest the cursor. */
+[data-spotlight]::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: radial-gradient(
+    260px circle at var(--mx) var(--my),
+    var(--spot-ring),
+    transparent 70%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-brand);
+}
+@media (hover: hover) {
+  [data-spotlight]:hover::before,
+  [data-spotlight]:hover::after {
+    opacity: 1;
+  }
+}
+
+/* ---- Interactive surfaces ---------------------------------------------- */
+/* Cards: lift + deep shadow on hover. */
+.card-lift {
+  transition-property: transform, box-shadow, border-color, background-color;
+  transition-duration: 450ms, 450ms, 200ms, 200ms;
+  transition-timing-function: var(--ease-brand);
+}
+@media (hover: hover) {
+  .card-lift:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 24px 48px -24px rgb(0 0 0 / 0.7),
+      0 0 0 1px rgb(255 255 255 / 0.04);
+  }
+}
+
+/* Buttons: diagonal light sweep on hover. */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(255 255 255 / 0.28),
+    transparent
+  );
+  transform: translateX(-150%) skewX(-20deg);
+}
+@media (hover: hover) {
+  .btn-shine:hover::after {
+    animation: shimmer 700ms var(--ease-brand);
+  }
+}
+
+/* Nav links: underline grows from the left, retracts to the right. */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 300ms var(--ease-brand);
+}
+.nav-link:hover::after,
+.nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Reading progress bar along the header's bottom edge. */
+.scroll-progress {
+  transform: scaleX(0);
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+}
