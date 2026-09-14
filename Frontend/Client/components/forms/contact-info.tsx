@@ -88,13 +88,13 @@ export function ContactInfo({ contact }: { contact: SiteSettings["contact"] }) {
         <div className="group relative flex h-[220px] w-full items-center justify-center overflow-hidden rounded-md">
           <Image
             src="/images/contact-map.png"
-            alt="Map centred on the academy at Sector 62, Noida"
+            alt="Map centred on the academy at Okhla Head, Jamia Nagar, New Delhi"
             fill
             sizes="(min-width: 1280px) 480px, (min-width: 1024px) 420px, 100vw"
             className="object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.06]"
           />
           <span className="relative rounded-xs bg-canvas px-4 py-2 font-sans text-11 font-bold leading-native text-primary whitespace-nowrap shadow-[0_0_0_0_rgb(255_90_31/0.4)] transition-[box-shadow,scale] duration-500 ease-brand group-hover:scale-105 group-hover:shadow-[0_0_0_8px_rgb(255_90_31/0)]">
-            CENTERED AT SECTOR 62
+            CENTERED AT OKHLA HEAD
           </span>
         </div>
       </div>

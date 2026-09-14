@@ -830,10 +830,10 @@ export const faqs: SeedFaq[] = [
 
 export const settings = {
   academyName: "BIM Career Academy",
-  address: "123 Tech Park, Sector 62, Noida, UP, India",
-  phone: "+91 98765 43210",
-  whatsapp: "+91 98765 43210",
-  email: "info@bimcareeracademy.com",
+  address: "Okhla Head, Jamia Nagar, New Delhi 110025, India",
+  phone: "+91 84487 65107",
+  whatsapp: "+91 84487 65107",
+  email: "bimcareer1543@gmail.com",
   workingHours: "Mon - Sat (9:00 AM - 6:30 PM)",
   instagramUrl: "https://instagram.com",
   facebookUrl: "https://facebook.com",

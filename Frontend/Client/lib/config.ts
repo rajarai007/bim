@@ -5,12 +5,12 @@ export const siteConfig = {
   description:
     "India's premier offline training institute for BIM, Structural Design, MEP Design & Interior Design Software. Hands-on, career-focused training by industry experts.",
   contact: {
-    phone: "+91 98765 43210",
-    phoneHref: "tel:+919876543210",
-    whatsapp: "+91 98765 43210",
-    whatsappHref: "https://wa.me/919876543210",
-    email: "info@bimcareeracademy.com",
-    address: "123 Tech Park, Sector 62, Noida, UP, India",
+    phone: "+91 84487 65107",
+    phoneHref: "tel:+918448765107",
+    whatsapp: "+91 84487 65107",
+    whatsappHref: "https://wa.me/918448765107",
+    email: "bimcareer1543@gmail.com",
+    address: "Okhla Head, Jamia Nagar, New Delhi 110025, India",
   },
   social: {
     instagram: "https://instagram.com",
