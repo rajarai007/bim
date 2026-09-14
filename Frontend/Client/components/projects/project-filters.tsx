@@ -33,10 +33,10 @@ export function ProjectFilters({ projects, categories }: { projects: Project[]; 
               aria-selected={selected}
               onClick={() => setActive(filter.id)}
               className={cn(
-                "shrink-0 rounded-[40px] border border-line px-5 py-2.5 font-sans text-14 font-bold leading-native text-white transition-[background-color,border-color,translate,scale,box-shadow] duration-300 ease-brand hover:-translate-y-0.5 active:translate-y-0 active:scale-95 active:duration-100",
+                "shrink-0 rounded-[40px] border border-line px-5 py-2.5 font-sans text-14 font-bold leading-native transition-[background-color,border-color,translate,scale,box-shadow] duration-300 ease-brand hover:-translate-y-0.5 active:translate-y-0 active:scale-95 active:duration-100",
                 selected
-                  ? "border-primary bg-primary shadow-[0_10px_24px_-10px_rgb(255_90_31/0.7)]"
-                  : "bg-surface hover:border-primary/40 hover:bg-elevated",
+                  ? "border-primary bg-primary text-white shadow-[0_10px_24px_-10px_rgb(255_90_31/0.7)]"
+                  : "bg-surface text-heading hover:border-primary/40 hover:bg-elevated",
               )}
             >
               {filter.label}

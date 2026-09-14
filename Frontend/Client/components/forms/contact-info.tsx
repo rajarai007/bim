@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Mail, MapPin, PhoneCall } from "lucide-react";
+import { Clock, Mail, MapPin, PhoneCall } from "lucide-react";
 import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 import type { SiteSettings } from "@/types";
 
@@ -38,6 +38,16 @@ function buildRows(contact: SiteSettings["contact"]): Row[] {
     tone: "bg-muted-soft text-muted",
     icon: <Mail className="size-4" aria-hidden />,
   });
+  // Managed in the admin console (Settings → Working Hours); omitted when not set.
+  if (contact.hours) {
+    rows.push({
+      label: "WORKING HOURS",
+      value: contact.hours,
+      href: undefined,
+      tone: "bg-primary-soft text-primary",
+      icon: <Clock className="size-4" aria-hidden />,
+    });
+  }
   return rows;
 }
 
@@ -50,7 +60,7 @@ export function ContactInfo({ contact }: { contact: SiteSettings["contact"] }) {
         data-reveal-delay="2"
         className="flex w-full flex-col items-start gap-7 rounded-md bg-surface p-6 md:p-8"
       >
-        <h2 className="font-heading text-24 font-extrabold leading-native text-white">
+        <h2 className="font-heading text-24 font-extrabold leading-native text-heading">
           Academy Details
         </h2>
         <ul data-reveal-stagger="left" className="flex w-full flex-col gap-7 [--stagger-offset:300ms]">
@@ -66,7 +76,7 @@ export function ContactInfo({ contact }: { contact: SiteSettings["contact"] }) {
                 {row.href ? (
                   <a
                     href={row.href}
-                    className="font-sans text-14 font-semibold text-body transition-colors hover:text-white"
+                    className="font-sans text-14 font-semibold text-body transition-colors hover:text-heading"
                     target={row.href.startsWith("http") ? "_blank" : undefined}
                     rel={row.href.startsWith("http") ? "noreferrer" : undefined}
                   >
@@ -82,7 +92,7 @@ export function ContactInfo({ contact }: { contact: SiteSettings["contact"] }) {
       </div>
 
       <div data-reveal="up" className="flex w-full flex-col items-start gap-4">
-        <h2 className="font-heading text-18 font-extrabold leading-native text-white">
+        <h2 className="font-heading text-18 font-extrabold leading-native text-heading">
           Location Map
         </h2>
         <div className="group relative flex h-[220px] w-full items-center justify-center overflow-hidden rounded-md">

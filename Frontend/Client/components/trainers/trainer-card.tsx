@@ -26,7 +26,7 @@ export function TrainerCard({ trainer }: { trainer: Trainer }) {
         />
       </div>
       <div className="flex flex-1 flex-col items-start gap-3 p-5">
-        <h3 className="w-full font-heading text-20 font-extrabold leading-native text-white">
+        <h3 className="w-full font-heading text-20 font-extrabold leading-native text-heading">
           {trainer.name}
         </h3>
         <p className="w-full font-sans text-14 font-bold leading-native text-primary">
@@ -81,7 +81,7 @@ export function TrainerCardCompact({ trainer }: { trainer: Trainer }) {
         />
       </div>
       <div className="flex flex-col items-start gap-3 p-5">
-        <h3 className="font-heading text-18 font-bold leading-native text-white">{trainer.name}</h3>
+        <h3 className="font-heading text-18 font-bold leading-native text-heading">{trainer.name}</h3>
         <p className="font-sans text-13 font-semibold leading-native text-primary">
           {trainer.homeRole ?? trainer.role}
         </p>

@@ -14,7 +14,7 @@ export function SoftwareChip({
   return (
     <span
       className={cn(
-        "group inline-flex items-center gap-2 rounded-sm border border-line bg-elevated font-sans font-bold text-body leading-native whitespace-nowrap transition-[border-color,translate,box-shadow,color] duration-300 ease-brand hover:-translate-y-0.5 hover:border-primary/60 hover:text-white hover:shadow-[0_10px_24px_-12px_rgb(255_90_31/0.5)]",
+        "group inline-flex items-center gap-2 rounded-sm border border-line bg-elevated font-sans font-bold text-body leading-native whitespace-nowrap transition-[border-color,translate,box-shadow,color] duration-300 ease-brand hover:-translate-y-0.5 hover:border-primary/60 hover:text-heading hover:shadow-[0_10px_24px_-12px_rgb(255_90_31/0.5)]",
         size === "md" ? "px-5 py-3 text-13" : "px-4 py-2 text-14",
         className,
       )}

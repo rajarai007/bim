@@ -47,7 +47,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
                 <Image src={t.avatar.src} alt="" fill sizes="40px" className="object-cover" />
               </span>
               <span className="flex min-w-0 flex-1 flex-col gap-0.5 leading-native">
-                <span className="font-heading text-15 font-bold text-white">{t.name}</span>
+                <span className="font-heading text-15 font-bold text-heading">{t.name}</span>
                 <span className="font-sans text-11 text-muted">{t.program}</span>
               </span>
             </figcaption>

@@ -62,7 +62,7 @@ export function EnquiryForm({ courseTitle, courseSlug }: { courseTitle: string; 
           surface="elevated"
           value={courseTitle}
           readOnly
-          className="text-white"
+          className="text-heading"
         />
       </Field>
       <Field label="Full Name" htmlFor="enq-fullName" error={errors.fullName} className="w-full">

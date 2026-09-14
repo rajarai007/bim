@@ -13,8 +13,8 @@ const paddings: Record<Padding, string> = {
 };
 
 const tones: Record<Tone, string> = {
-  canvas: "bg-canvas",
-  surface: "bg-surface",
+  canvas: "", // paper grid shows through
+  surface: "bg-surface-translucent",
   transparent: "",
 };
 

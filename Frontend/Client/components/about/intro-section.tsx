@@ -9,7 +9,7 @@ export function IntroSection() {
       <div className="flex flex-col items-center gap-10 lg:flex-row lg:gap-12">
         <div data-reveal-stagger="up" className="flex w-full min-w-0 flex-col items-start gap-6 lg:flex-1">
           <Badge>Our Identity</Badge>
-          <h2 className="font-heading text-28 font-extrabold leading-native text-white md:text-32 xl:text-36">
+          <h2 className="font-heading text-28 font-extrabold leading-native text-heading md:text-32 xl:text-36">
             World-Class Practical Training for Next-Gen Engineers
           </h2>
           <p className="font-sans text-16 leading-body text-muted">
@@ -34,7 +34,7 @@ export function IntroSection() {
           <span className="flex size-10 items-center justify-center rounded-md bg-accent-soft text-accent transition-[scale,rotate] duration-400 ease-brand group-hover:-rotate-6 group-hover:scale-110">
             <Eye className="size-5" aria-hidden />
           </span>
-          <h3 className="font-heading text-24 font-extrabold leading-native text-white">Our Vision</h3>
+          <h3 className="font-heading text-24 font-extrabold leading-native text-heading">Our Vision</h3>
           <p className="font-sans text-15 leading-body text-muted">
             To be India&apos;s leading BIM &amp; design technology training institute, empowering
             professionals with cutting-edge skills and engineering confidence.
@@ -44,7 +44,7 @@ export function IntroSection() {
           <span className="flex size-10 items-center justify-center rounded-md bg-primary-soft text-primary transition-[scale,rotate] duration-400 ease-brand group-hover:-rotate-6 group-hover:scale-110">
             <Target className="size-5" aria-hidden />
           </span>
-          <h3 className="font-heading text-24 font-extrabold leading-native text-white">Our Mission</h3>
+          <h3 className="font-heading text-24 font-extrabold leading-native text-heading">Our Mission</h3>
           <p className="font-sans text-15 leading-body text-muted">
             To deliver practical, project-based training that bridges the gap between conceptual
             education and industry execution.

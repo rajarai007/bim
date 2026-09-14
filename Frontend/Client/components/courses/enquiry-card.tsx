@@ -15,7 +15,7 @@ export function EnquiryCard({
 }) {
   return (
     <aside data-reveal="right" data-reveal-delay="2" className="flex w-full flex-col items-start gap-6 rounded-md border border-line bg-surface p-6 md:p-8 lg:sticky lg:top-24">
-      <h2 className="font-heading text-22 font-extrabold leading-native text-white">
+      <h2 className="font-heading text-22 font-extrabold leading-native text-heading">
         Interested in {courseTitle}?
       </h2>
       <p className="font-sans text-14 leading-native text-muted">
@@ -30,7 +30,7 @@ export function EnquiryCard({
               href={contact.whatsappHref}
               target="_blank"
               rel="noreferrer"
-              className="group flex w-full items-center gap-3 font-sans text-14 font-semibold leading-native text-body transition-colors hover:text-white"
+              className="group flex w-full items-center gap-3 font-sans text-14 font-semibold leading-native text-body transition-colors hover:text-heading"
             >
               <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-whatsapp-soft text-whatsapp transition-[scale,box-shadow] duration-300 ease-brand group-hover:scale-110 group-hover:shadow-[0_0_0_5px_rgb(37_211_102/0.12)]">
                 <WhatsAppIcon className="size-3.5" />
@@ -42,7 +42,7 @@ export function EnquiryCard({
         <li>
           <a
             href={contact.phoneHref}
-            className="group flex w-full items-center gap-3 font-sans text-14 font-semibold leading-native text-body transition-colors hover:text-white"
+            className="group flex w-full items-center gap-3 font-sans text-14 font-semibold leading-native text-body transition-colors hover:text-heading"
           >
             <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary transition-[scale,box-shadow] duration-300 ease-brand group-hover:scale-110 group-hover:shadow-[0_0_0_5px_rgb(255_90_31/0.12)]">
               <PhoneCall className="size-3.5" aria-hidden />

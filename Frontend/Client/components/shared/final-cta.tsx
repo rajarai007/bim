@@ -23,17 +23,17 @@ export function FinalCta({
 }) {
   return (
     <section className="relative w-full overflow-hidden">
-      <div aria-hidden className="pointer-events-none absolute inset-0">
+      <div aria-hidden className="photo-fade pointer-events-none absolute inset-0">
         <div data-parallax="0.3" className="absolute inset-x-0 -inset-y-[20%] will-change-transform">
           <Image src="/images/cta-bg.png" alt="" fill sizes="100vw" className="object-cover" />
         </div>
         <div className="absolute inset-0 bg-overlay-banner" />
-        <span className="orb absolute top-1/2 left-1/2 size-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary opacity-15 blur-[120px]" />
+        <span className="orb absolute top-1/2 left-1/2 size-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary opacity-10 blur-[120px]" />
       </div>
       <Container className="relative flex flex-col items-center gap-6 py-12 text-center md:py-16 xl:py-20">
         <h2
           data-reveal="words"
-          className="max-w-[960px] font-heading text-28 font-black leading-native text-white md:text-32 xl:text-40"
+          className="max-w-[960px] font-heading text-28 font-black leading-native text-heading md:text-32 xl:text-40"
         >
           <SplitWords text={title} />
         </h2>

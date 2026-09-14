@@ -78,7 +78,7 @@ export default async function CategoryPage({ params }: PageProps<"/courses/[cate
       ) : null}
 
       <Section tone="surface" containerClassName="flex flex-col gap-10 xl:gap-12">
-        <h2 data-reveal="up" className="font-heading text-28 font-extrabold leading-native text-white xl:text-36">
+        <h2 data-reveal="up" className="font-heading text-28 font-extrabold leading-native text-heading xl:text-36">
           All {category.badge} Courses
         </h2>
         {all.length ? (

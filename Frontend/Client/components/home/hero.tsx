@@ -10,7 +10,7 @@ import { routes } from "@/lib/constants";
 export function Hero() {
   return (
     <section className="relative flex w-full items-center overflow-hidden xl:min-h-[680px]">
-      <div aria-hidden className="pointer-events-none absolute inset-0">
+      <div aria-hidden className="photo-fade pointer-events-none absolute inset-0">
         {/* Oversized so the parallax drift never exposes an edge. */}
         <div data-parallax="0.25" className="absolute inset-x-0 -inset-y-[20%] will-change-transform">
           <Image
@@ -24,8 +24,8 @@ export function Hero() {
         </div>
         <div className="absolute inset-0 bg-overlay-hero" />
         {/* Ambient brand-coloured light drifting behind the copy. */}
-        <span className="orb absolute -top-40 -left-40 size-[480px] rounded-full bg-primary opacity-25 blur-[100px]" />
-        <span className="orb absolute -right-32 -bottom-48 size-[560px] rounded-full bg-accent opacity-15 blur-[120px] [animation-delay:-8s]" />
+        <span className="orb absolute -top-40 -left-40 size-[480px] rounded-full bg-primary opacity-20 blur-[100px]" />
+        <span className="orb absolute -right-32 -bottom-48 size-[560px] rounded-full bg-accent opacity-10 blur-[120px] [animation-delay:-8s]" />
       </div>
       <Container className="relative flex items-center py-16 md:py-20 xl:py-20">
         <div className="flex w-full max-w-[680px] flex-col items-start gap-6 md:gap-8">
@@ -35,7 +35,7 @@ export function Hero() {
           <h1
             data-reveal="words"
             data-reveal-delay="1"
-            className="font-heading text-36 font-black leading-hero text-white md:text-48 xl:text-56"
+            className="font-heading text-36 font-black leading-hero text-heading md:text-48 xl:text-56"
           >
             <SplitWords text="Build Your Career in BIM & Design Technology" />
           </h1>

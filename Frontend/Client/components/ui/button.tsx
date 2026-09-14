@@ -12,11 +12,11 @@ const variants: Record<Variant, string> = {
   primary:
     "bg-primary text-white hover:bg-[#ff6b36] hover:shadow-[0_12px_28px_-10px_rgb(255_90_31/0.65)]",
   secondary:
-    "bg-elevated text-white hover:bg-[#262e45] hover:shadow-[0_12px_28px_-12px_rgb(0_0_0/0.7)]",
+    "bg-elevated text-heading hover:bg-[#dcdce1] hover:shadow-[0_12px_28px_-12px_rgb(15_23_42/0.3)]",
   outline:
     "border border-primary bg-transparent text-primary hover:bg-primary-soft hover:shadow-[0_12px_28px_-14px_rgb(255_90_31/0.5)]",
   "outline-filled":
-    "border border-primary bg-elevated text-primary hover:bg-[#262e45] hover:shadow-[0_12px_28px_-14px_rgb(255_90_31/0.5)]",
+    "border border-primary bg-elevated text-primary hover:bg-[#dcdce1] hover:shadow-[0_12px_28px_-14px_rgb(255_90_31/0.5)]",
   whatsapp:
     "bg-whatsapp text-white hover:bg-[#2fe072] hover:shadow-[0_12px_28px_-10px_rgb(37_211_102/0.6)]",
 };

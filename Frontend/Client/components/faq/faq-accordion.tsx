@@ -66,7 +66,7 @@ export function FaqAccordion({
                 onClick={() => toggle(item.id)}
                 className="group flex w-full items-center justify-between gap-4 text-left"
               >
-                <span className="flex-1 font-heading text-16 font-bold leading-native text-white transition-colors duration-200 group-hover:text-accent">
+                <span className="flex-1 font-heading text-16 font-bold leading-native text-heading transition-colors duration-200 group-hover:text-accent">
                   {item.question}
                 </span>
                 <span

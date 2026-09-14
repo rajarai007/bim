@@ -33,7 +33,7 @@ export default async function ContactPage() {
         <div className="flex w-full min-w-0 flex-col items-start gap-8 lg:flex-1">
           <div data-reveal-stagger="up" className="flex w-full flex-col items-start gap-3">
             <Badge tone="primary">Connect</Badge>
-            <h2 className="font-heading text-28 font-extrabold leading-native text-white xl:text-32">
+            <h2 className="font-heading text-28 font-extrabold leading-native text-heading xl:text-32">
               Submit Your Training Query
             </h2>
           </div>

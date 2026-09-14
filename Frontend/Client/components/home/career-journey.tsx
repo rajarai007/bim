@@ -21,7 +21,7 @@ export function CareerJourney() {
             <span className="origin-left font-heading text-28 font-black leading-native text-primary transition-[scale,color] duration-400 ease-brand group-hover:scale-125 group-hover:text-accent">
               {step.step}
             </span>
-            <h3 className="font-heading text-18 font-extrabold leading-native text-white">
+            <h3 className="font-heading text-18 font-extrabold leading-native text-heading">
               {step.title}
             </h3>
             <p className="font-sans text-13 leading-normal text-muted">{step.description}</p>
@@ -29,7 +29,7 @@ export function CareerJourney() {
         ))}
       </ol>
       <p data-reveal="up" className="w-full rounded-md border border-line bg-surface-translucent p-5 text-center font-sans text-13 leading-native text-muted">
-        💡 <strong className="font-bold text-white">Please Note:</strong> We focus purely on
+        💡 <strong className="font-bold text-heading">Please Note:</strong> We focus purely on
         engineering excellence, hands-on modeling skills, and realistic capability building. We do
         not provide hollow placement guarantees, but rather equip you to clear strict design-testing
         rounds.

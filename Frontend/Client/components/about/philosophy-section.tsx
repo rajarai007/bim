@@ -18,7 +18,7 @@ export function PhilosophySection() {
       </div>
       <div data-reveal-stagger="up" className="flex w-full min-w-0 flex-col items-start gap-6 lg:flex-1 [--stagger-offset:200ms]">
         <Badge tone="primary">Training Philosophy</Badge>
-        <h2 className="font-heading text-28 font-extrabold leading-native text-white xl:text-32">
+        <h2 className="font-heading text-28 font-extrabold leading-native text-heading xl:text-32">
           Learning Through Real Process Execution
         </h2>
         <p className="font-sans text-15 leading-body text-muted">

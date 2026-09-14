@@ -5,7 +5,7 @@ import { SplitWords } from "@/components/motion/split-words";
 import { cn } from "@/lib/utils";
 
 /**
- * Page hero used by every inner page: background photo with a 90% canvas
+ * Page hero used by every inner page: background photo with a 90% paper
  * overlay, H1, optional intro copy and a breadcrumb.
  */
 export function PageBanner({
@@ -23,7 +23,7 @@ export function PageBanner({
 }) {
   return (
     <section className="relative w-full overflow-hidden">
-      <div aria-hidden className="pointer-events-none absolute inset-0">
+      <div aria-hidden className="photo-fade pointer-events-none absolute inset-0">
         <div data-parallax="0.3" className="absolute inset-x-0 -inset-y-[20%] will-change-transform">
           <Image
             src={image}
@@ -35,12 +35,12 @@ export function PageBanner({
           />
         </div>
         <div className="absolute inset-0 bg-overlay-banner" />
-        <span className="orb absolute -top-24 right-[10%] size-[360px] rounded-full bg-primary opacity-20 blur-[100px]" />
+        <span className="orb absolute -top-24 right-[10%] size-[360px] rounded-full bg-primary opacity-15 blur-[100px]" />
       </div>
       <Container className={cn("relative flex flex-col items-start py-12 md:py-16 xl:py-20", description ? "gap-5" : "gap-4")}>
         <h1
           data-reveal="words"
-          className="font-heading text-32 font-black leading-native text-white md:text-40 xl:text-48"
+          className="font-heading text-32 font-black leading-native text-heading md:text-40 xl:text-48"
         >
           <SplitWords text={title} />
         </h1>

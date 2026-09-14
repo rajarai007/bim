@@ -69,7 +69,7 @@ export function Header({ contact }: { contact: SiteSettings["contact"] }) {
     <header
       className={cn(
         "header-in sticky top-0 z-50 w-full border-b border-line transition-shadow duration-300 ease-brand",
-        scrolled && "shadow-[0_12px_32px_-16px_rgb(0_0_0/0.8)]",
+        scrolled && "shadow-[0_12px_32px_-16px_rgb(15_23_42/0.18)]",
       )}
     >
       {/* Frosted backdrop lives on its own layer: backdrop-filter on the
@@ -111,7 +111,7 @@ export function Header({ contact }: { contact: SiteSettings["contact"] }) {
             <a
               href={contact.phoneHref}
               aria-label={`Call ${contact.phone}`}
-              className="flex size-9 items-center justify-center rounded-full bg-surface text-body transition-[background-color,color,translate,scale,box-shadow] duration-300 ease-brand hover:-translate-y-0.5 hover:bg-elevated hover:text-white hover:shadow-[0_8px_20px_-8px_rgb(0_0_0/0.8)] active:translate-y-0 active:scale-95"
+              className="flex size-9 items-center justify-center rounded-full bg-surface text-body transition-[background-color,color,translate,scale,box-shadow] duration-300 ease-brand hover:-translate-y-0.5 hover:bg-elevated hover:text-heading hover:shadow-[0_8px_20px_-8px_rgb(15_23_42/0.18)] active:translate-y-0 active:scale-95"
             >
               <PhoneCall className="size-4" aria-hidden />
             </a>
@@ -136,7 +136,7 @@ export function Header({ contact }: { contact: SiteSettings["contact"] }) {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="flex size-10 items-center justify-center rounded-sm border border-line bg-surface text-body transition-[color,border-color,scale] duration-200 ease-brand hover:border-primary/50 hover:text-white active:scale-95 xl:hidden"
+            className="flex size-10 items-center justify-center rounded-sm border border-line bg-surface text-body transition-[color,border-color,scale] duration-200 ease-brand hover:border-primary/50 hover:text-heading active:scale-95 xl:hidden"
           >
             <span
               className={cn(

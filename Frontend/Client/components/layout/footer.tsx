@@ -30,7 +30,7 @@ const quickLinks = [
 const linkClass =
   "inline-block font-sans text-14 leading-native text-muted transition-[color,translate] duration-300 ease-brand hover:translate-x-1 hover:text-body";
 
-const headingClass = "font-heading text-16 font-bold uppercase leading-native text-white";
+const headingClass = "font-heading text-16 font-bold uppercase leading-native text-heading";
 
 export function Footer({ settings, categories }: { settings: SiteSettings; categories: Category[] }) {
   const socials = socialIcons.flatMap(({ key, label, Icon }) => {
@@ -39,7 +39,7 @@ export function Footer({ settings, categories }: { settings: SiteSettings; categ
   });
   const { contact } = settings;
   return (
-    <footer className="w-full border-t border-line bg-canvas">
+    <footer className="w-full border-t border-line">
       <Container className="flex flex-col gap-10 pt-12 pb-8 md:gap-12 md:pt-16 xl:gap-16 xl:pt-20 xl:pb-10">
         <div data-reveal-stagger="up" className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12 [--stagger-step:120ms]">
           <div className="flex flex-col items-start gap-6">
@@ -56,7 +56,7 @@ export function Footer({ settings, categories }: { settings: SiteSettings; categ
                     target="_blank"
                     rel="noreferrer"
                     aria-label={label}
-                    className="flex size-9 items-center justify-center rounded-full bg-surface text-body transition-[background-color,color,translate,box-shadow] duration-300 ease-brand hover:-translate-y-1 hover:bg-primary hover:text-white hover:shadow-[0_10px_20px_-8px_rgb(255_90_31/0.6)]"
+                    className="flex size-9 items-center justify-center rounded-full bg-surface text-body transition-[background-color,color,translate,box-shadow] duration-300 ease-brand hover:-translate-y-1 hover:bg-primary hover:text-heading hover:shadow-[0_10px_20px_-8px_rgb(255_90_31/0.6)]"
                   >
                     <Icon className="size-4" aria-hidden />
                   </a>

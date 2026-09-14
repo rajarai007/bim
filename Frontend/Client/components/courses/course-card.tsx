@@ -86,7 +86,7 @@ export function FeaturedCourseCard({
         </div>
         <h3
           className={cn(
-            "w-full font-heading font-extrabold leading-native text-white",
+            "w-full font-heading font-extrabold leading-native text-heading",
             lg ? "text-22" : "text-20",
           )}
         >
@@ -133,7 +133,7 @@ export function CompactCourseCard({
         sizes="(min-width: 1280px) 240px, (min-width: 768px) 33vw, 100vw"
       />
       <div className="flex flex-1 flex-col items-start gap-3 p-5">
-        <h3 className="w-full truncate font-heading text-16 font-extrabold leading-native text-white">
+        <h3 className="w-full truncate font-heading text-16 font-extrabold leading-native text-heading">
           <Link href={href} className="transition-colors hover:text-primary">
             {title}
           </Link>
@@ -180,7 +180,7 @@ export function StandardCourseCard({
         sizes="(min-width: 1280px) 300px, (min-width: 768px) 50vw, 100vw"
       />
       <div className="flex flex-1 flex-col items-start gap-4 p-5">
-        <h3 className="w-full truncate font-heading text-18 font-extrabold leading-native text-white">
+        <h3 className="w-full truncate font-heading text-18 font-extrabold leading-native text-heading">
           <Link href={href} className="transition-colors hover:text-primary">
             {title}
           </Link>
@@ -206,7 +206,7 @@ export function StandardCourseCard({
           </Link>
           <Link
             href={routes.contact}
-            className="font-sans text-13 font-semibold leading-native text-accent transition-colors hover:text-white"
+            className="font-sans text-13 font-semibold leading-native text-accent transition-colors hover:text-heading"
           >
             Enquire Now
           </Link>

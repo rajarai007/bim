@@ -34,7 +34,7 @@ export function FeatureCard({
         <Icon className="size-[18px] transition-transform duration-400 ease-brand group-hover:rotate-6" aria-hidden />
       </span>
       <div className={cn("flex min-w-0 flex-col items-start", row ? "flex-1 gap-2" : "gap-4")}>
-        <h3 className="font-heading text-18 font-bold leading-native text-white">
+        <h3 className="font-heading text-18 font-bold leading-native text-heading">
           {feature.title}
         </h3>
         <p className="font-sans text-13 leading-normal text-muted">{feature.description}</p>

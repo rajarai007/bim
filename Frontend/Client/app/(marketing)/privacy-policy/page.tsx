@@ -48,7 +48,7 @@ export default async function PrivacyPolicyPage() {
       <Section padding="lg" containerClassName="flex max-w-[960px] flex-col gap-10">
         {sections.map((s) => (
           <article key={s.title} className="flex flex-col gap-3">
-            <h2 className="font-heading text-22 font-extrabold leading-native text-white md:text-24">
+            <h2 className="font-heading text-22 font-extrabold leading-native text-heading md:text-24">
               {s.title}
             </h2>
             <p className="font-sans text-15 leading-body text-muted">{s.body}</p>

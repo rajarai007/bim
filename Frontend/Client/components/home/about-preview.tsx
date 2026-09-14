@@ -20,7 +20,7 @@ export function AboutPreview() {
       </div>
       <div data-reveal-stagger="up" className="flex w-full min-w-0 flex-col items-start gap-6 lg:flex-1 [--stagger-offset:200ms]">
         <Badge tone="primary">About Us</Badge>
-        <h2 className="font-heading text-28 font-extrabold leading-native text-white md:text-32 xl:text-36">
+        <h2 className="font-heading text-28 font-extrabold leading-native text-heading md:text-32 xl:text-36">
           Engineering the Future of Construction Professionals
         </h2>
         <p className="font-sans text-16 leading-body text-muted">

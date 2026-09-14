@@ -39,7 +39,7 @@ export function SyllabusAccordion({ modules }: { modules: SyllabusModule[] }) {
                 onClick={() => toggle(i)}
                 className="group flex w-full items-center justify-between gap-4 text-left"
               >
-                <span className="flex-1 font-heading text-16 font-extrabold leading-native text-white transition-colors duration-200 group-hover:text-accent">
+                <span className="flex-1 font-heading text-16 font-extrabold leading-native text-heading transition-colors duration-200 group-hover:text-accent">
                   {module.title}
                 </span>
                 <ChevronDownWide

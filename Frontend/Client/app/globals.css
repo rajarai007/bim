@@ -7,27 +7,37 @@
  */
 @theme {
   /* ---- Colors ---------------------------------------------------------- */
-  --color-canvas: #0a0d14; /* page background */
-  --color-surface: #131824; /* alternating section bg, cards on canvas */
-  --color-elevated: #1e2538; /* cards on surface, secondary buttons, chips */
-  --color-line: #1e293b; /* borders / dividers */
+  /* Light "graph paper" theme: the page canvas is pale grey with a drafting
+     grid painted on <body> (see Base below); sections and cards sit on white. */
+  --color-canvas: #f3f3f3; /* page background (paper) */
+  --color-surface: #ffffff; /* alternating section bg, cards on canvas */
+  --color-elevated: #e9e9ec; /* cards on surface, secondary buttons, chips */
+  --color-line: #d6d6db; /* borders / dividers */
 
   --color-primary: #ff5a1f; /* brand orange */
   --color-primary-soft: rgb(255 90 31 / 0.1);
-  --color-accent: #00f5d4; /* brand teal */
-  --color-accent-soft: rgb(0 245 212 / 0.1);
+  --color-accent: #0a9e8a; /* brand teal, darkened for legibility on paper */
+  --color-accent-soft: rgb(10 158 138 / 0.1);
   --color-whatsapp: #25d366;
   --color-whatsapp-soft: rgb(37 211 102 / 0.13);
   --color-whatsapp-line: rgb(37 211 102 / 0.27);
 
-  --color-heading: #ffffff;
-  --color-body: #e2e8f0;
-  --color-muted: #94a3b8;
-  --color-muted-soft: rgb(148 163 184 / 0.1);
+  --color-heading: #0f172a;
+  --color-body: #1e293b;
+  --color-muted: #5b6577;
+  --color-muted-soft: rgb(91 101 119 / 0.1);
 
-  --color-overlay-hero: rgb(10 13 20 / 0.85);
-  --color-overlay-banner: rgb(10 13 20 / 0.9);
-  --color-surface-translucent: rgb(19 24 36 / 0.5);
+  /* Photo overlays are pale paper washes so hero / banners / closing CTA
+     match the light grid and keep dark copy. */
+  --color-overlay-hero: rgb(243 243 243 / 0.86);
+  --color-overlay-banner: rgb(243 243 243 / 0.9);
+  --color-surface-translucent: rgb(255 255 255 / 0.6);
+
+  /* Drafting grid drawn on the body. */
+  --grid-minor: rgb(0 0 0 / 0.07);
+  --grid-major: rgb(0 0 0 / 0.13);
+  --grid-cell: 24px;
+  --grid-block: 144px; /* 6 minor cells per bold line */
 
   /* ---- Typography ------------------------------------------------------ */
   --font-heading: var(--font-outfit), "Outfit", ui-sans-serif, system-ui, sans-serif;
@@ -85,7 +95,19 @@ html {
 
 body {
   overflow-x: clip;
+  /* Graph-paper background: fine grid every cell, bold rule every block. */
   background-color: var(--color-canvas);
+  background-image:
+    linear-gradient(to right, var(--grid-major) 2px, transparent 2px),
+    linear-gradient(to bottom, var(--grid-major) 2px, transparent 2px),
+    linear-gradient(to right, var(--grid-minor) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-minor) 1px, transparent 1px);
+  background-size:
+    var(--grid-block) var(--grid-block),
+    var(--grid-block) var(--grid-block),
+    var(--grid-cell) var(--grid-cell),
+    var(--grid-cell) var(--grid-cell);
+  background-position: -1px -1px;
   color: var(--color-body);
   font-family: var(--font-sans);
   line-height: normal;
@@ -94,14 +116,17 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading);
-  color: var(--color-heading);
+/* Layered so utility classes can override the defaults. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    color: var(--color-heading);
+  }
 }
 
 ::selection {
@@ -430,6 +455,22 @@ h6 {
   }
 }
 
+/* ---- Photo backdrops ---------------------------------------------------- */
+/* Hero / banner / CTA photos dissolve into the paper grid on every edge so
+   they read as a wash on the sheet rather than a separate rectangle. */
+.photo-fade {
+  --fade-x: 14%;
+  --fade-y: 22%;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 var(--fade-x), #000 calc(100% - var(--fade-x)), transparent),
+    linear-gradient(to bottom, transparent, #000 var(--fade-y), #000 calc(100% - var(--fade-y)), transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent, #000 var(--fade-x), #000 calc(100% - var(--fade-x)), transparent),
+    linear-gradient(to bottom, transparent, #000 var(--fade-y), #000 calc(100% - var(--fade-y)), transparent);
+  mask-composite: intersect;
+}
+
 /* ---- Interactive surfaces ---------------------------------------------- */
 /* Cards: lift + deep shadow on hover. */
 .card-lift {
@@ -441,8 +482,8 @@ h6 {
   .card-lift:hover {
     transform: translateY(-6px);
     box-shadow:
-      0 24px 48px -24px rgb(0 0 0 / 0.7),
-      0 0 0 1px rgb(255 255 255 / 0.04);
+      0 24px 48px -24px rgb(15 23 42 / 0.28),
+      0 0 0 1px rgb(15 23 42 / 0.04);
   }
 }
 

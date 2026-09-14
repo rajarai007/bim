@@ -12,7 +12,7 @@ export function NotFoundContent() {
       containerClassName="flex flex-col items-center gap-6 py-24 text-center [--stagger-step:120ms]"
     >
       <Badge tone="primary">Error 404</Badge>
-      <h1 className="font-heading text-32 font-black leading-native text-white md:text-40 xl:text-48">
+      <h1 className="font-heading text-32 font-black leading-native text-heading md:text-40 xl:text-48">
         Page not found
       </h1>
       <p className="max-w-[560px] font-sans text-16 leading-body text-muted">

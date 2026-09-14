@@ -15,7 +15,7 @@ export function CategoryCard({ category }: { category: Category }) {
       <span className="flex size-12 items-center justify-center rounded-md bg-accent-soft text-accent transition-[scale,rotate,box-shadow] duration-400 ease-brand group-hover:-rotate-6 group-hover:scale-110 group-hover:shadow-[0_0_0_6px_rgb(0_245_212/0.1)]">
         <CategoryIcon icon={category.icon} className="size-6 transition-transform duration-400 ease-brand group-hover:rotate-6" />
       </span>
-      <h3 className="w-full font-heading text-20 font-bold leading-native text-white">
+      <h3 className="w-full font-heading text-20 font-bold leading-native text-heading">
         <Link href={href} className="transition-colors hover:text-accent">
           {category.name}
         </Link>
