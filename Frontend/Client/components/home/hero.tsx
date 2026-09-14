@@ -23,9 +23,6 @@ export function Hero() {
           />
         </div>
         <div className="absolute inset-0 bg-overlay-hero" />
-        {/* Ambient brand-coloured light drifting behind the copy. */}
-        <span className="orb absolute -top-40 -left-40 size-[480px] rounded-full bg-primary opacity-20 blur-[100px]" />
-        <span className="orb absolute -right-32 -bottom-48 size-[560px] rounded-full bg-accent opacity-10 blur-[120px] [animation-delay:-8s]" />
       </div>
       <Container className="relative flex items-center py-16 md:py-20 xl:py-20">
         <div className="flex w-full max-w-[680px] flex-col items-start gap-6 md:gap-8">

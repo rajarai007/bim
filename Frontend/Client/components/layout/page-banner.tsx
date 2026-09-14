@@ -35,7 +35,6 @@ export function PageBanner({
           />
         </div>
         <div className="absolute inset-0 bg-overlay-banner" />
-        <span className="orb absolute -top-24 right-[10%] size-[360px] rounded-full bg-primary opacity-15 blur-[100px]" />
       </div>
       <Container className={cn("relative flex flex-col items-start py-12 md:py-16 xl:py-20", description ? "gap-5" : "gap-4")}>
         <h1

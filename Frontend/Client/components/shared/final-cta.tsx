@@ -28,7 +28,6 @@ export function FinalCta({
           <Image src="/images/cta-bg.png" alt="" fill sizes="100vw" className="object-cover" />
         </div>
         <div className="absolute inset-0 bg-overlay-banner" />
-        <span className="orb absolute top-1/2 left-1/2 size-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary opacity-10 blur-[120px]" />
       </div>
       <Container className="relative flex flex-col items-center gap-6 py-12 text-center md:py-16 xl:py-20">
         <h2
