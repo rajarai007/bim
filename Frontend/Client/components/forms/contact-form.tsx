@@ -81,7 +81,7 @@ export function ContactForm({ courses }: { courses: CourseOption[] }) {
             name="mobile"
             type="tel"
             autoComplete="tel"
-            placeholder="eg. +91 98765 43210"
+            placeholder="eg. +91 98765 12345"
             value={values.mobile}
             invalid={Boolean(errors.mobile)}
             aria-describedby={errors.mobile ? "mobile-error" : undefined}

@@ -188,10 +188,10 @@ export const courses: SeedCourse[] = [
     software: ["Autodesk Revit", "Navisworks Manage", "AutoCAD 2D"],
     careers: ["BIM Modeler", "Revit Specialist", "BIM Coordinator", "Architectural Drafter", "Design Modeler"],
     trainingMode: "Offline Lab",
-    batchLocation: "Noida Center",
+    batchLocation: "Okhla Center",
     metaTitle: "Revit Architecture Mastery Course | BIM Career Academy",
     metaDescription:
-      "Master Autodesk Revit Architecture from basics to advanced BIM modeling with hands-on offline training in Noida.",
+      "Master Autodesk Revit Architecture from basics to advanced BIM modeling with hands-on offline training in New Delhi.",
   },
   {
     slug: "revit-structure",
@@ -730,7 +730,7 @@ export const faqs: SeedFaq[] = [
     category: "general",
     question: "Is the training online or offline?",
     answer:
-      "All our primary training programs are strictly offline, conducted in our advanced workstation lab at Noida. This hands-on offline approach ensures students can successfully collaborate on real-world engineering coordination files, mimic actual architectural office interactions, and clear industry tests.",
+      "All our primary training programs are strictly offline, conducted in our advanced workstation lab at Okhla, New Delhi. This hands-on offline approach ensures students can successfully collaborate on real-world engineering coordination files, mimic actual architectural office interactions, and clear industry tests.",
   },
   {
     category: "general",
@@ -871,7 +871,7 @@ export const pages = [
     title: "Contact",
     sectionCount: 2,
     metaTitle: "Contact | BIM Career Academy",
-    metaDescription: "Submit your training query or visit our Noida workstation lab.",
+    metaDescription: "Submit your training query or visit our workstation lab in Okhla, New Delhi.",
   },
   {
     path: "/privacy-policy",

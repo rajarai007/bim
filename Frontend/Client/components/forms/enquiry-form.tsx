@@ -85,7 +85,7 @@ export function EnquiryForm({ courseTitle, courseSlug }: { courseTitle: string; 
           type="tel"
           surface="canvas"
           autoComplete="tel"
-          placeholder="eg. +91 98765 43210"
+          placeholder="eg. +91 98765 12345"
           value={values.mobile}
           invalid={Boolean(errors.mobile)}
           aria-describedby={errors.mobile ? "enq-mobile-error" : undefined}
