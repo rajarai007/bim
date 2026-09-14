@@ -11,7 +11,7 @@ export function AuthShell({ title, subtitle, children }: { title: string; subtit
 
       <section className="relative flex w-full max-w-[440px] flex-col gap-8 rounded-xl border border-line bg-card p-6 shadow-panel sm:p-10">
         <header className="flex w-full flex-col items-center gap-6">
-          <Logo tone="light" />
+          <Logo variant="full" />
           <div className="flex w-full flex-col items-center gap-1.5 text-center leading-native">
             <h1 className="font-heading text-24 font-extrabold text-ink">{title}</h1>
             <p className="font-sans text-14 text-body">{subtitle}</p>
