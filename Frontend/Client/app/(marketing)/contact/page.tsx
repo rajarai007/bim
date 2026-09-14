@@ -11,7 +11,7 @@ import { routes } from "@/lib/constants";
 
 const defaults = {
   title: "Contact",
-  description: "Submit your training query or visit our Noida workstation lab. Call, WhatsApp or email the admissions team.",
+  description: "Submit your training query or visit our workstation lab in Okhla, New Delhi. Call, WhatsApp or email the admissions team.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

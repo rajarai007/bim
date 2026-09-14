@@ -118,7 +118,7 @@ export function Footer({ settings, categories }: { settings: SiteSettings; categ
             © {new Date().getFullYear()} {settings.name}. All rights reserved. Designed with
             technical precision.
           </p>
-          <p>Offline Technical Training Institute • Noida, India</p>
+          <p>Offline Technical Training Institute • New Delhi, India</p>
         </div>
       </Container>
     </footer>
