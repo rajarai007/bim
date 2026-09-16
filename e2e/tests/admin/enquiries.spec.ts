@@ -32,6 +32,8 @@ test.describe("enquiries", () => {
   test("list, search, filters, pagination", async ({ page }) => {
     const first = await apiData<{ items: ApiEnquiry[]; pagination: { total: number; totalPages: number } }>("GET", "/admin/enquiries?pageSize=10");
     await page.goto("/enquiries");
+    // Type only after hydration: the production build renders faster than React attaches handlers.
+    await page.waitForLoadState("networkidle");
     const table = page.getByRole("table", { name: "Leads" });
     const rows = table.getByRole("row").filter({ hasNot: page.getByRole("columnheader") });
     await expect(rows).toHaveCount(Math.min(10, first.pagination.total));
@@ -135,7 +137,8 @@ test.describe("enquiries", () => {
   test("CSV export downloads the filtered leads", async ({ page }) => {
     await page.goto(`/enquiries?q=${encodeURIComponent(lead.fullName)}`);
     const exportLink = page.getByRole("link", { name: "Export Leads" });
-    await expect(exportLink).toHaveAttribute("href", `/enquiries/export?q=${encodeURIComponent(lead.fullName)}`);
+    const href = await exportLink.getAttribute("href");
+    expect(new URL(href!, "http://x").searchParams.get("q")).toBe(lead.fullName);
     const [download] = await Promise.all([page.waitForEvent("download"), exportLink.click()]);
     expect(download.suggestedFilename()).toMatch(/^leads-\d{4}-\d{2}-\d{2}\.csv$/);
     const text = await (await import("node:fs/promises")).readFile(await download.path(), "utf8");

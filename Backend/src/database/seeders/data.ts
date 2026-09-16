@@ -874,6 +874,29 @@ export const pages = [
     metaDescription: "Submit your training query or visit our workstation lab in Okhla, New Delhi.",
   },
   {
+    path: "/trainers",
+    title: "Trainers",
+    sectionCount: 3,
+    metaTitle: "Trainers | BIM Career Academy",
+    metaDescription:
+      "Learn from experienced AEC industry professionals with decade-long real-world BIM and structural design consulting expertise.",
+  },
+  {
+    path: "/projects",
+    title: "Projects",
+    sectionCount: 3,
+    metaTitle: "Projects | BIM Career Academy",
+    metaDescription:
+      "Explore the practical digital construction, structural framing, and high-fidelity rendering projects executed by our students.",
+  },
+  {
+    path: "/faq",
+    title: "FAQ",
+    sectionCount: 3,
+    metaTitle: "FAQ | BIM Career Academy",
+    metaDescription: "Answers about enrollment, batches, certifications, and workstation facilities at BIM Career Academy.",
+  },
+  {
     path: "/privacy-policy",
     title: "Privacy Policy",
     sectionCount: 5,

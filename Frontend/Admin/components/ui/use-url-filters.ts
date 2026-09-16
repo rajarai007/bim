@@ -4,6 +4,14 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
+ * `router.replace` commits asynchronously (the new search params arrive with
+ * the server response), so a write issued while another is in flight must
+ * build on the params written last, not on the URL. One pending record is
+ * enough: only one filter bar is on screen at a time.
+ */
+let pendingWrite: { pathname: string; params: string } | null = null;
+
+/**
  * Keeps list filters in the URL so the server component re-queries the API.
  * Text inputs are debounced; every change resets the page to 1.
  */
@@ -12,18 +20,27 @@ export function useUrlFilters() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  // Once the router has caught up with the last write, the URL is authoritative again.
+  useEffect(() => {
+    if (pendingWrite && pendingWrite.pathname === pathname && pendingWrite.params === searchParams.toString()) {
+      pendingWrite = null;
+    }
+  }, [pathname, searchParams]);
+
   const set = useCallback(
     (updates: Record<string, string | undefined>) => {
-      const params = new URLSearchParams(searchParams.toString());
+      const base = pendingWrite && pendingWrite.pathname === pathname ? pendingWrite.params : window.location.search;
+      const params = new URLSearchParams(base);
       for (const [key, value] of Object.entries(updates)) {
         if (!value || value === "all") params.delete(key);
         else params.set(key, value);
       }
       params.delete("page");
       const qs = params.toString();
+      pendingWrite = { pathname, params: qs };
       router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
     },
-    [router, pathname, searchParams],
+    [router, pathname],
   );
 
   const get = useCallback((key: string, fallback = "") => searchParams.get(key) ?? fallback, [searchParams]);

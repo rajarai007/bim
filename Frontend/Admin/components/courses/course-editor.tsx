@@ -9,6 +9,7 @@ import { Field, Input, Select, Textarea } from "@/components/ui/field";
 import { FormStatus } from "@/components/ui/form-status";
 import { ImagePicker } from "@/components/ui/image-picker";
 import { Switch } from "@/components/ui/switch";
+import { useActionSubmit } from "@/components/ui/use-action-submit";
 import { saveCourse } from "@/features/courses/actions";
 import { durationOptions, trainingModes } from "@/features/courses/constants";
 import { routes } from "@/lib/constants";
@@ -50,10 +51,11 @@ export function CourseEditor({
     saveCourse.bind(null, course?.id ?? null),
     initialMessage ? { ok: true, message: initialMessage } : undefined,
   );
+  const submit = useActionSubmit(formAction);
   const errors = state?.fieldErrors ?? {};
 
   return (
-    <form action={formAction} className="flex w-full flex-col gap-6">
+    <form onSubmit={submit} className="flex w-full flex-col gap-6">
       <input type="hidden" name="intent" value={intent} />
       <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <Link
@@ -140,11 +142,10 @@ export function CourseEditor({
           <Card className="flex flex-col gap-5 p-6">
             <CardTitle size="lg">Course Highlights &amp; Content</CardTitle>
             <div className="flex w-full flex-col gap-4">
-              <Field label="Eligibility *" htmlFor="eligibility" error={errors.eligibility}>
+              <Field label="Eligibility" htmlFor="eligibility" error={errors.eligibility}>
                 <Input
                   id="eligibility"
                   name="eligibility"
-                  required
                   defaultValue={course?.eligibility ?? ""}
                   placeholder="Diploma / Degree in Architecture, Interior Design or Civil Engineering"
                 />
@@ -208,6 +209,10 @@ export function CourseEditor({
             <CardTitle>Training Configuration</CardTitle>
             <Field label="Duration" htmlFor="duration" error={errors.durationWeeks}>
               <Select id="duration" name="duration" defaultValue={course?.durationWeeks ?? 12}>
+                {/* Keep a value set outside the preset list (the API accepts 1–104 weeks) instead of silently rewriting it. */}
+                {course && !durationOptions.some((d) => d.weeks === course.durationWeeks) ? (
+                  <option value={course.durationWeeks}>{course.durationOption}</option>
+                ) : null}
                 {durationOptions.map((d) => (
                   <option key={d.weeks} value={d.weeks}>
                     {d.label}

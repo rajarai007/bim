@@ -8,6 +8,7 @@ test.describe("course list", () => {
   test("pagination, search and filters drive the URL and the API query", async ({ page }) => {
     const first = await apiData<Paginated>("GET", "/admin/courses?page=1&pageSize=10");
     await page.goto("/courses");
+    await page.waitForLoadState("networkidle");
     const rows = page.locator("tbody tr");
     await expect(rows).toHaveCount(Math.min(10, first.pagination.total));
     await expect(page.getByText(`Showing 1 to ${Math.min(10, first.pagination.total)} of ${first.pagination.total} entries`)).toBeVisible();
@@ -89,7 +90,7 @@ test.describe("course editor", () => {
     await page.getByLabel("Category *").selectOption(String(category.id));
     await page.getByLabel("Short Description *").fill("Created by the E2E suite.");
     await page.getByLabel("Full Detailed Description").fill("Long description from the E2E suite.");
-    await page.getByLabel("Eligibility *").fill("Anyone curious");
+    await page.getByLabel("Eligibility").fill("Anyone curious");
     await page.getByLabel("Who Should Join").fill("Testers");
     await page.getByLabel("What You Will Learn (One per Line)").fill("Outcome one\nOutcome two");
     await page.getByLabel("Syllabus Modules (JSON or List)").fill("Module 1: Basics - Getting started\nModule 2: Advanced - Going deeper");
@@ -182,11 +183,16 @@ test.describe("course editor", () => {
     await page.getByLabel("Course Title *").fill("E2E Duplicate");
     await page.getByLabel("Slug (URL Path) *").fill(existing.slug);
     await page.getByLabel("Short Description *").fill("dup");
-    await page.getByLabel("Eligibility *").fill("x");
+    await page.getByLabel("Eligibility").fill("x");
+    await page.getByLabel("Full Detailed Description").fill("Typed before the error");
     await page.getByRole("button", { name: "Publish Course" }).click();
     await expect(page.getByText("Must be unique")).toBeVisible();
     await expect(page.getByRole("status")).toContainText("already exists");
     await expect(page).toHaveURL(/\/courses\/new$/);
+    // A server-side error must not wipe what the admin typed.
+    await expect(page.getByLabel("Short Description *")).toHaveValue("dup");
+    await expect(page.getByLabel("Full Detailed Description")).toHaveValue("Typed before the error");
+    await expect(page.getByLabel("Eligibility")).toHaveValue("x");
 
     await page.getByLabel("Slug (URL Path) *").fill("Bad Slug!");
     await page.getByRole("button", { name: "Publish Course" }).click();
@@ -204,6 +210,25 @@ test.describe("course editor", () => {
     await page.getByRole("button", { name: "Publish Course" }).click();
     await expect(page).toHaveURL(/\/courses\/new$/);
     expect(await page.getByLabel("Course Title *").evaluate((el: HTMLInputElement) => el.validity.valueMissing)).toBe(true);
+  });
+
+  test("a duration outside the preset list is preserved when editing", async ({ page }) => {
+    const cats = await categories();
+    const slug = uniq("e2e-odd-duration");
+    const created = await apiData<ApiCourse>("POST", "/admin/courses", {
+      body: { categoryId: cats[0].id, slug, title: "Odd Duration", shortDescription: "s", durationWeeks: 5, status: "draft" },
+    });
+    try {
+      await page.goto(`/courses/${created.id}/edit`);
+      await expect(page.getByLabel("Duration")).toHaveValue("5");
+      await expect(page.getByLabel("Duration").locator("option[value='5']")).toHaveText("5 Weeks (1.3 Months)");
+      await page.getByLabel("Course Title *").fill("Odd Duration Saved");
+      await page.getByRole("button", { name: "Save Draft" }).click();
+      await expect(page.getByRole("status")).toContainText("Draft saved.");
+      expect((await apiData<ApiCourse>("GET", `/admin/courses/${created.id}`)).durationWeeks).toBe(5);
+    } finally {
+      await api("DELETE", `/admin/courses/${created.id}`);
+    }
   });
 
   test("editing a course shows its current values", async ({ page }) => {

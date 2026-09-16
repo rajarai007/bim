@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import { Field, Input, Textarea } from "@/components/ui/field";
 import { FormStatus } from "@/components/ui/form-status";
+import { useActionSubmit } from "@/components/ui/use-action-submit";
 import { savePageMeta } from "@/features/settings/actions";
 import type { ActionState, SitePage } from "@/types";
 
 export function SeoForm({ pages }: { pages: SitePage[] }) {
   const [state, formAction, pending] = useActionState<ActionState, FormData>(savePageMeta, undefined);
+  const submit = useActionSubmit(formAction);
   const errors = state?.fieldErrors ?? {};
   const [lengths, setLengths] = useState<Record<string, number>>(() =>
     Object.fromEntries(pages.flatMap((p) => [[`${p.id}-title`, p.metaTitle?.length ?? 0], [`${p.id}-description`, p.metaDescription?.length ?? 0]])),
@@ -18,7 +20,7 @@ export function SeoForm({ pages }: { pages: SitePage[] }) {
     setLengths((l) => ({ ...l, [key]: e.target.value.length }));
 
   return (
-    <form action={formAction} className="flex w-full flex-col gap-6">
+    <form onSubmit={submit} className="flex w-full flex-col gap-6">
       <div className="flex w-full items-center justify-between gap-4">
         <p className="font-sans text-13 leading-native text-muted">
           Meta titles and descriptions for each public page. Keep titles under 60 characters.

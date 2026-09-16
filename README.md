@@ -7,6 +7,7 @@ Full-stack platform built from the Figma file **Bim** (`cPit0RIu9HRAeUyqi9HxnD`)
 | Backend API | `Backend` | Express 5 + TypeScript + PostgreSQL REST API used by both apps | `http://localhost:4000` |
 | Client | `Frontend/Client` | Public / student-facing website (dark theme) | `http://localhost:3000` |
 | Admin | `Frontend/Admin` | Admin console (light theme, JWT session cookie) | `http://localhost:3001` |
+| E2E | `e2e` | Playwright browser tests for both apps | — |
 
 ## Run everything locally
 
@@ -25,6 +26,15 @@ npm install && npm run dev -- -p 3001
 ```
 
 Sign in to the admin console with the `ADMIN_EMAIL` / `ADMIN_PASSWORD` you seeded.
+
+## Tests
+
+```bash
+cd Backend && npm test                 # API integration suite (vitest + supertest, dedicated test database)
+cd e2e && npm install && npm test      # Playwright end-to-end suite for the client + admin (see e2e/README.md)
+```
+
+Static checks per app: `npm run lint`, `npx tsc --noEmit` (frontends) / `npm run typecheck` (backend), `npm run build`.
 
 ## How the pieces fit
 

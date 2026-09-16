@@ -70,16 +70,20 @@ test.describe("profile", () => {
   test("password change: wrong current, mismatch, success and revert", async ({ page }) => {
     await page.goto("/profile");
     await page.getByLabel("Current Password *").fill("wrong-password");
-    await page.getByLabel("New Password *").fill("temporary-e2e-pass");
+    await page.getByLabel("New Password *", { exact: true }).fill("temporary-e2e-pass");
     await page.getByLabel("Confirm New Password *").fill("temporary-e2e-pass");
     await page.getByRole("button", { name: "Update Password" }).click();
     await expect(page.getByText("Current password is incorrect")).toBeVisible();
 
+    // Password fields are cleared after a failed attempt (expected for credentials): fill them again.
     await page.getByLabel("Current Password *").fill(ADMIN_PASSWORD);
+    await page.getByLabel("New Password *", { exact: true }).fill("temporary-e2e-pass");
     await page.getByLabel("Confirm New Password *").fill("something-else-1");
     await page.getByRole("button", { name: "Update Password" }).click();
     await expect(page.getByText("Passwords do not match")).toBeVisible();
 
+    await page.getByLabel("Current Password *").fill(ADMIN_PASSWORD);
+    await page.getByLabel("New Password *", { exact: true }).fill("temporary-e2e-pass");
     await page.getByLabel("Confirm New Password *").fill("temporary-e2e-pass");
     await page.getByRole("button", { name: "Update Password" }).click();
     await expect(page.getByRole("status").filter({ hasText: "Password changed." })).toBeVisible();
@@ -93,7 +97,7 @@ test.describe("profile", () => {
       // Revert through the UI so the seeded credentials keep working for the rest of the suite.
       await page.goto("/profile");
       await page.getByLabel("Current Password *").fill("temporary-e2e-pass");
-      await page.getByLabel("New Password *").fill(ADMIN_PASSWORD);
+      await page.getByLabel("New Password *", { exact: true }).fill(ADMIN_PASSWORD);
       await page.getByLabel("Confirm New Password *").fill(ADMIN_PASSWORD);
       await page.getByRole("button", { name: "Update Password" }).click();
       await expect(page.getByRole("status").filter({ hasText: "Password changed." })).toBeVisible();

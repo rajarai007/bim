@@ -24,7 +24,9 @@ export const settingsPatchSchema = z
     linkedinUrl: optionalHttpUrl,
     youtubeUrl: optionalHttpUrl,
     webhookUrl: optionalHttpUrl,
-    gaMeasurementId: optionalText(40),
+    gaMeasurementId: optionalText(40)
+      .transform((v) => (v ? v.toUpperCase() : v))
+      .refine((v) => v === null || /^(G|UA|AW|DC|GT)-[A-Z0-9-]+$/.test(v), "Must be a Google measurement ID such as G-XXXXXXXXXX"),
   })
   .partial()
   .refine((v) => Object.keys(v).length > 0, "No settings provided");

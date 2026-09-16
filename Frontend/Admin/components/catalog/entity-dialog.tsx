@@ -4,6 +4,7 @@ import { useActionState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { FormStatus } from "@/components/ui/form-status";
+import { useActionSubmit } from "@/components/ui/use-action-submit";
 import { saveCatalogItem, type CatalogEntity } from "@/features/catalog/actions";
 import type { ActionState } from "@/types";
 
@@ -37,10 +38,11 @@ export function EntityDialog({
     if (result?.ok) onSaved(result.message);
     return result;
   }, undefined);
+  const submit = useActionSubmit(formAction);
 
   return (
     <Dialog open={open} title={title} onClose={onClose} size={size}>
-      <form action={formAction} className="flex w-full flex-col gap-4">
+      <form onSubmit={submit} className="flex w-full flex-col gap-4">
         {children(state?.fieldErrors ?? {})}
         <div className="flex flex-col-reverse gap-3 border-t border-line pt-4 sm:flex-row sm:items-center sm:justify-between">
           <FormStatus error={state?.error} />

@@ -7,6 +7,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { Field, Input, Textarea } from "@/components/ui/field";
 import { FormStatus } from "@/components/ui/form-status";
 import { ImagePicker } from "@/components/ui/image-picker";
+import { useActionSubmit } from "@/components/ui/use-action-submit";
 import { saveSettings } from "@/features/settings/actions";
 import { mediaUrl } from "@/lib/media";
 import type { AcademySettings, ActionState } from "@/types";
@@ -19,10 +20,11 @@ export function SettingsForm({ settings }: { settings: AcademySettings }) {
   const [tab, setTab] = useState<Tab>("Academy Info");
   const [logoUrl, setLogoUrl] = useState<string | null>(settings.logoUrl);
   const [state, formAction, pending] = useActionState<ActionState, FormData>(saveSettings, undefined);
+  const submit = useActionSubmit(formAction);
   const errors = state?.fieldErrors ?? {};
 
   return (
-    <form action={formAction} className="flex w-full flex-col gap-6">
+    <form onSubmit={submit} className="flex w-full flex-col gap-6">
       <input type="hidden" name="tab" value={tab} />
       <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div role="tablist" aria-label="Settings sections" className="flex flex-wrap items-start gap-2">

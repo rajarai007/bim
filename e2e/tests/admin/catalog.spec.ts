@@ -24,6 +24,7 @@ test.describe("categories", () => {
 
   test("create, search, edit, delete; deleting a category with courses is refused", async ({ page, audit }) => {
     await page.goto("/categories");
+    await page.waitForLoadState("networkidle");
     const before = await categories();
     await expect(page.locator("tbody tr")).toHaveCount(before.length);
     for (const c of before) await expect(page.locator("tbody tr").filter({ hasText: c.name }).first()).toContainText(String(c.courseCount));
@@ -66,6 +67,9 @@ test.describe("categories", () => {
     await dup.getByLabel("Description *").fill("d");
     await dup.getByRole("button", { name: "Create" }).click();
     await expect(dup.getByText("Must be unique")).toBeVisible();
+    // The other fields keep their values after the server rejected the slug.
+    await expect(dup.getByLabel("Category Name *")).toHaveValue("Dup");
+    await expect(dup.getByLabel("Description *")).toHaveValue("d");
     await dup.getByRole("button", { name: "Cancel" }).click();
     await expect(dup).toBeHidden();
 
@@ -266,6 +270,7 @@ test.describe("faqs", () => {
     const faqCategories = await apiData<{ id: number; slug: string; label: string }[]>("GET", "/faq-categories", { auth: false });
     const target = faqCategories[1] ?? faqCategories[0];
     await page.goto("/faqs");
+    await page.waitForLoadState("networkidle");
     await page.getByRole("button", { name: "Add FAQ" }).click();
     const dialog = page.getByRole("dialog", { name: "Add FAQ" });
     await dialog.getByLabel("Question *").fill(question);

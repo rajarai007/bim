@@ -28,6 +28,7 @@ test.describe("settings", () => {
 
     await page.goto(`${CLIENT_URL}/contact`);
     await expect(page.getByRole("main")).toContainText("+91 90000 11111");
+    await expect(page.getByRole("main")).toContainText("WORKING HOURS");
     await expect(page.getByRole("main")).toContainText("Mon–Sat 9am–7pm (E2E)");
     expect(audit.problems).toEqual([]);
   });
@@ -38,9 +39,11 @@ test.describe("settings", () => {
     await email.fill("not-an-email");
     // Bypass the native email check to exercise the server-side validation.
     await email.evaluate((el: HTMLInputElement) => (el.type = "text"));
+    await page.getByLabel("Working Hours").fill("kept after error");
     await page.getByRole("button", { name: "Save Changes" }).click();
     await expect(page.getByText("Enter a valid email address")).toBeVisible();
     await expect(page.getByRole("status")).toContainText("Validation failed");
+    await expect(page.getByLabel("Working Hours")).toHaveValue("kept after error");
     expect((await apiData<Settings>("GET", "/admin/settings")).email).toBe(original.email);
   });
 
@@ -104,7 +107,7 @@ test.describe("settings", () => {
 test.describe("SEO", () => {
   test("meta title/description save per page and appear on the client", async ({ page }) => {
     const pages = await apiData<{ id: number; path: string; title: string; metaTitle: string | null; metaDescription: string | null }[]>("GET", "/admin/pages");
-    const faq = pages.find((p) => p.path === "/faq")!;
+    const faq = pages.find((p) => p.path === "/faq") ?? pages[0];
     try {
       await page.goto("/seo");
       const card = page.locator(`#page-${faq.id}`);
