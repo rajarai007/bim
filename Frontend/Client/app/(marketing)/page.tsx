@@ -5,6 +5,7 @@ import { CourseCategories } from "@/components/home/course-categories";
 import { FaqPreview } from "@/components/home/faq-preview";
 import { FeaturedCourses } from "@/components/home/featured-courses";
 import { Hero } from "@/components/home/hero";
+import { PlacementSection } from "@/components/home/placement-section";
 import { ProjectsShowcase } from "@/components/home/projects-showcase";
 import { SoftwareSection } from "@/components/home/software-section";
 import { Testimonials } from "@/components/home/testimonials";
@@ -41,6 +42,7 @@ export default async function HomePage() {
       {featured.length ? <FeaturedCourses courses={featured} /> : null}
       <SoftwareSection />
       <WhyChooseUs />
+      <PlacementSection />
       {projects.length ? <ProjectsShowcase projects={projects} /> : null}
       {trainers.length ? <TrainersSection trainers={trainers} /> : null}
       {testimonials.length ? <Testimonials testimonials={testimonials} /> : null}

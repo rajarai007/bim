@@ -29,6 +29,36 @@ export const softwareList = [
   "Photoshop",
 ] as const;
 
+/**
+ * Placement partners shown in the home "Placement Cell" section.
+ * Add a logo file under `public/images/partners/` and set `logo` to render it
+ * instead of the text wordmark (kept as the alt text / fallback).
+ */
+export type PlacementPartner = {
+  id: string;
+  name: string;
+  /** Large wordmark text used when no logo image is supplied. */
+  wordmark: string;
+  /** Small caption under the wordmark (legal suffix, division, etc.). */
+  tagline?: string;
+  /** Path under /public, e.g. "/images/partners/deloitte.png". */
+  logo?: string;
+};
+
+export const placementPartners: PlacementPartner[] = [
+  { id: "bimage", name: "BIMAGE Consulting", wordmark: "BIMAGE", tagline: "Consulting (M) Sdn Bhd" },
+  { id: "the-bim-engineers", name: "The BIM Engineers", wordmark: "The BIM Engineers" },
+  { id: "bimserve", name: "BIMSERVE", wordmark: "BIMSERVE" },
+  { id: "deloitte", name: "Deloitte", wordmark: "Deloitte." },
+  { id: "arth", name: "Arth", wordmark: "arth" },
+  {
+    id: "tata-consulting-engineers",
+    name: "TATA Consulting Engineers Limited",
+    wordmark: "TATA",
+    tagline: "Consulting Engineers Limited",
+  },
+];
+
 export const whyChooseUs: Feature[] = [
   {
     id: "industry-relevant",
