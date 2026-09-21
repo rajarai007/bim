@@ -111,7 +111,7 @@ export default async function CategoryPage({ params }: PageProps<"/courses/[cate
           <div data-reveal-stagger="up" className="flex w-full flex-col items-start gap-2 leading-native">
             <h2 className="font-heading text-28 font-extrabold text-heading xl:text-36">Course Duration &amp; Syllabus</h2>
             <p className="font-sans text-16 text-muted">
-              Download the detailed syllabus of any {category.badge} program, or request it from our admissions team.
+              Download the detailed syllabus of any {category.badge} program.
             </p>
           </div>
           <CourseDurationTable category={category} courses={all} />

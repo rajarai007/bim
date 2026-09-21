@@ -53,7 +53,7 @@ export type Course = {
   duration: string;
   durationWeeks: number;
   image: ImageAsset;
-  /** Uploaded syllabus PDF (API media URL) or null; downloads go through `routes.courseSyllabus`. */
+  /** Uploaded syllabus PDF (API media URL) or null; `routes.courseSyllabus` serves it, or a PDF generated from the course content. */
   syllabusUrl: string | null;
   /** Pinned to the home-page grid / category "Featured Programs" row. */
   featured: boolean;

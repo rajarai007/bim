@@ -151,6 +151,15 @@ test.describe("course editor", () => {
     await expect(page.getByText("Outcome one")).toBeVisible();
     await expect(page.getByText("Module 1: Basics")).toBeVisible();
 
+    // Without an uploaded PDF the syllabus download is generated from the course content.
+    const generated = await fetch(`${CLIENT_URL}/courses/${category.slug}/${slug}/syllabus`);
+    expect(generated.status).toBe(200);
+    expect(generated.headers.get("content-type")).toBe("application/pdf");
+    expect(generated.headers.get("content-disposition")).toBe(`attachment; filename="${slug}-syllabus.pdf"`);
+    const generatedPdf = await generated.text();
+    expect(generatedPdf.startsWith("%PDF")).toBe(true);
+    expect(generatedPdf).toContain("(Module 1: Basics)");
+
     // Edit: rename + featured + syllabus PDF, then inactive.
     await page.goto(`/courses/${stored.id}/edit`);
     await page.getByLabel("Course Title *").fill(`${title} Renamed`);

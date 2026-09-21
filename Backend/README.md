@@ -123,7 +123,7 @@ written to the server log so the flow can be exercised locally.
 | Resource | Routes |
 |---|---|
 | Dashboard | `GET /dashboard` |
-| Courses | `GET /courses?page&pageSize&q&category&status`, `POST /courses`, `GET/PUT/DELETE /courses/:id`, `PATCH /courses/:id/featured` — `syllabusUrl` is an optional uploaded PDF (`/uploads/…`) offered as a download on the website |
+| Courses | `GET /courses?page&pageSize&q&category&status`, `POST /courses`, `GET/PUT/DELETE /courses/:id`, `PATCH /courses/:id/featured` — `syllabusUrl` is an optional uploaded PDF (`/uploads/…`) offered as a download on the website, which otherwise generates a syllabus PDF from the course content |
 | Categories, Trainers, Testimonials, Projects, FAQs | `GET /<resource>?q`, `POST /<resource>`, `GET/PUT/DELETE /<resource>/:id` |
 | Enquiries | `GET /enquiries?page&pageSize&q&status&course&days`, `GET /enquiries/stats`, `GET /enquiries/export` (CSV), `GET/DELETE /enquiries/:id`, `PATCH /enquiries/:id/status`, `POST /enquiries/:id/notes` |
 | Settings | `GET /settings`, `PATCH /settings` (partial), `GET /pages`, `PATCH /pages/:id` |

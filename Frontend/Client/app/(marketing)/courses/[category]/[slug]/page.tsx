@@ -104,12 +104,7 @@ export default async function CoursePage({ params }: Props) {
             <Button href={routes.contact} size="lg">
               Enquire Now
             </Button>
-            <Button
-              href={course.syllabusUrl ? routes.courseSyllabus(category.slug, course.slug) : routes.contact}
-              download={course.syllabusUrl ? true : undefined}
-              variant="outline"
-              size="lg"
-            >
+            <Button href={routes.courseSyllabus(category.slug, course.slug)} download variant="outline" size="lg">
               Download Syllabus
             </Button>
           </div>

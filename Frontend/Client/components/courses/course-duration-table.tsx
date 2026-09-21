@@ -12,8 +12,8 @@ const action =
 
 /**
  * "Course Duration & Syllabus" table for a category: serial number, title,
- * duration and a syllabus download. Courses without an uploaded PDF offer the
- * contact form instead, matching the course page's fallback.
+ * duration and a syllabus download. The download route serves the uploaded
+ * PDF, or one generated from the course content when none was uploaded.
  */
 export function CourseDurationTable({ category, courses }: { category: Category; courses: Course[] }) {
   return (
@@ -54,22 +54,15 @@ export function CourseDurationTable({ category, courses }: { category: Category;
               </td>
               <td className={cn(td, "md:whitespace-nowrap")}>{course.duration}</td>
               <td className={td}>
-                {course.syllabusUrl ? (
-                  <a
-                    href={routes.courseSyllabus(category.slug, course.slug)}
-                    download
-                    className={cn(action, "bg-accent text-white hover:bg-accent-strong")}
-                  >
-                    <Download className="hidden size-4 md:inline" aria-hidden />
-                    Download
-                    <span className="sr-only"> {course.title} syllabus</span>
-                  </a>
-                ) : (
-                  <Link href={routes.contact} className={cn(action, "border border-primary text-primary hover:bg-primary-soft")}>
-                    Request
-                    <span className="sr-only"> {course.title} syllabus</span>
-                  </Link>
-                )}
+                <a
+                  href={routes.courseSyllabus(category.slug, course.slug)}
+                  download
+                  className={cn(action, "bg-accent text-white hover:bg-accent-strong")}
+                >
+                  <Download className="hidden size-4 md:inline" aria-hidden />
+                  Download
+                  <span className="sr-only"> {course.title} syllabus</span>
+                </a>
               </td>
             </tr>
           ))}
