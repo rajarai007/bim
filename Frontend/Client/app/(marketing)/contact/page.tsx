@@ -8,6 +8,7 @@ import { getCourses } from "@/features/courses/service";
 import { getPageMetadata } from "@/features/pages/service";
 import { getSiteSettings } from "@/features/settings/service";
 import { routes } from "@/lib/constants";
+import { PageTransition } from "@/components/motion/page-transition";
 
 const defaults = {
   title: "Contact",
@@ -23,7 +24,7 @@ export default async function ContactPage() {
   const courseOptions = courses.map((c) => ({ slug: c.slug, title: c.title }));
 
   return (
-    <>
+    <PageTransition>
       <PageBanner
         title="Contact Our Academy"
         image="/images/contact-banner.png"
@@ -37,12 +38,15 @@ export default async function ContactPage() {
               Submit Your Training Query
             </h2>
           </div>
-          <div data-reveal="up" data-reveal-delay="2" className="w-full">
-            <ContactForm courses={courseOptions} />
+          <div data-reveal="up" data-reveal-delay="2" className="relative w-full">
+            <div aria-hidden className="panel-glow pointer-events-none absolute -inset-6 -z-10" />
+            <div className="glass-strong glass-edge w-full rounded-lg p-6 md:p-8">
+              <ContactForm courses={courseOptions} />
+            </div>
           </div>
         </div>
         <ContactInfo contact={settings.contact} />
       </Section>
-    </>
+    </PageTransition>
   );
 }

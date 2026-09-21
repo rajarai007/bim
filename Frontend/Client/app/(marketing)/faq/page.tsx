@@ -6,6 +6,7 @@ import { FinalCta } from "@/components/shared/final-cta";
 import { getFaqCategories, getPageFaqs } from "@/features/faq/service";
 import { getPageMetadata } from "@/features/pages/service";
 import { routes } from "@/lib/constants";
+import { PageTransition } from "@/components/motion/page-transition";
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageMetadata("/faq", {
@@ -17,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function FaqPage() {
   const [categories, faqs] = await Promise.all([getFaqCategories(), getPageFaqs()]);
   return (
-    <>
+    <PageTransition>
       <PageBanner
         title="Frequently Asked Questions"
         description="Have queries about enrollment process, batches, course certifications, or technical workstation facilities? Find answers curated directly below."
@@ -31,6 +32,6 @@ export default async function FaqPage() {
         title="Still have questions?"
         description="Our admissions counselors can walk you through batches, fees, certifications and the right software track for your career."
       />
-    </>
+    </PageTransition>
   );
 }

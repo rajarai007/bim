@@ -14,7 +14,10 @@ export function EnquiryCard({
   contact: SiteSettings["contact"];
 }) {
   return (
-    <aside data-reveal="right" data-reveal-delay="2" className="flex w-full flex-col items-start gap-6 rounded-md border border-line bg-surface p-6 md:p-8 lg:sticky lg:top-24">
+    <aside data-reveal="right" data-reveal-delay="2" className="relative w-full lg:sticky lg:top-24">
+      {/* Light source behind the panel so the glass has something to refract. */}
+      <div aria-hidden className="panel-glow pointer-events-none absolute -inset-6 -z-10" />
+      <div className="glass-strong glass-edge flex w-full flex-col items-start gap-6 rounded-lg p-6 md:p-8">
       <h2 className="font-heading text-22 font-extrabold leading-native text-heading">
         Interested in {courseTitle}?
       </h2>
@@ -51,6 +54,7 @@ export function EnquiryCard({
           </a>
         </li>
       </ul>
+      </div>
     </aside>
   );
 }

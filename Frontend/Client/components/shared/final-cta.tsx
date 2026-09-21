@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Mail, Phone, PhoneCall } from "lucide-react";
 import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 import { Container } from "@/components/layout/container";
+import { DraftingMarks } from "@/components/motion/drafting-marks";
 import { SplitWords } from "@/components/motion/split-words";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/lib/config";
@@ -22,14 +23,19 @@ export function FinalCta({
   variant?: "home" | "outline";
 }) {
   return (
-    <section className="relative w-full overflow-hidden">
+    <section className="relative w-full overflow-clip">
       <div aria-hidden className="photo-fade pointer-events-none absolute inset-0">
         <div data-parallax="0.3" className="absolute inset-x-0 -inset-y-[20%] will-change-transform">
           <Image src="/images/cta-bg.png" alt="" fill sizes="100vw" className="object-cover" />
         </div>
         <div className="absolute inset-0 bg-overlay-banner" />
       </div>
-      <Container className="relative flex flex-col items-center gap-6 py-12 text-center md:py-16 xl:py-20">
+      <DraftingMarks variant="band" />
+      <Container className="relative py-12 md:py-16 xl:py-20">
+      <div className="relative mx-auto flex w-full max-w-[1040px] flex-col items-center gap-6 text-center">
+        {/* Light behind the glass so the panel has something to refract. */}
+        <div aria-hidden className="panel-glow pointer-events-none absolute -inset-10 -z-10" />
+        <div data-reveal="scale" className="glass-strong glass-edge flex w-full flex-col items-center gap-6 rounded-lg px-6 py-10 md:px-12 md:py-14">
         <h2
           data-reveal="words"
           className="max-w-[960px] font-heading text-28 font-black leading-native text-heading md:text-32 xl:text-40"
@@ -75,6 +81,8 @@ export function FinalCta({
             Connect on WhatsApp
           </Button>
         </div>
+        </div>
+      </div>
       </Container>
     </section>
   );

@@ -33,6 +33,9 @@ components/
   ui/                    Button, Badge, chips, form fields, SectionHeading, Divider
   layout/                Header, Footer, Container, Section, PageBanner, Breadcrumb
   icons/                 Logo + exact Figma vectors (chevrons, social marks, WhatsApp stand-in)
+  motion/                MotionProvider (reveal/spotlight/parallax/tilt/magnetic/depth), Cursor,
+                         AmbientLight, HeroScene → BlueprintScene (Canvas 2D wireframe model),
+                         DraftingMarks, PageTransition, SplitWords
   home/ about/ courses/ trainers/ projects/ faq/ forms/ shared/
 data/site.ts             Static marketing copy (feature lists, journey steps, software list)
 features/*/service.ts    Data-access layer — fetches the backend API (`lib/api.ts`)
@@ -48,6 +51,23 @@ Colours (`canvas`, `surface`, `elevated`, `line`, `primary`, `accent`, `body`, `
 the pixel type scale (`text-10` … `text-56`), line heights (`leading-native`, `leading-hero`,
 `leading-compact`, `leading-body`), radii and the 1440px page container are all declared in
 `app/globals.css` and used as Tailwind utilities.
+
+## Motion & spatial system
+
+Everything is dependency-free (CSS + one `MotionProvider` + a Canvas 2D hero scene) and
+opt-in through data attributes so components stay Server Components — see the "Motion
+system" and "Spatial system" comments in `app/globals.css`:
+
+- `data-reveal` / `data-reveal-stagger` / `data-reveal-delay` — scroll reveals
+- `data-spotlight`, `data-tilt`, `data-magnetic`, `data-depth`, `data-parallax` — pointer light,
+  3D tilt, magnetic CTAs, pointer-parallax layers, scroll parallax (fine pointers only)
+- `.glass` / `.glass-strong` / `.glass-edge`, `.sheet`, `.hud`, `.dim-line` + `.draw-in`,
+  `.viewer-frame`, `data-scroll="rise|recede"` (scroll-driven, progressive enhancement)
+- Route transitions use React `<ViewTransition>` via `components/motion/page-transition.tsx`
+  in every `page.tsx`; course cards morph into the course page hero (`courseMorphName`).
+
+All of it is gated behind `prefers-reduced-motion`, `(hover: hover) and (pointer: fine)` and
+`scripting: enabled`; the hero canvas pauses off-screen and on hidden tabs.
 
 ## Backend integration
 

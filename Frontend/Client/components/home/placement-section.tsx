@@ -10,7 +10,8 @@ function PartnerTile({ partner }: { partner: PlacementPartner }) {
   return (
     <li
       data-spotlight
-      className="card-lift group flex min-h-[96px] items-center justify-center overflow-hidden rounded-md border border-line bg-surface px-3 py-4 hover:border-primary/40 md:min-h-[104px] md:px-5"
+      data-tilt
+      className="card-lift btn-shine group flex min-h-[96px] items-center justify-center overflow-hidden rounded-md border border-line bg-surface px-3 py-4 hover:border-primary/40 md:min-h-[104px] md:px-5"
     >
       {partner.logo ? (
         <Image

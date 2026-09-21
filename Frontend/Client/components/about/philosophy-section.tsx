@@ -7,7 +7,7 @@ import { philosophyPoints } from "@/data/site";
 export function PhilosophySection() {
   return (
     <Section tone="surface" containerClassName="flex flex-col items-center gap-10 lg:flex-row lg:gap-12">
-      <div data-reveal="clip" className="group relative h-[240px] w-full shrink-0 overflow-hidden rounded-md sm:h-[320px] lg:h-[360px] lg:flex-1">
+      <div data-reveal="clip" className="group relative h-[240px] w-full shrink-0 overflow-hidden rounded-md shadow-[var(--shadow-sheet-lifted)] sm:h-[320px] lg:h-[360px] lg:flex-1">
         <Image
           src="/images/about-philosophy.png"
           alt="Isometric MEP coordination model of an office floor"
@@ -15,6 +15,7 @@ export function PhilosophySection() {
           sizes="(min-width: 1024px) 50vw, 100vw"
           className="object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
         />
+        <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 rounded-[inherit]" />
       </div>
       <div data-reveal-stagger="up" className="flex w-full min-w-0 flex-col items-start gap-6 lg:flex-1 [--stagger-offset:200ms]">
         <Badge tone="primary">Training Philosophy</Badge>

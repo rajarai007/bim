@@ -27,7 +27,7 @@ export function SyllabusAccordion({ modules }: { modules: SyllabusModule[] }) {
           <div
             key={module.title}
             className={cn(
-              "flex w-full flex-col rounded-sm border border-line bg-surface p-5 transition-[border-color,gap] duration-300 ease-brand hover:border-accent/40",
+              "glass flex w-full flex-col rounded-md p-5 transition-[border-color,gap,box-shadow] duration-300 ease-brand hover:border-accent/40 hover:shadow-[var(--shadow-sheet-lifted)]",
               open ? "gap-2.5" : "gap-0",
             )}
           >
@@ -39,7 +39,17 @@ export function SyllabusAccordion({ modules }: { modules: SyllabusModule[] }) {
                 onClick={() => toggle(i)}
                 className="group flex w-full items-center justify-between gap-4 text-left"
               >
-                <span className="flex-1 font-heading text-16 font-extrabold leading-native text-heading transition-colors duration-200 group-hover:text-accent">
+                <span className="flex flex-1 items-center gap-3 font-heading text-16 font-extrabold leading-native text-heading transition-colors duration-200 group-hover:text-accent">
+                  {/* Module index as a drafting tick: rotates open like a section marker. */}
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "flex size-6 shrink-0 items-center justify-center rounded-xs border border-accent/40 bg-accent-soft font-sans text-10 font-bold text-accent transition-[rotate,background-color] duration-300 ease-brand",
+                      !open && "-rotate-45 bg-transparent",
+                    )}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                   {module.title}
                 </span>
                 <ChevronDownWide

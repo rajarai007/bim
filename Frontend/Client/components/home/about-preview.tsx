@@ -9,14 +9,35 @@ import { routes } from "@/lib/constants";
 export function AboutPreview() {
   return (
     <Section padding="lg" containerClassName="flex flex-col items-center gap-10 lg:flex-row lg:gap-16">
-      <div data-reveal="clip" className="group relative h-[240px] w-full shrink-0 overflow-hidden rounded-lg sm:h-[320px] lg:h-[380px] lg:flex-1">
-        <Image
-          src="/images/about-preview.png"
-          alt="Students collaborating on BIM models in the academy classroom"
-          fill
-          sizes="(min-width: 1024px) 50vw, 100vw"
-          className="object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
-        />
+      <div data-reveal="clip" className="group relative h-[240px] w-full shrink-0 overflow-hidden rounded-lg shadow-[var(--shadow-sheet-lifted)] sm:h-[320px] lg:h-[380px] lg:flex-1">
+        {/* Oversized so the scroll parallax never exposes an edge. */}
+        <div data-parallax="0.12" className="absolute inset-x-0 -inset-y-[12%]">
+          <Image
+            src="/images/about-preview.png"
+            alt="Students collaborating on BIM models in the academy classroom"
+            fill
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
+          />
+        </div>
+        <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 rounded-[inherit]" />
+        {/* Viewer readouts: parallax against the photo (desktop only). */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
+          <div data-depth="0.5" className="absolute top-5 left-5">
+            <span className="glass glass-edge hud hud-float">
+              <span className="hud-dot" />
+              <span className="hud-key">Mode</span>
+              <span className="hud-value">Offline Lab</span>
+            </span>
+          </div>
+          <div data-depth="0.8" className="absolute right-5 bottom-5">
+            <span className="glass glass-edge hud hud-float [--float-delay:-3s]">
+              <span className="hud-dot" data-tone="primary" />
+              <span className="hud-key">Training</span>
+              <span className="hud-value">Industry-aligned</span>
+            </span>
+          </div>
+        </div>
       </div>
       <div data-reveal-stagger="up" className="flex w-full min-w-0 flex-col items-start gap-6 lg:flex-1 [--stagger-offset:200ms]">
         <Badge tone="primary">About Us</Badge>

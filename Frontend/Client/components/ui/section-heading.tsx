@@ -33,6 +33,10 @@ export function SectionHeading({
       <Heading className="font-heading text-28 font-extrabold leading-native text-heading md:text-32 xl:text-36">
         {title}
       </Heading>
+      {/* Dimension line draws itself in once the heading has revealed. */}
+      <span aria-hidden className="draw-in mt-1 block w-16">
+        <span className="dim-line block" />
+      </span>
     </div>
   );
 }

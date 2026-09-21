@@ -9,6 +9,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { getCategoryBySlug, getCoursesByCategory } from "@/features/courses/service";
 import { routes } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { PageTransition } from "@/components/motion/page-transition";
 
 /**
  * Four cards per row at desktop; a partial final row of 2–3 cards stretches
@@ -46,7 +47,7 @@ export default async function CategoryPage({ params }: PageProps<"/courses/[cate
   const featured = all.filter((course) => course.featured);
 
   return (
-    <>
+    <PageTransition>
       <PageBanner
         title={category.name}
         description={category.description}
@@ -92,6 +93,8 @@ export default async function CategoryPage({ params }: PageProps<"/courses/[cate
                   description={course.description}
                   duration={course.duration}
                   image={course.image}
+                  // Featured courses already carry the morph name in the row above.
+                  morph={!course.featured}
                 />
               </div>
             ))}
@@ -116,6 +119,6 @@ export default async function CategoryPage({ params }: PageProps<"/courses/[cate
       ) : null}
 
       <AdvisorCta />
-    </>
+    </PageTransition>
   );
 }

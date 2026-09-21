@@ -39,7 +39,7 @@ export function Footer({ settings, categories }: { settings: SiteSettings; categ
   });
   const { contact } = settings;
   return (
-    <footer className="w-full border-t border-line">
+    <footer className="sheet relative w-full">
       <Container className="flex flex-col gap-10 pt-12 pb-8 md:gap-12 md:pt-16 xl:gap-16 xl:pt-20 xl:pb-10">
         <div data-reveal-stagger="up" className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12 [--stagger-step:120ms]">
           <div className="flex flex-col items-start gap-6">
@@ -56,7 +56,7 @@ export function Footer({ settings, categories }: { settings: SiteSettings; categ
                     target="_blank"
                     rel="noreferrer"
                     aria-label={label}
-                    className="flex size-9 items-center justify-center rounded-full bg-surface text-body transition-[background-color,color,translate,box-shadow] duration-300 ease-brand hover:-translate-y-1 hover:bg-primary hover:text-heading hover:shadow-[0_10px_20px_-8px_rgb(255_90_31/0.6)]"
+                    className="glass flex size-9 items-center justify-center rounded-full text-body transition-[background-color,color,translate,box-shadow,border-color] duration-300 ease-brand hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-white hover:shadow-[0_10px_20px_-8px_rgb(255_90_31/0.6)]"
                   >
                     <Icon className="size-4" aria-hidden />
                   </a>
@@ -113,12 +113,16 @@ export function Footer({ settings, categories }: { settings: SiteSettings; categ
 
         <Divider />
 
+        {/* Title block: the strip at the foot of a drawing sheet. */}
         <div data-reveal="fade" className="flex flex-col gap-2 font-sans text-13 leading-native text-muted md:flex-row md:items-center md:justify-between">
           <p>
             © {new Date().getFullYear()} {settings.name}. All rights reserved. Designed with
             technical precision.
           </p>
-          <p>Offline Technical Training Institute • New Delhi, India</p>
+          <p className="hud-key flex items-center gap-2">
+            <span className="hud-dot" />
+            Offline Technical Training Institute • New Delhi, India
+          </p>
         </div>
       </Container>
     </footer>

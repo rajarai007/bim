@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { ViewTransition } from "react";
 import { CheckWide } from "@/components/icons/check-wide";
-import { CompactCourseCard } from "@/components/courses/course-card";
+import { CompactCourseCard, courseMorphName } from "@/components/courses/course-card";
 import { EnquiryCard } from "@/components/courses/enquiry-card";
 import { SyllabusAccordion } from "@/components/courses/syllabus-accordion";
 import { Breadcrumb } from "@/components/layout/breadcrumb";
@@ -15,6 +16,7 @@ import { Pill, SoftwareChip } from "@/components/ui/chip";
 import { getCourseBySlug } from "@/features/courses/service";
 import { getSiteSettings } from "@/features/settings/service";
 import { routes } from "@/lib/constants";
+import { PageTransition } from "@/components/motion/page-transition";
 
 type Props = PageProps<"/courses/[category]/[slug]">;
 
@@ -42,7 +44,7 @@ export default async function CoursePage({ params }: Props) {
   ].filter(([, value]) => value);
 
   return (
-    <>
+    <PageTransition>
       <Container className="pt-6" data-reveal="fade">
         <Breadcrumb
           glyph="wide"
@@ -74,16 +76,19 @@ export default async function CoursePage({ params }: Props) {
           <p data-reveal="up" data-reveal-delay="4" className="font-sans text-16 leading-body text-muted">
             {detail.heroDescription}
           </p>
+          {/* Key facts as a viewer-style spec strip. */}
           <dl
             data-reveal-stagger="scale"
             className="flex w-full flex-wrap items-start gap-3 leading-native [--stagger-offset:500ms]"
           >
-            {meta.map(([label, value]) => (
+            {meta.map(([label, value], index) => (
               <div
                 key={label}
-                className="flex flex-col items-start gap-1 rounded-sm border border-line bg-canvas px-4 py-2 transition-[border-color,translate] duration-300 ease-brand hover:-translate-y-0.5 hover:border-primary/50"
+                data-tilt
+                className="glass glass-edge flex flex-col items-start gap-1.5 rounded-md px-4 py-3 transition-[border-color,translate] duration-300 ease-brand hover:-translate-y-0.5 hover:border-primary/50"
               >
-                <dt className="font-sans text-11 font-bold uppercase text-muted">
+                <dt className="hud-key flex items-center gap-2">
+                  <span className="hud-dot" data-tone={index % 2 ? "primary" : undefined} />
                   {label}
                 </dt>
                 <dd className="font-heading text-15 font-extrabold text-heading">
@@ -109,20 +114,25 @@ export default async function CoursePage({ params }: Props) {
             </Button>
           </div>
         </div>
-        <div
-          data-reveal="clip"
-          data-reveal-delay="2"
-          className="group relative h-[240px] w-full shrink-0 overflow-hidden rounded-lg sm:h-[320px] lg:h-[420px] lg:flex-1"
-        >
-          <Image
-            src={course.image.src}
-            alt={course.image.alt}
-            fill
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            preload
-            loading="eager"
-            className="object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
-          />
+        {/* Morph target for the course-card photo (same ViewTransition name).
+            No scroll reveal here: a hidden state at capture time would make
+            the morph land on an empty frame. */}
+        <div className="group relative h-[240px] w-full shrink-0 overflow-hidden rounded-lg shadow-[var(--shadow-sheet-lifted)] sm:h-[320px] lg:h-[420px] lg:flex-1">
+          <ViewTransition name={courseMorphName(course.slug)} share="vt-morph" default="none">
+            <div className="absolute inset-0">
+              <Image
+                src={course.image.src}
+                alt={course.image.alt}
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                preload
+                loading="eager"
+                className="object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
+              />
+            </div>
+          </ViewTransition>
+          {/* Viewer frame: corner ticks and a level line, like a capture from the model. */}
+          <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 rounded-[inherit]" />
         </div>
       </Section>
 
@@ -180,7 +190,7 @@ export default async function CoursePage({ params }: Props) {
           {detail.whoShouldJoin || detail.eligibility ? (
             <div data-reveal-stagger="up" className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8 [--stagger-step:150ms]">
               {detail.whoShouldJoin ? (
-                <div data-spotlight className="card-lift flex flex-col items-start gap-4 rounded-md bg-surface p-6">
+                <div data-spotlight data-tilt className="card-lift flex flex-col items-start gap-4 rounded-md bg-surface p-6">
                   <h2 className="font-heading text-20 font-extrabold leading-native text-heading">
                     Who Should Join
                   </h2>
@@ -190,7 +200,7 @@ export default async function CoursePage({ params }: Props) {
                 </div>
               ) : null}
               {detail.eligibility ? (
-                <div data-spotlight="accent" className="card-lift flex flex-col items-start gap-4 rounded-md bg-surface p-6">
+                <div data-spotlight="accent" data-tilt className="card-lift flex flex-col items-start gap-4 rounded-md bg-surface p-6">
                   <h2 className="font-heading text-20 font-extrabold leading-native text-heading">
                     Eligibility
                   </h2>
@@ -218,7 +228,8 @@ export default async function CoursePage({ params }: Props) {
           ) : null}
         </div>
 
-        <div className="w-full lg:w-[380px] xl:w-[420px] lg:shrink-0">
+        {/* `self-stretch` gives the sticky panel room to travel with the syllabus. */}
+        <div className="w-full lg:w-[380px] lg:shrink-0 lg:self-stretch xl:w-[420px]">
           <EnquiryCard courseTitle={course.title} courseSlug={course.slug} contact={settings.contact} />
         </div>
       </Section>
@@ -244,6 +255,6 @@ export default async function CoursePage({ params }: Props) {
           </div>
         </Section>
       ) : null}
-    </>
+    </PageTransition>
   );
 }

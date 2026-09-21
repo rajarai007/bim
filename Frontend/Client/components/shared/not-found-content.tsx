@@ -1,4 +1,5 @@
 import { Section } from "@/components/layout/section";
+import { DraftingMarks } from "@/components/motion/drafting-marks";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { routes } from "@/lib/constants";
@@ -9,8 +10,10 @@ export function NotFoundContent() {
     <Section
       padding="lg"
       stagger="up"
-      containerClassName="flex flex-col items-center gap-6 py-24 text-center [--stagger-step:120ms]"
+      className="overflow-clip"
+      containerClassName="relative flex flex-col items-center gap-6 py-24 text-center [--stagger-step:120ms]"
     >
+      <DraftingMarks variant="band" />
       <Badge tone="primary">Error 404</Badge>
       <h1 className="font-heading text-32 font-black leading-native text-heading md:text-40 xl:text-48">
         Page not found

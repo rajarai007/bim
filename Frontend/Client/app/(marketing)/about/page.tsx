@@ -6,6 +6,7 @@ import { StrengthsSection } from "@/components/about/strengths-section";
 import { PageBanner } from "@/components/layout/page-banner";
 import { getPageMetadata } from "@/features/pages/service";
 import { routes } from "@/lib/constants";
+import { PageTransition } from "@/components/motion/page-transition";
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageMetadata("/about", {
@@ -17,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function AboutPage() {
   return (
-    <>
+    <PageTransition>
       <PageBanner
         title="About BIM Career Academy"
         crumbs={[{ label: "Home", href: routes.home }, { label: "About Us" }]}
@@ -26,6 +27,6 @@ export default function AboutPage() {
       <PhilosophySection />
       <StrengthsSection />
       <AboutCta />
-    </>
+    </PageTransition>
   );
 }

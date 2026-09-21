@@ -5,6 +5,7 @@ import { getPageMetadata } from "@/features/pages/service";
 import { getSiteSettings } from "@/features/settings/service";
 import { siteConfig } from "@/lib/config";
 import { routes } from "@/lib/constants";
+import { PageTransition } from "@/components/motion/page-transition";
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageMetadata("/privacy-policy", {
@@ -40,7 +41,7 @@ export default async function PrivacyPolicyPage() {
   const settings = await getSiteSettings();
   const sections = buildSections(settings.contact);
   return (
-    <>
+    <PageTransition>
       <PageBanner
         title="Privacy Policy"
         crumbs={[{ label: "Home", href: routes.home }, { label: "Privacy Policy" }]}
@@ -55,6 +56,6 @@ export default async function PrivacyPolicyPage() {
           </article>
         ))}
       </Section>
-    </>
+    </PageTransition>
   );
 }

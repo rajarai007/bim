@@ -5,8 +5,10 @@ import { cn } from "@/lib/utils";
 type Variant = "primary" | "secondary" | "outline" | "outline-filled" | "whatsapp";
 type Size = "md" | "lg";
 
+// `transform` is in the transition list for the magnetic pull (see Spatial
+// system in globals.css); lift uses `translate` and press uses `scale`.
 const base =
-  "btn-shine group/btn inline-flex items-center justify-center gap-2 rounded-sm font-sans font-bold whitespace-nowrap transition-[background-color,border-color,color,translate,scale,box-shadow] duration-300 ease-brand hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] active:duration-100 disabled:pointer-events-none disabled:opacity-60";
+  "btn-shine group/btn inline-flex items-center justify-center gap-2 rounded-sm font-sans font-bold whitespace-nowrap transition-[background-color,border-color,color,translate,scale,box-shadow,transform] duration-300 ease-brand hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] active:duration-100 disabled:pointer-events-none disabled:opacity-60";
 
 const variants: Record<Variant, string> = {
   primary:
@@ -30,6 +32,8 @@ type CommonProps = {
   variant?: Variant;
   size?: Size;
   fullWidth?: boolean;
+  /** Drift toward a nearby pointer (desktop only). On by default for filled CTAs. */
+  magnetic?: boolean;
   className?: string;
   children: ReactNode;
 };
@@ -51,15 +55,25 @@ export function Button(props: ButtonProps) {
     variant = "primary",
     size = "md",
     fullWidth,
+    magnetic = variant === "primary" || variant === "whatsapp",
     className,
     children,
     ...rest
   } = props;
   const classes = cn(base, variants[variant], sizes[size], fullWidth && "w-full", className);
+  const magnet = magnetic && !fullWidth ? { "data-magnetic": "" } : {};
 
   if ("href" in rest && rest.href !== undefined) {
+    // A file download is a plain anchor: a client-side navigation cannot handle a non-HTML response.
+    if ("download" in rest && rest.download !== undefined) {
+      return (
+        <a className={classes} {...magnet} {...(rest as ComponentPropsWithoutRef<"a">)}>
+          {children}
+        </a>
+      );
+    }
     return (
-      <Link className={classes} {...(rest as ComponentPropsWithoutRef<typeof Link>)}>
+      <Link className={classes} {...magnet} {...(rest as ComponentPropsWithoutRef<typeof Link>)}>
         {children}
       </Link>
     );
@@ -67,7 +81,7 @@ export function Button(props: ButtonProps) {
 
   const { type = "button", ...buttonRest } = rest as ComponentPropsWithoutRef<"button">;
   return (
-    <button type={type} className={classes} {...buttonRest}>
+    <button type={type} className={classes} {...magnet} {...buttonRest}>
       {children}
     </button>
   );

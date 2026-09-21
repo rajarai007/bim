@@ -3,8 +3,9 @@ import { ChevronDown } from "lucide-react";
 import { ChevronDownWide } from "@/components/icons/chevron-down-wide";
 import { cn } from "@/lib/utils";
 
+// Focus: the control lifts to white with a brand ring and a soft outer glow.
 const controlBase =
-  "w-full rounded-sm border bg-surface p-3 font-sans text-14 leading-native text-body placeholder:text-muted transition-[border-color,box-shadow,background-color] duration-300 ease-brand hover:border-muted/40 focus:border-primary focus:shadow-[0_0_0_4px_rgb(255_90_31/0.15)] focus-visible:outline-none aria-[invalid=true]:border-primary";
+  "w-full rounded-sm border bg-surface p-3 font-sans text-14 leading-native text-body placeholder:text-muted transition-[border-color,box-shadow,background-color] duration-300 ease-brand hover:border-muted/40 focus:border-primary focus:bg-white focus:shadow-[0_0_0_4px_rgb(255_90_31/0.14),0_12px_28px_-16px_rgb(255_90_31/0.45)] focus-visible:outline-none aria-[invalid=true]:border-primary";
 
 export function Field({
   label,
@@ -20,10 +21,10 @@ export function Field({
   className?: string;
 }) {
   return (
-    <div className={cn("flex min-w-0 flex-1 flex-col items-start gap-2", className)}>
+    <div className={cn("group/field flex min-w-0 flex-1 flex-col items-start gap-2", className)}>
       <label
         htmlFor={htmlFor}
-        className="font-sans text-13 font-bold leading-native text-body"
+        className="font-sans text-13 font-bold leading-native text-body transition-colors duration-300 ease-brand group-focus-within/field:text-primary"
       >
         {label}
       </label>

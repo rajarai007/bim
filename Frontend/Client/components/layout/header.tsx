@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Menu, PhoneCall, X } from "lucide-react";
 import { Logo } from "@/components/icons/logo";
 import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
@@ -37,6 +37,33 @@ export function Header({ contact }: { contact: SiteSettings["contact"] }) {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  // One indicator slides between nav links: it follows the hovered link and
+  // settles back on the active route. Measured from the DOM so it never
+  // depends on link widths; written directly so hovering never re-renders.
+  const navRef = useRef<HTMLElement>(null);
+  const indicatorRef = useRef<HTMLSpanElement>(null);
+  const moveIndicator = useCallback((target: HTMLElement | null) => {
+    const bar = indicatorRef.current;
+    if (!bar) return;
+    if (!target) {
+      bar.style.opacity = "0";
+      return;
+    }
+    bar.style.opacity = "1";
+    bar.style.width = `${target.offsetWidth}px`;
+    bar.style.transform = `translateX(${target.offsetLeft}px)`;
+  }, []);
+  const settleIndicator = useCallback(() => {
+    moveIndicator(navRef.current?.querySelector<HTMLElement>('a[aria-current="page"]') ?? null);
+  }, [moveIndicator]);
+  useEffect(() => {
+    // Re-measure whenever the active route changes (fonts may also settle late).
+    settleIndicator();
+    window.addEventListener("resize", settleIndicator);
+    document.fonts?.ready.then(settleIndicator);
+    return () => window.removeEventListener("resize", settleIndicator);
+  }, [pathname, settleIndicator]);
 
   // Frost the header once the page scrolls and drive the reading-progress bar.
   // The bar is written straight to the DOM so scrolling never re-renders.
@@ -79,13 +106,18 @@ export function Header({ contact }: { contact: SiteSettings["contact"] }) {
         aria-hidden
         className={cn(
           "absolute inset-0 -z-10 transition-[background-color,backdrop-filter] duration-300 ease-brand",
-          scrolled ? "bg-canvas/80 backdrop-blur-xl" : "bg-canvas",
+          scrolled ? "bg-canvas/70 backdrop-blur-xl backdrop-saturate-150" : "bg-canvas",
         )}
       />
       <Container className="flex h-16 items-center justify-between xl:h-20">
         <Logo />
 
-        <nav aria-label="Primary" className="hidden items-center gap-6 xl:flex">
+        <nav
+          ref={navRef}
+          aria-label="Primary"
+          className="relative hidden items-center gap-6 xl:flex"
+          onPointerLeave={settleIndicator}
+        >
           {navItems.map((item) => {
             const active = isActive(pathname, item.href);
             return (
@@ -93,17 +125,25 @@ export function Header({ contact }: { contact: SiteSettings["contact"] }) {
                 key={item.label}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
+                onPointerEnter={(event) => moveIndicator(event.currentTarget)}
+                onFocus={(event) => moveIndicator(event.currentTarget)}
+                onBlur={settleIndicator}
                 className={cn(
-                  "nav-link py-2 font-sans text-14 leading-native whitespace-nowrap transition-colors",
+                  "py-2 font-sans text-14 leading-native whitespace-nowrap transition-colors duration-300 ease-brand",
                   active
                     ? "font-bold text-primary"
-                    : "font-medium text-body hover:text-primary",
+                    : "font-medium text-body hover:text-heading",
                 )}
               >
                 {item.label}
               </Link>
             );
           })}
+          <span
+            ref={indicatorRef}
+            aria-hidden
+            className="pointer-events-none absolute bottom-0 left-0 h-0.5 w-0 rounded-full bg-primary opacity-0 transition-[transform,width,opacity] duration-500 ease-out-expo"
+          />
         </nav>
 
         <div className="flex items-center gap-4">

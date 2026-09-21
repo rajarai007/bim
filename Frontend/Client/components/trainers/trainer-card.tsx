@@ -10,6 +10,7 @@ export function TrainerCard({ trainer }: { trainer: Trainer }) {
   return (
     <article
       data-spotlight
+      data-tilt
       className="card-lift group flex h-full flex-col rounded-md border border-line bg-surface hover:border-primary/50"
     >
       <div className="relative h-[220px] w-full shrink-0 overflow-hidden rounded-t-[inherit]">
@@ -24,6 +25,7 @@ export function TrainerCard({ trainer }: { trainer: Trainer }) {
           aria-hidden
           className="absolute inset-0 bg-gradient-to-t from-surface/70 to-transparent opacity-80 transition-opacity duration-500 ease-brand group-hover:opacity-0"
         />
+        <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-brand group-hover:opacity-100" />
       </div>
       <div className="flex flex-1 flex-col items-start gap-3 p-5">
         <h3 className="w-full font-heading text-20 font-extrabold leading-native text-heading">
@@ -65,6 +67,7 @@ export function TrainerCardCompact({ trainer }: { trainer: Trainer }) {
   return (
     <article
       data-spotlight
+      data-tilt
       className="card-lift group flex h-full flex-col rounded-md border border-line bg-surface hover:border-primary/50"
     >
       <div className="relative h-[220px] w-full shrink-0 overflow-hidden rounded-t-[inherit]">
@@ -79,6 +82,7 @@ export function TrainerCardCompact({ trainer }: { trainer: Trainer }) {
           aria-hidden
           className="absolute inset-0 bg-gradient-to-t from-surface/70 to-transparent opacity-80 transition-opacity duration-500 ease-brand group-hover:opacity-0"
         />
+        <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-brand group-hover:opacity-100" />
       </div>
       <div className="flex flex-col items-start gap-3 p-5">
         <h3 className="font-heading text-18 font-bold leading-native text-heading">{trainer.name}</h3>

@@ -2,21 +2,25 @@ import type { Metadata } from "next";
 import { Manrope, Outfit } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import { AmbientLight } from "@/components/motion/ambient-light";
+import { Cursor } from "@/components/motion/cursor";
 import { MotionProvider } from "@/components/motion/motion-provider";
 import { getSiteSettings } from "@/features/settings/service";
 import { siteConfig } from "@/lib/config";
 
+// Both families are variable fonts: one file each, and the full weight axis is
+// available for kinetic headings (weight settles on reveal, see globals.css).
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
-  weight: ["700", "800", "900"],
+  weight: "variable",
   display: "swap",
 });
 
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: "variable",
   display: "swap",
 });
 
@@ -43,7 +47,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col">
         <MotionProvider />
+        <AmbientLight />
         {children}
+        <Cursor />
         {ga ? (
           <>
             <Script src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(ga)}`} strategy="afterInteractive" />

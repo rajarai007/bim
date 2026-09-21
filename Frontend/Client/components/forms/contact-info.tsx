@@ -58,7 +58,7 @@ export function ContactInfo({ contact }: { contact: SiteSettings["contact"] }) {
       <div
         data-reveal="right"
         data-reveal-delay="2"
-        className="flex w-full flex-col items-start gap-7 rounded-md bg-surface p-6 md:p-8"
+        className="glass glass-edge flex w-full flex-col items-start gap-7 rounded-lg p-6 md:p-8"
       >
         <h2 className="font-heading text-24 font-extrabold leading-native text-heading">
           Academy Details
@@ -95,7 +95,7 @@ export function ContactInfo({ contact }: { contact: SiteSettings["contact"] }) {
         <h2 className="font-heading text-18 font-extrabold leading-native text-heading">
           Location Map
         </h2>
-        <div className="group relative flex h-[220px] w-full items-center justify-center overflow-hidden rounded-md">
+        <div className="group relative flex h-[220px] w-full items-center justify-center overflow-hidden rounded-md shadow-[var(--shadow-sheet)]">
           <Image
             src="/images/contact-map.png"
             alt="Map centred on the academy at Okhla Head, Jamia Nagar, New Delhi"
@@ -103,7 +103,8 @@ export function ContactInfo({ contact }: { contact: SiteSettings["contact"] }) {
             sizes="(min-width: 1280px) 480px, (min-width: 1024px) 420px, 100vw"
             className="object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.06]"
           />
-          <span className="relative rounded-xs bg-canvas px-4 py-2 font-sans text-11 font-bold leading-native text-primary whitespace-nowrap shadow-[0_0_0_0_rgb(255_90_31/0.4)] transition-[box-shadow,scale] duration-500 ease-brand group-hover:scale-105 group-hover:shadow-[0_0_0_8px_rgb(255_90_31/0)]">
+          <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 rounded-[inherit]" />
+          <span className="glass glass-edge relative rounded-xs px-4 py-2 font-sans text-11 font-bold leading-native text-primary whitespace-nowrap transition-[scale] duration-500 ease-brand group-hover:scale-105">
             CENTERED AT OKHLA HEAD
           </span>
         </div>

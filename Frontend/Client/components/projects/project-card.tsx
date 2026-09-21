@@ -10,6 +10,7 @@ export function ProjectCard({ project }: { project: Project }) {
   return (
     <article
       data-spotlight="accent"
+      data-tilt
       className="card-lift group flex h-full flex-col rounded-md border border-line bg-surface hover:border-accent/50"
     >
       <div className="relative h-[200px] w-full shrink-0 overflow-hidden rounded-t-[inherit]">
@@ -20,6 +21,7 @@ export function ProjectCard({ project }: { project: Project }) {
           sizes="(min-width: 1280px) 296px, (min-width: 768px) 50vw, 100vw"
           className="object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.06]"
         />
+        <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-brand group-hover:opacity-100" />
       </div>
       <div className="flex flex-1 flex-col items-start gap-3 p-5">
         <div className="flex w-full items-center justify-between">
@@ -47,6 +49,7 @@ export function ProjectShowcaseCard({ project }: { project: Project }) {
   return (
     <article
       data-spotlight="accent"
+      data-tilt
       className="card-lift group flex h-full flex-col rounded-md bg-elevated"
     >
       <div className="relative h-[200px] w-full shrink-0 overflow-hidden rounded-t-[inherit]">
@@ -61,6 +64,7 @@ export function ProjectShowcaseCard({ project }: { project: Project }) {
           aria-hidden
           className="absolute inset-0 bg-gradient-to-t from-elevated/70 to-transparent opacity-80 transition-opacity duration-500 ease-brand group-hover:opacity-0"
         />
+        <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-brand group-hover:opacity-100" />
       </div>
       <div className="flex w-full items-start gap-3 p-5 leading-native">
         <span className="font-sans text-11 font-bold uppercase text-accent whitespace-nowrap transition-transform duration-300 ease-brand group-hover:-translate-y-0.5">

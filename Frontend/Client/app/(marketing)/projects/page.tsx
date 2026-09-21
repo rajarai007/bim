@@ -7,6 +7,7 @@ import { getCategories } from "@/features/courses/service";
 import { getPageMetadata } from "@/features/pages/service";
 import { getProjects } from "@/features/projects/service";
 import { routes } from "@/lib/constants";
+import { PageTransition } from "@/components/motion/page-transition";
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageMetadata("/projects", {
@@ -19,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ProjectsPage() {
   const [projects, categories] = await Promise.all([getProjects(), getCategories()]);
   return (
-    <>
+    <PageTransition>
       <PageBanner
         title="Our Training Portfolio"
         description="Explore the practical digital construction, structural framing, and high-fidelity rendering projects executed by our students."
@@ -33,6 +34,6 @@ export default async function ProjectsPage() {
         title="Ready to build your own portfolio?"
         description="Work on real building assets, clash coordination and rendering runs in our offline workstation lab. Talk to our admissions counselors today."
       />
-    </>
+    </PageTransition>
   );
 }

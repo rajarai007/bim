@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { BookOpen, Calendar } from "lucide-react";
 import { ChevronWide } from "@/components/icons/chevron-wide";
 import { Badge } from "@/components/ui/badge";
@@ -14,17 +15,29 @@ import { cn } from "@/lib/utils";
 const cardBase =
   "card-lift group flex h-full flex-col border border-line bg-surface hover:border-primary/50";
 
+/** Shared-element name: the course page's hero photo carries the same one. */
+export const courseMorphName = (slug: string) => `course-${slug}`;
+
+// The photo is a second route to the course (the title link is the accessible
+// one), which is what earns it the "View" cursor state. On navigation it
+// morphs into the course page's hero image (see `.vt-morph` in globals.css);
+// the slug is the last segment of the course URL.
 function CardImage({
+  href,
   image,
   heightClass,
   sizes,
+  morph,
 }: {
+  href: string;
   image: ImageAsset;
   heightClass: string;
   sizes: string;
+  /** A name may only be mounted once per page; pages that list a course twice turn this off on one. */
+  morph: boolean;
 }) {
-  return (
-    <div className={cn("relative w-full shrink-0 overflow-hidden rounded-t-[inherit]", heightClass)}>
+  const photo = (
+    <div className="absolute inset-0">
       <Image
         src={image.src}
         alt={image.alt}
@@ -32,12 +45,29 @@ function CardImage({
         sizes={sizes}
         className="object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.06]"
       />
+    </div>
+  );
+  return (
+    <Link
+      href={href}
+      aria-hidden
+      tabIndex={-1}
+      data-cursor="view"
+      className={cn("relative block w-full shrink-0 overflow-hidden rounded-t-[inherit]", heightClass)}
+    >
+      {morph ? (
+        <ViewTransition name={courseMorphName(href.slice(href.lastIndexOf("/") + 1))} share="vt-morph" default="none">
+          {photo}
+        </ViewTransition>
+      ) : (
+        photo
+      )}
       {/* Soft top-down tint that lifts on hover so the photo brightens. */}
       <div
         aria-hidden
         className="absolute inset-0 bg-gradient-to-t from-surface/60 to-transparent opacity-70 transition-opacity duration-500 ease-brand group-hover:opacity-0"
       />
-    </div>
+    </Link>
   );
 }
 
@@ -52,6 +82,7 @@ export function FeaturedCourseCard({
   image,
   size = "md",
   meta,
+  morph = true,
 }: {
   href: string;
   title: string;
@@ -61,14 +92,18 @@ export function FeaturedCourseCard({
   size?: "md" | "lg";
   /** Right-hand meta: "Offline Classes Only" text (md) or duration w/ icon (lg). */
   meta: { kind: "text"; label: string } | { kind: "duration"; label: string };
+  /** Photo morphs into the course page hero on navigation. */
+  morph?: boolean;
 }) {
   const lg = size === "lg";
   return (
-    <article data-spotlight className={cn(cardBase, "rounded-lg")}>
+    <article data-spotlight data-tilt className={cn(cardBase, "rounded-lg")}>
       <CardImage
+        href={href}
         image={image}
         heightClass={lg ? "h-[220px]" : "h-[180px]"}
         sizes="(min-width: 1280px) 400px, (min-width: 768px) 50vw, 100vw"
+        morph={morph}
       />
       <div className={cn("flex flex-1 flex-col items-start", lg ? "gap-5 p-7" : "gap-4 p-6")}>
         <div className="flex w-full items-center justify-between gap-3">
@@ -119,18 +154,22 @@ export function CompactCourseCard({
   title,
   description,
   image,
+  morph = true,
 }: {
   href: string;
   title: string;
   description: string;
   image: ImageAsset;
+  morph?: boolean;
 }) {
   return (
-    <article data-spotlight className={cn(cardBase, "rounded-md")}>
+    <article data-spotlight data-tilt className={cn(cardBase, "rounded-md")}>
       <CardImage
+        href={href}
         image={image}
         heightClass="h-[160px]"
         sizes="(min-width: 1280px) 240px, (min-width: 768px) 33vw, 100vw"
+        morph={morph}
       />
       <div className="flex flex-1 flex-col items-start gap-3 p-5">
         <h3 className="w-full truncate font-heading text-16 font-extrabold leading-native text-heading">
@@ -165,19 +204,23 @@ export function StandardCourseCard({
   description,
   duration,
   image,
+  morph = true,
 }: {
   href: string;
   title: string;
   description: string;
   duration: string;
   image: ImageAsset;
+  morph?: boolean;
 }) {
   return (
-    <article data-spotlight className={cn(cardBase, "rounded-md")}>
+    <article data-spotlight data-tilt className={cn(cardBase, "rounded-md")}>
       <CardImage
+        href={href}
         image={image}
         heightClass="h-[140px]"
         sizes="(min-width: 1280px) 300px, (min-width: 768px) 50vw, 100vw"
+        morph={morph}
       />
       <div className="flex flex-1 flex-col items-start gap-4 p-5">
         <h3 className="w-full truncate font-heading text-18 font-extrabold leading-native text-heading">

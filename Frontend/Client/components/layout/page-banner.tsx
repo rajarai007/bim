@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Breadcrumb, type Crumb } from "@/components/layout/breadcrumb";
 import { Container } from "@/components/layout/container";
+import { DraftingMarks } from "@/components/motion/drafting-marks";
 import { SplitWords } from "@/components/motion/split-words";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +23,7 @@ export function PageBanner({
   glyph?: "lucide" | "wide";
 }) {
   return (
-    <section className="relative w-full overflow-hidden">
+    <section className="relative w-full overflow-clip">
       <div aria-hidden className="photo-fade pointer-events-none absolute inset-0">
         <div data-parallax="0.3" className="absolute inset-x-0 -inset-y-[20%] will-change-transform">
           <Image
@@ -36,6 +37,7 @@ export function PageBanner({
         </div>
         <div className="absolute inset-0 bg-overlay-banner" />
       </div>
+      <DraftingMarks variant="banner" />
       <Container className={cn("relative flex flex-col items-start py-12 md:py-16 xl:py-20", description ? "gap-5" : "gap-4")}>
         <h1
           data-reveal="words"
@@ -43,6 +45,9 @@ export function PageBanner({
         >
           <SplitWords text={title} />
         </h1>
+        <div aria-hidden data-reveal="fade" data-reveal-delay="2" className="draw-in w-full max-w-[220px]">
+          <div className="dim-line" />
+        </div>
         {description ? (
           <p
             data-reveal="up"
@@ -52,7 +57,7 @@ export function PageBanner({
             {description}
           </p>
         ) : null}
-        <div data-reveal="up" data-reveal-delay="4">
+        <div data-reveal="up" data-reveal-delay="4" className="glass glass-edge inline-flex rounded-md px-3.5 py-2">
           <Breadcrumb items={crumbs} glyph={glyph} />
         </div>
       </Container>

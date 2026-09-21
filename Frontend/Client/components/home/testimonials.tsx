@@ -29,6 +29,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
       id="testimonials"
       tone="surface"
       padding="lg"
+      rise
       containerClassName="flex scroll-mt-20 flex-col gap-10 xl:gap-12"
     >
       <SectionHeading badge="Reviews & Stories" title="What Our Students Say" align="center" />
@@ -37,7 +38,8 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
           <figure
             key={t.id}
             data-spotlight="accent"
-            className="card-lift group flex h-full flex-col items-start gap-6 rounded-md border border-line bg-elevated p-8 hover:border-accent/40"
+            data-tilt
+            className="card-lift glass glass-edge group flex h-full flex-col items-start gap-6 rounded-md p-8 hover:border-accent/40"
           >
             <Rating value={t.rating} name={t.name} />
             <blockquote className="font-sans text-14 leading-body text-body">{t.quote}</blockquote>

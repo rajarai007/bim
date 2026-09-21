@@ -19,6 +19,7 @@ import { getShowcaseProjects } from "@/features/projects/service";
 import { getTestimonials } from "@/features/testimonials/service";
 import { getHomeTrainers } from "@/features/trainers/service";
 import { siteConfig } from "@/lib/config";
+import { PageTransition } from "@/components/motion/page-transition";
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageMetadata("/", { title: siteConfig.name, description: siteConfig.description });
@@ -35,7 +36,7 @@ export default async function HomePage() {
   ]);
 
   return (
-    <>
+    <PageTransition>
       <Hero />
       <AboutPreview />
       {categories.length ? <CourseCategories categories={categories} /> : null}
@@ -52,6 +53,6 @@ export default async function HomePage() {
         title="Ready to Build Your Career in BIM & Design?"
         description="Don't settle for basic software training. Gain actual industry-standard technical competence. Contact our admissions counselor today!"
       />
-    </>
+    </PageTransition>
   );
 }

@@ -81,7 +81,40 @@
 
   /* ---- Motion ---------------------------------------------------------- */
   --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
   --default-transition-duration: 200ms;
+  /* One scale for state changes… */
+  --duration-fast: 250ms; /* micro-interactions: cursor, icons */
+  --duration-base: 450ms; /* component: card lift, reveal settle */
+  --duration-cinematic: 900ms; /* section / route level */
+  /* …and one for things that FOLLOW the pointer, near → far, so the whole
+     scene reads as one physical space (tilt → depth layers → ambient light). */
+  --follow-near: 120ms;
+  --follow-mid: 400ms;
+  --follow-far: 1200ms;
+
+  /* ---- Depth & light --------------------------------------------------- */
+  /* Paper depth: a stack of sheets, never a single black drop shadow. */
+  --shadow-sheet:
+    0 1px 2px rgb(15 23 42 / 0.04),
+    0 8px 24px -12px rgb(15 23 42 / 0.16);
+  --shadow-sheet-lifted:
+    0 2px 4px rgb(15 23 42 / 0.05),
+    0 24px 48px -20px rgb(15 23 42 / 0.28),
+    0 0 0 1px rgb(15 23 42 / 0.04);
+  --shadow-glass:
+    inset 0 1px 0 rgb(255 255 255 / 0.85),
+    0 1px 2px rgb(15 23 42 / 0.04),
+    0 16px 40px -20px rgb(15 23 42 / 0.22);
+  --glow-primary: rgb(255 90 31 / 0.2); /* spotlight while a card tilts */
+  --glow-accent: rgb(10 158 138 / 0.18);
+  --color-accent-strong: #0b8f7d; /* accent button hover */
+  --glass-fill: rgb(255 255 255 / 0.58);
+  --glass-fill-strong: rgb(255 255 255 / 0.74);
+  --glass-line: rgb(255 255 255 / 0.8);
+  --glass-blur: 18px;
+  --perspective: 1100px;
 }
 
 /* Base -------------------------------------------------------------------- */
@@ -134,11 +167,15 @@ body {
   color: #fff;
 }
 
-/* Focus ring shared by all interactive elements. */
-:where(a, button, input, select, textarea, summary):focus-visible {
+/* Focus ring shared by all interactive elements. Form controls draw their own
+   (brand border + halo in components/ui/field.tsx), so they skip the outline. */
+:where(a, button, summary):focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
   border-radius: var(--radius-xs);
+}
+:where(input, select, textarea):focus-visible {
+  outline: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -220,7 +257,7 @@ body {
   }
   [data-reveal="words"]:not([data-visible]) .word {
     opacity: 0;
-    transform: translateY(110%);
+    transform: translateY(110%) rotateX(-40deg);
   }
 
   /* ---- Revealed: play the entrance animation --------------------------- */
@@ -291,10 +328,6 @@ body {
   .kenburns {
     animation: kenburns 26s ease-in-out infinite alternate;
   }
-  .orb {
-    animation: orb-float 16s ease-in-out infinite alternate;
-    will-change: transform;
-  }
   /* No fill-mode: a filled transform animation would make the header the
      containing block for its fixed mobile drawer. */
   .header-in {
@@ -348,8 +381,9 @@ body {
   from { transform: scale(1.15); }
   to { transform: none; }
 }
+/* Words pitch up out of their mask (perspective on .word-mask). */
 @keyframes word-rise {
-  from { opacity: 0; transform: translateY(110%); }
+  from { opacity: 0; transform: translateY(110%) rotateX(-40deg); }
   to { opacity: 1; transform: none; }
 }
 @keyframes reveal-fallback {
@@ -363,11 +397,6 @@ body {
 @keyframes kenburns {
   from { transform: scale(1) translate(0, 0); }
   to { transform: scale(1.12) translate(-1.5%, 1%); }
-}
-@keyframes orb-float {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(40px, -30px, 0) scale(1.08); }
-  to { transform: translate3d(-30px, 30px, 0) scale(0.96); }
 }
 @keyframes header-in {
   from { transform: translateY(-100%); }
@@ -404,8 +433,8 @@ body {
   --spot-ring: rgb(255 90 31 / 0.7);
 }
 [data-spotlight="accent"] {
-  --spot-color: rgb(0 245 212 / 0.12);
-  --spot-ring: rgb(0 245 212 / 0.7);
+  --spot-color: rgb(10 158 138 / 0.12);
+  --spot-ring: rgb(10 158 138 / 0.7);
 }
 /* Soft light that follows the cursor, painted between background and content. */
 [data-spotlight]::before {
@@ -474,16 +503,27 @@ body {
 /* ---- Interactive surfaces ---------------------------------------------- */
 /* Cards: lift + deep shadow on hover. */
 .card-lift {
-  transition-property: transform, box-shadow, border-color, background-color;
-  transition-duration: 450ms, 450ms, 200ms, 200ms;
-  transition-timing-function: var(--ease-brand);
+  /* Lift uses `translate` so `transform` is free for the tilt system, whose
+     speed is steered through --tilt-duration / --tilt-ease (see Spatial). */
+  transition-property: translate, transform, box-shadow, border-color, background-color;
+  transition-duration:
+    var(--duration-base),
+    var(--tilt-duration, 700ms),
+    var(--duration-base),
+    200ms,
+    200ms;
+  transition-timing-function:
+    var(--ease-brand),
+    var(--tilt-ease, var(--ease-out-expo)),
+    var(--ease-brand),
+    var(--ease-brand),
+    var(--ease-brand);
+  box-shadow: var(--shadow-sheet);
 }
 @media (hover: hover) {
   .card-lift:hover {
-    transform: translateY(-6px);
-    box-shadow:
-      0 24px 48px -24px rgb(15 23 42 / 0.28),
-      0 0 0 1px rgb(15 23 42 / 0.04);
+    translate: 0 -6px;
+    box-shadow: var(--shadow-sheet-lifted);
   }
 }
 
@@ -512,31 +552,568 @@ body {
   }
 }
 
-/* Nav links: underline grows from the left, retracts to the right. */
-.nav-link {
-  position: relative;
-}
-.nav-link::after {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--color-primary);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 300ms var(--ease-brand);
-}
-.nav-link:hover::after,
-.nav-link[aria-current="page"]::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
 /* Reading progress bar along the header's bottom edge. */
 .scroll-progress {
   transform: scaleX(0);
   transform-origin: left;
   background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+}
+
+/* ======================================================================== */
+/* Spatial system                                                            */
+/*                                                                           */
+/* Depth, light and 3D on top of the motion system. Like reveals, every      */
+/* behaviour is opt-in through data attributes so components stay server-   */
+/* rendered; `components/motion/motion-provider.tsx` drives the variables:   */
+/*                                                                           */
+/*   data-tilt              (pointer-driven 3D tilt + glare; --rx/--ry/--gx) */
+/*   data-magnetic          (CTA drifts toward a nearby pointer; --mag-x/y)  */
+/*   data-depth="0.4"       (pointer parallax by depth; --dx/--dy)           */
+/*   data-cursor="view|text" (custom cursor state, see cursor.tsx)          */
+/*   .glass / .glass-strong (frosted vellum surfaces)                        */
+/*                                                                           */
+/* Pointer effects only exist for fine pointers; touch devices keep the      */
+/* static depth (shadows, glass) without the tracking.                       */
+/* ======================================================================== */
+
+/* ---- Glass (frosted tracing paper) -------------------------------------- */
+.glass {
+  background-color: var(--glass-fill);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.3);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.3);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-glass);
+}
+.glass-strong {
+  background-color: var(--glass-fill-strong);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.3);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.3);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-glass);
+}
+/* Hairline highlight along the top edge, like light catching a sheet's edge. */
+.glass-edge {
+  position: relative;
+}
+.glass-edge::before {
+  content: "";
+  position: absolute;
+  inset: 0 12% auto 12%;
+  height: 1px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, var(--glass-line), transparent);
+  pointer-events: none;
+}
+
+/* ---- Tilt ----------------------------------------------------------------- */
+/* The card pivots toward the pointer; `data-spotlight` (already on every card)
+   doubles as the glare, so tilt only owns `transform`. */
+[data-tilt] {
+  --rx: 0deg;
+  --ry: 0deg;
+  transform: perspective(var(--perspective)) rotateX(var(--rx)) rotateY(var(--ry));
+}
+/* `.card-lift` already transitions transform; anything else gets its own. */
+[data-tilt]:not(.card-lift) {
+  transition: transform var(--tilt-duration, 700ms) var(--tilt-ease, var(--ease-out-expo));
+}
+[data-tilt][data-tilting] {
+  --tilt-duration: var(--follow-near);
+  --tilt-ease: linear;
+}
+/* Brighter light while the sheet is actually tilting under the pointer. */
+[data-tilt][data-tilting][data-spotlight]::before {
+  opacity: 1;
+  --spot-color: var(--glow-primary);
+}
+[data-tilt][data-tilting][data-spotlight="accent"]::before {
+  --spot-color: var(--glow-accent);
+}
+
+/* ---- Magnetic CTAs -------------------------------------------------------- */
+/* No transition here: the element's own transition list must include
+   `transform` (the Button does) so its hover transitions keep working. */
+[data-magnetic] {
+  --mag-x: 0px;
+  --mag-y: 0px;
+  transform: translate3d(var(--mag-x), var(--mag-y), 0);
+}
+/* While the pointer is within reach the CTA tracks it tightly; on release it
+   settles back at the element's own (slower) transition. */
+[data-magnetic][data-magnet-active] {
+  transition-duration: var(--follow-near);
+  transition-timing-function: var(--ease-out-expo);
+}
+
+/* ---- Pointer depth (parallax layers) ------------------------------------- */
+[data-depth] {
+  --dx: 0px;
+  --dy: 0px;
+  transform: translate3d(var(--dx), var(--dy), 0);
+  transition: transform var(--follow-mid) var(--ease-out-expo);
+}
+
+/* ---- Ambient light -------------------------------------------------------- */
+/* Two soft light sources (brand orange + teal) drift over the paper on their
+   own and lean toward the pointer (MotionProvider writes `--lx` / `--ly` on
+   this element). Each blob is one composited layer: the drift animates
+   `transform`, the lean transitions `translate`, nothing touches layout. */
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.ambient::before,
+.ambient::after {
+  content: "";
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.7;
+  /* Percentages of the blob's own size: a pointer at the far edge moves the
+     light ~6vmax. */
+  translate: calc((var(--lx, 50%) - 50%) * 0.18) calc((var(--ly, 40%) - 40%) * 0.18);
+  transition: translate var(--follow-far) var(--ease-out-expo);
+  will-change: transform;
+}
+.ambient::before {
+  left: -12vmax;
+  top: -22vmax;
+  background: radial-gradient(circle, rgb(255 90 31 / 0.16), rgb(255 90 31 / 0) 60%);
+}
+.ambient::after {
+  right: -18vmax;
+  bottom: -26vmax;
+  background: radial-gradient(circle, rgb(10 158 138 / 0.14), rgb(10 158 138 / 0) 60%);
+}
+/* Fine paper grain on top of the lights, multiplied so it stays subtle. */
+.ambient-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- Custom cursor -------------------------------------------------------- */
+/* Only when the provider has confirmed a fine pointer (html[data-cursor]).   */
+html[data-cursor],
+html[data-cursor] * {
+  cursor: none;
+}
+/* Native caret stays for text entry. */
+html[data-cursor] :is(input, textarea, select, [contenteditable]) {
+  cursor: auto;
+}
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-brand);
+  /* --cx/--cy are written by cursor.tsx every frame. */
+  transform: translate3d(var(--cx, -100px), var(--cy, -100px), 0);
+}
+.cursor[data-shown] {
+  opacity: 1;
+}
+.cursor-dot {
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  transition: transform var(--duration-fast) var(--ease-out-expo), opacity var(--duration-fast) var(--ease-brand);
+}
+.cursor-ring {
+  position: absolute;
+  left: -18px;
+  top: -18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgb(15 23 42 / 0.55);
+  transition:
+    transform 350ms var(--ease-out-expo),
+    border-color 300ms var(--ease-brand),
+    background-color 300ms var(--ease-brand),
+    opacity 300ms var(--ease-brand);
+}
+/* Crosshair ticks: the ring is a drafting reticle, not a plain circle. */
+.cursor-ring::before,
+.cursor-ring::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: rgb(15 23 42 / 0.55);
+  transition: opacity 300ms var(--ease-brand);
+}
+.cursor-ring::before {
+  width: 10px;
+  height: 1px;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring::after {
+  width: 1px;
+  height: 10px;
+  transform: translate(-50%, -50%);
+}
+.cursor-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.6);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity 250ms var(--ease-brand), transform 350ms var(--ease-out-expo);
+}
+/* Hovering something clickable: ring grows, ticks fade, dot shrinks. */
+.cursor[data-state="link"] .cursor-ring {
+  transform: scale(1.6);
+  border-color: var(--color-primary);
+  background-color: rgb(255 90 31 / 0.08);
+}
+.cursor[data-state="link"] .cursor-ring::before,
+.cursor[data-state="link"] .cursor-ring::after {
+  opacity: 0;
+}
+.cursor[data-state="link"] .cursor-dot {
+  transform: scale(0.5);
+}
+/* Hovering an image/card marked data-cursor="view": filled disc with label. */
+.cursor[data-state="view"] .cursor-ring {
+  transform: scale(2.2);
+  border-color: transparent;
+  background-color: rgb(255 90 31 / 0.92);
+}
+.cursor[data-state="view"] .cursor-ring::before,
+.cursor[data-state="view"] .cursor-ring::after,
+.cursor[data-state="view"] .cursor-dot {
+  opacity: 0;
+}
+.cursor[data-state="view"] .cursor-label {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+/* Over text inputs the native caret takes over. */
+.cursor[data-state="text"] {
+  opacity: 0;
+}
+.cursor[data-pressed] .cursor-ring {
+  transform: scale(0.85);
+}
+.cursor[data-state="link"][data-pressed] .cursor-ring {
+  transform: scale(1.3);
+}
+
+/* ---- Route transitions (React <ViewTransition>) --------------------------- */
+/* The old page sinks and blurs out quickly; the new one rises into focus.    */
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-old(.vt-page) {
+  animation: 220ms var(--ease-in-out-soft) both vt-page-out;
+}
+::view-transition-new(.vt-page) {
+  animation: 620ms var(--ease-out-expo) 80ms both vt-page-in;
+}
+@keyframes vt-page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.992);
+    filter: blur(6px);
+  }
+}
+@keyframes vt-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.996);
+    filter: blur(10px);
+  }
+}
+/* Header/footer live in the root snapshot, which crossfades between two
+   identical frames, so the chrome reads as a fixed anchor while pages move. */
+::view-transition-group(root) {
+  animation-duration: 200ms;
+}
+/* Shared elements (course card → course page) morph with a soft mid-flight blur. */
+::view-transition-group(.vt-morph) {
+  animation-duration: 520ms;
+  animation-timing-function: var(--ease-out-expo);
+}
+::view-transition-image-pair(.vt-morph) {
+  animation-name: vt-morph-blur;
+  animation-duration: 520ms;
+}
+::view-transition-old(.vt-morph),
+::view-transition-new(.vt-morph) {
+  animation: none;
+  mix-blend-mode: normal;
+  height: 100%;
+  overflow: hidden;
+  object-fit: cover;
+}
+@keyframes vt-morph-blur {
+  35% {
+    filter: blur(3px);
+  }
+}
+/* With View Transitions the route animation above replaces the CSS entrance
+   (`.page-enter` in the motion block stays as the fallback for other browsers). */
+@supports (view-transition-name: none) {
+  .page-enter {
+    animation: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
+/* ---- Kinetic type ---------------------------------------------------------- */
+/* Split-word headings rise out of their masks with a slight 3D pitch, so the
+   line reads as a sheet folding up rather than text sliding. */
+[data-reveal="words"] .word-mask {
+  perspective: 600px;
+}
+[data-reveal="words"] .word {
+  transform-origin: 50% 100%;
+}
+
+/* ---- Hero -------------------------------------------------------------------- */
+.hero-scene {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-cinematic) var(--ease-out-expo);
+}
+.hero-scene[data-ready] {
+  opacity: 1;
+}
+.hero-scene canvas {
+  display: block; /* sized in px by the scene (DPR-aware) */
+}
+/* Floating data chips: small vellum panels that read like a BIM viewer's HUD. */
+.hud {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-body);
+  white-space: nowrap;
+}
+.hud-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 4px var(--color-accent-soft);
+}
+.hud-dot[data-tone="primary"] {
+  background: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-primary-soft);
+}
+.hud-key {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.hud-value {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-heading);
+}
+
+/* ---- Drafting accents ----------------------------------------------------- */
+/* A dimension line that draws itself in once revealed. */
+.dim-line {
+  position: relative;
+  height: 1px;
+  background: rgb(91 101 119 / 0.45);
+  transform-origin: left;
+}
+.dim-line::before,
+.dim-line::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  width: 1px;
+  height: 9px;
+  background: var(--color-muted);
+}
+.dim-line::before {
+  left: 0;
+}
+.dim-line::after {
+  right: 0;
+}
+
+/* ---- Scroll-driven enhancement -------------------------------------------- */
+/* Where the browser supports scroll timelines, the hero copy gently recedes
+   as it leaves the viewport — pure CSS, zero JS, no fallback needed. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-scroll="recede"] {
+      animation: scroll-recede linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+    [data-scroll="rise"] {
+      animation: scroll-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
+@keyframes scroll-recede {
+  to {
+    opacity: 0.25;
+    transform: translateY(-40px) scale(0.96);
+    filter: blur(4px);
+  }
+}
+@keyframes scroll-rise {
+  from {
+    transform: translateY(48px) scale(0.97);
+  }
+}
+
+/* Ambient loops and continuous hero motion only run with JS + motion allowed. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .ambient::before {
+    animation: ambient-drift-a 26s ease-in-out infinite alternate;
+  }
+  .ambient::after {
+    animation: ambient-drift-b 34s ease-in-out infinite alternate;
+  }
+  .hud-float {
+    animation: hud-float 7s ease-in-out infinite alternate;
+    animation-delay: var(--float-delay, 0s);
+  }
+  .draw-in[data-visible] .dim-line,
+  [data-visible] .draw-in .dim-line {
+    animation: draw-in 1100ms var(--ease-out-expo) both;
+    animation-delay: calc(var(--reveal-delay, 0ms) + 200ms);
+  }
+}
+@keyframes ambient-drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(6vw, -4vh, 0) scale(1.08); }
+  to { transform: translate3d(-4vw, 5vh, 0) scale(0.95); }
+}
+@keyframes ambient-drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-5vw, 6vh, 0) scale(1.06); }
+  to { transform: translate3d(5vw, -3vh, 0) scale(0.97); }
+}
+@keyframes hud-float {
+  from { translate: 0 0; }
+  to { translate: 0 -10px; }
+}
+@keyframes draw-in {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* ---- Surfaces ---------------------------------------------------------------- */
+/* Drafting grid that surfaces behind a card on hover. */
+.blueprint-bg {
+  background-image:
+    linear-gradient(to right, rgb(10 158 138 / 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(10 158 138 / 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: -1px -1px;
+  -webkit-mask-image: radial-gradient(120% 90% at 100% 0%, #000 30%, transparent 75%);
+  mask-image: radial-gradient(120% 90% at 100% 0%, #000 30%, transparent 75%);
+}
+/* Soft brand light behind a glass panel. */
+.panel-glow {
+  background:
+    radial-gradient(60% 50% at 20% 10%, rgb(255 90 31 / 0.18), transparent 70%),
+    radial-gradient(50% 45% at 90% 90%, rgb(10 158 138 / 0.16), transparent 70%);
+  filter: blur(24px);
+}
+/* Viewer frame over a photo: corner ticks + a faint level line. */
+.viewer-frame {
+  --tick: 14px;
+  background:
+    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) 12px 12px / var(--tick) 1px no-repeat,
+    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) 12px 12px / 1px var(--tick) no-repeat,
+    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) calc(100% - 12px) 12px / var(--tick) 1px no-repeat,
+    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) calc(100% - 12px) 12px / 1px var(--tick) no-repeat,
+    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) 12px calc(100% - 12px) / var(--tick) 1px no-repeat,
+    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) 12px calc(100% - 12px) / 1px var(--tick) no-repeat,
+    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) calc(100% - 12px) calc(100% - 12px) / var(--tick) 1px no-repeat,
+    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) calc(100% - 12px) calc(100% - 12px) / 1px var(--tick) no-repeat,
+    linear-gradient(90deg, transparent, rgb(255 255 255 / 0.6), transparent) 0 62% / 100% 1px no-repeat;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35);
+}
+
+/* ---- Drafting layers (DraftingMarks) ------------------------------------- */
+/* Isometric grid: two line families at ±60°, fading toward the left/top. */
+.iso-grid {
+  background-image:
+    repeating-linear-gradient(60deg, rgb(15 23 42 / 0.09) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(-60deg, rgb(15 23 42 / 0.09) 0 1px, transparent 1px 34px);
+  -webkit-mask-image: radial-gradient(90% 100% at 100% 50%, #000 20%, transparent 80%);
+  mask-image: radial-gradient(90% 100% at 100% 50%, #000 20%, transparent 80%);
+}
+/* Survey point: orange dot with a breathing ring. */
+.survey-point {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 0 6px var(--color-primary-soft);
+}
+.survey-point::after {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 1px solid rgb(255 90 31 / 0.5);
+}
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .survey-point::after {
+    animation: survey-ping 3.2s var(--ease-out-expo) infinite;
+  }
+}
+@keyframes survey-ping {
+  from { transform: scale(0.6); opacity: 1; }
+  to { transform: scale(2.4); opacity: 0; }
+}
+/* Vellum sheet sections: a translucent sheet laid over the grid. */
+.sheet {
+  background-color: var(--color-surface-translucent);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 1px 0 var(--color-line),
+    0 -1px 0 var(--color-line);
 }

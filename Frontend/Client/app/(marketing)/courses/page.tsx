@@ -5,6 +5,7 @@ import { Section } from "@/components/layout/section";
 import { getCategories, getCourses } from "@/features/courses/service";
 import { getPageMetadata } from "@/features/pages/service";
 import { routes } from "@/lib/constants";
+import { PageTransition } from "@/components/motion/page-transition";
 
 const defaults = {
   title: "Courses",
@@ -28,7 +29,7 @@ export default async function CoursesPage() {
     .filter((s) => s.courses.length > 0);
 
   return (
-    <>
+    <PageTransition>
       <PageBanner
         title="Our Courses"
         description="Explore our comprehensive range of BIM, Structural, MEP & Interior Design training programs"
@@ -52,6 +53,6 @@ export default async function CoursesPage() {
           </p>
         </Section>
       )}
-    </>
+    </PageTransition>
   );
 }

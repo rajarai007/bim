@@ -14,20 +14,22 @@ const paddings: Record<Padding, string> = {
 
 const tones: Record<Tone, string> = {
   canvas: "", // paper grid shows through
-  surface: "bg-surface-translucent",
+  surface: "sheet", // translucent vellum sheet laid over the grid
   transparent: "",
 };
 
 /**
  * Full-bleed section with a background tone and an inner `Container`.
  * `stagger` cascades the container's direct children into view on scroll
- * (see the Motion system in globals.css).
+ * (see the Motion system in globals.css); `rise` lets the whole sheet settle
+ * into place as it scrolls in (scroll-driven CSS, progressive enhancement).
  */
 export function Section({
   id,
   padding = "md",
   tone = "canvas",
   stagger,
+  rise,
   className,
   containerClassName,
   children,
@@ -36,12 +38,17 @@ export function Section({
   padding?: Padding;
   tone?: Tone;
   stagger?: Stagger;
+  rise?: boolean;
   className?: string;
   containerClassName?: string;
   children: ReactNode;
 }) {
   return (
-    <section id={id} className={cn("relative w-full", tones[tone], paddings[padding], className)}>
+    <section
+      id={id}
+      data-scroll={rise ? "rise" : undefined}
+      className={cn("relative w-full", tones[tone], paddings[padding], className)}
+    >
       <Container className={containerClassName} data-reveal-stagger={stagger}>
         {children}
       </Container>

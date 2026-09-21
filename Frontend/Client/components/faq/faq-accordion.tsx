@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 type Tone = "elevated" | "surface";
 
 const tones: Record<Tone, string> = {
-  elevated: "bg-elevated",
-  surface: "bg-surface",
+  elevated: "glass",
+  surface: "glass-strong",
 };
 
 /**
@@ -52,7 +52,7 @@ export function FaqAccordion({
           <div
             key={item.id}
             className={cn(
-              "flex w-full flex-col rounded-md border border-line p-6 transition-[border-color,gap] duration-300 ease-brand hover:border-accent/40",
+              "glass-edge flex w-full flex-col rounded-md p-6 transition-[border-color,gap,box-shadow] duration-300 ease-brand hover:border-accent/40 hover:shadow-[var(--shadow-sheet-lifted)]",
               tones[tone],
               open ? "gap-3 border-accent/30" : "gap-0",
             )}

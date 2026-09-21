@@ -18,6 +18,7 @@ export function FeatureCard({
   return (
     <article
       data-spotlight={row ? "" : "accent"}
+      data-tilt
       className={cn(
         "card-lift group flex h-full rounded-md bg-surface hover:bg-elevated/80",
         row ? "items-start gap-4 p-6" : "flex-col items-start gap-4 p-8",
@@ -28,7 +29,7 @@ export function FeatureCard({
           "flex size-10 shrink-0 items-center justify-center rounded-full transition-[scale,rotate,box-shadow] duration-400 ease-brand group-hover:-rotate-6 group-hover:scale-110",
           row
             ? "bg-primary-soft text-primary group-hover:shadow-[0_0_0_6px_rgb(255_90_31/0.12)]"
-            : "bg-accent-soft text-accent group-hover:shadow-[0_0_0_6px_rgb(0_245_212/0.12)]",
+            : "bg-accent-soft text-accent group-hover:shadow-[0_0_0_6px_var(--color-accent-soft)]",
         )}
       >
         <Icon className="size-[18px] transition-transform duration-400 ease-brand group-hover:rotate-6" aria-hidden />
