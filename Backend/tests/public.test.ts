@@ -78,7 +78,8 @@ describe("public API", () => {
     const course = res.body.data;
     expect(course.detail.modules).toHaveLength(6);
     expect(course.detail.outcomes.length).toBeGreaterThan(0);
-    expect(course.detail.meta).toEqual({ duration: "3 Months", mode: "Offline Lab", admissions: "Noida Center" });
+    expect(course.detail.meta).toEqual({ duration: "3 Months", mode: "Offline Lab", admissions: "Okhla Center" });
+    expect(course).toHaveProperty("syllabusUrl", null);
     expect(course.related.length).toBeGreaterThan(0);
     expect(course.related.every((r: { slug: string }) => r.slug !== "revit-architecture")).toBe(true);
     expect(course.seo.title).toContain("Revit");

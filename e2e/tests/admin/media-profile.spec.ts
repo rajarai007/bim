@@ -27,7 +27,7 @@ test.describe("media library", () => {
 
     // Non-images are rejected with a message.
     await page.locator('input[type="file"]').setInputFiles({ name: "notes.txt", mimeType: "text/plain", buffer: Buffer.from("hello") });
-    await expect(page.getByRole("status")).toContainText(/Only PNG, JPG, WEBP or SVG/);
+    await expect(page.getByRole("status")).toContainText(/Only PNG, JPG, WEBP, SVG images or PDF/);
 
     page.once("dialog", (d) => d.accept());
     const card = page.getByRole("listitem").filter({ hasText: "person-03.png" }).first();

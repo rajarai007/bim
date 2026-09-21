@@ -10,10 +10,10 @@ import path from "node:path";
 import { env } from "../config/env";
 import { closeDatabase } from "../config/database";
 import { uploadFileRepository } from "../repositories/upload-file.repository";
-import { allowedImageTypes } from "../services/media.service";
+import { allowedUploadTypes } from "../services/media.service";
 
 const mimeByExt: Record<string, string> = { ".jpeg": "image/jpeg" };
-for (const [mime, ext] of Object.entries(allowedImageTypes)) mimeByExt[ext] = mime;
+for (const [mime, ext] of Object.entries(allowedUploadTypes)) mimeByExt[ext] = mime;
 
 async function walk(dir: string): Promise<string[]> {
   const entries = await fs.readdir(dir, { withFileTypes: true }).catch(() => []);

@@ -1,6 +1,7 @@
 import { describe, expect, it, beforeAll } from "vitest";
 import path from "node:path";
 import { api, authed } from "./helpers";
+import { pool } from "../src/config/database";
 
 let auth: Record<string, string>;
 beforeAll(async () => {
@@ -80,5 +81,27 @@ describe("admin media", () => {
     const inUse = list.body.data.find((m: { usageCount: number }) => m.usageCount > 0);
     const refused = await api().delete(`/api/v1/admin/media/${inUse.id}`).set(auth);
     expect(refused.status).toBe(409);
+  });
+
+  it("uploads and serves a PDF syllabus and protects it while a course links to it", async () => {
+    const pdf = Buffer.from("%PDF-1.4\n1 0 obj << /Type /Catalog >> endobj\ntrailer << /Root 1 0 R >>\n%%EOF\n");
+    const up = await api().post("/api/v1/admin/media").set(auth).attach("file", pdf, { filename: "revit-syllabus.pdf", contentType: "application/pdf" });
+    expect(up.status).toBe(201);
+    expect(up.body.data).toMatchObject({ url: expect.stringMatching(/^\/uploads\/\d{4}\/\d{2}\/[a-f0-9]+\.pdf$/), mimeType: "application/pdf", fileName: "revit-syllabus.pdf" });
+
+    const served = await api().get(up.body.data.url);
+    expect(served.status).toBe(200);
+    expect(served.headers["content-type"]).toMatch(/application\/pdf/);
+
+    const { rows } = await pool.query<{ id: number }>(`SELECT id FROM courses WHERE slug = 'revit-architecture'`);
+    await pool.query(`UPDATE courses SET syllabus_url = $2 WHERE id = $1`, [rows[0]!.id, up.body.data.url]);
+    try {
+      expect((await api().get(`/api/v1/admin/media`).set(auth)).body.data.find((m: { id: number }) => m.id === up.body.data.id).usageCount).toBe(1);
+      expect((await api().delete(`/api/v1/admin/media/${up.body.data.id}`).set(auth)).status).toBe(409);
+    } finally {
+      await pool.query(`UPDATE courses SET syllabus_url = NULL WHERE id = $1`, [rows[0]!.id]);
+    }
+    expect((await api().delete(`/api/v1/admin/media/${up.body.data.id}`).set(auth)).status).toBe(200);
+    expect((await api().get(up.body.data.url)).status).toBe(404);
   });
 });

@@ -45,6 +45,7 @@ export const courseBodySchema = z.object({
   batchLocation: optionalText(160),
   imageUrl: optionalUrl(),
   imageAlt: optionalText(255),
+  syllabusUrl: optionalUrl(),
   status: z.enum(courseStatuses).default("draft"),
   isFeatured: z.boolean().default(false),
   metaTitle: optionalText(160),

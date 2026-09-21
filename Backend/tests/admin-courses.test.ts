@@ -28,6 +28,7 @@ const validCourse = () => ({
   batchLocation: "Noida Center",
   imageUrl: "/images/course-revit-mep.png",
   imageAlt: "MEP",
+  syllabusUrl: "/uploads/2026/09/plumbing-syllabus.pdf",
   status: "active",
   isFeatured: false,
   metaTitle: "Plumbing | BIM",
@@ -87,6 +88,7 @@ describe("admin courses", () => {
       syllabus: [{ title: "Module 1", description: "Intro" }],
       duration: "8 Weeks",
       durationOption: "8 Weeks (2 Months)",
+      syllabusUrl: "/uploads/2026/09/plumbing-syllabus.pdf",
       categorySlug: "mep-design",
     });
     createdId = res.body.data.id;
@@ -112,6 +114,23 @@ describe("admin courses", () => {
     const res = await api().get("/api/v1/courses/test-plumbing-masterclass");
     expect(res.status).toBe(200);
     expect(res.body.data.detail.outcomes).toEqual(["Outcome A", "Outcome B"]);
+    expect(res.body.data.syllabusUrl).toBe("/uploads/2026/09/plumbing-syllabus.pdf");
+    const list = await api().get("/api/v1/courses?category=mep-design");
+    expect(list.body.data.find((c: { slug: string }) => c.slug === "test-plumbing-masterclass").syllabusUrl).toBe("/uploads/2026/09/plumbing-syllabus.pdf");
+  });
+
+  it("validates the syllabus URL and allows clearing it", async () => {
+    const bad = await api().put(`/api/v1/admin/courses/${createdId}`).set(auth).send({ ...validCourse(), syllabusUrl: "plumbing.pdf" });
+    expect(bad.status).toBe(422);
+    expect(bad.body.errors.map((e: { field: string }) => e.field)).toContain("syllabusUrl");
+
+    const cleared = await api().put(`/api/v1/admin/courses/${createdId}`).set(auth).send({ ...validCourse(), syllabusUrl: "" });
+    expect(cleared.status).toBe(200);
+    expect(cleared.body.data.syllabusUrl).toBeNull();
+    expect((await api().get("/api/v1/courses/test-plumbing-masterclass")).body.data.syllabusUrl).toBeNull();
+
+    const restored = await api().put(`/api/v1/admin/courses/${createdId}`).set(auth).send(validCourse());
+    expect(restored.body.data.syllabusUrl).toBe("/uploads/2026/09/plumbing-syllabus.pdf");
   });
 
   it("updates a course", async () => {

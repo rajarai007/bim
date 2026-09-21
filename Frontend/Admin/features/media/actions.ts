@@ -7,10 +7,10 @@ import type { ActionState, MediaItem } from "@/types";
 
 export type UploadResult = ActionState & { media?: MediaItem };
 
-/** Uploads one image (multipart) and returns the stored media record. */
+/** Uploads one file (image or PDF, multipart) and returns the stored media record. */
 export async function uploadMedia(formData: FormData): Promise<UploadResult> {
   const file = formData.get("file");
-  if (!(file instanceof File) || file.size === 0) return { error: "Please choose an image file." };
+  if (!(file instanceof File) || file.size === 0) return { error: "Please choose a file." };
   const body = new FormData();
   body.append("file", file, file.name);
   try {

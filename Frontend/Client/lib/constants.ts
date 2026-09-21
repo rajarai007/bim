@@ -5,6 +5,8 @@ export const routes = {
   courses: "/courses",
   category: (category: string) => `/courses/${category}`,
   course: (category: string, slug: string) => `/courses/${category}/${slug}`,
+  /** Syllabus PDF download (route handler that streams the file from the API). */
+  courseSyllabus: (category: string, slug: string) => `/courses/${category}/${slug}/syllabus`,
   whyChooseUs: "/#why-choose-us",
   trainers: "/trainers",
   projects: "/projects",

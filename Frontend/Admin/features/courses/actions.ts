@@ -54,6 +54,7 @@ function bodyFromForm(formData: FormData, syllabus: SyllabusModule[]) {
     batchLocation: text(formData, "location") || null,
     imageUrl: text(formData, "imageUrl") || null,
     imageAlt: text(formData, "imageAlt") || null,
+    syllabusUrl: text(formData, "syllabusUrl") || null,
     status: intent === "draft" ? "draft" : active ? "active" : "inactive",
     isFeatured: formData.get("featured") === "on",
     metaTitle: text(formData, "metaTitle") || null,

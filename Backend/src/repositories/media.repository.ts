@@ -7,6 +7,7 @@ const columns = `m.id, m.file_name, m.url, m.mime_type, m.size_bytes, m.uploaded
 /** How many catalogue records point at a media URL. */
 const usageSubquery = `(
   (SELECT count(*) FROM courses WHERE image_url = m.url) +
+  (SELECT count(*) FROM courses WHERE syllabus_url = m.url) +
   (SELECT count(*) FROM projects WHERE image_url = m.url) +
   (SELECT count(*) FROM trainers WHERE image_url = m.url) +
   (SELECT count(*) FROM testimonials WHERE avatar_url = m.url) +

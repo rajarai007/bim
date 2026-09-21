@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AdvisorCta } from "@/components/courses/advisor-cta";
 import { FeaturedCourseCard, StandardCourseCard } from "@/components/courses/course-card";
+import { CourseDurationTable } from "@/components/courses/course-duration-table";
 import { PageBanner } from "@/components/layout/page-banner";
 import { Section } from "@/components/layout/section";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -101,6 +102,18 @@ export default async function CategoryPage({ params }: PageProps<"/courses/[cate
           </p>
         )}
       </Section>
+
+      {all.length ? (
+        <Section containerClassName="flex flex-col gap-8 xl:gap-10">
+          <div data-reveal-stagger="up" className="flex w-full flex-col items-start gap-2 leading-native">
+            <h2 className="font-heading text-28 font-extrabold text-heading xl:text-36">Course Duration &amp; Syllabus</h2>
+            <p className="font-sans text-16 text-muted">
+              Download the detailed syllabus of any {category.badge} program, or request it from our admissions team.
+            </p>
+          </div>
+          <CourseDurationTable category={category} courses={all} />
+        </Section>
+      ) : null}
 
       <AdvisorCta />
     </>

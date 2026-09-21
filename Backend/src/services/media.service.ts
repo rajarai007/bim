@@ -3,11 +3,13 @@ import { mediaRepository } from "../repositories/media.repository";
 import { uploadStorage } from "./upload-storage";
 import { ApiError } from "../utils/api-error";
 
-export const allowedImageTypes: Record<string, string> = {
+/** Images for the catalogue plus PDF documents (course syllabus downloads). */
+export const allowedUploadTypes: Record<string, string> = {
   "image/png": ".png",
   "image/jpeg": ".jpg",
   "image/webp": ".webp",
   "image/svg+xml": ".svg",
+  "application/pdf": ".pdf",
 };
 
 export const mediaService = {
@@ -17,8 +19,8 @@ export const mediaService = {
 
   /** Persists an uploaded buffer as `/uploads/YYYY/MM/<random>.<ext>` (disk or database, see upload-storage) and records it. */
   async upload(file: { originalname: string; mimetype: string; buffer: Buffer; size: number }, uploadedBy: number | null) {
-    const ext = allowedImageTypes[file.mimetype];
-    if (!ext) throw ApiError.unprocessable("Unsupported file type", [{ field: "file", message: "Only PNG, JPG, WEBP or SVG images are allowed" }]);
+    const ext = allowedUploadTypes[file.mimetype];
+    if (!ext) throw ApiError.unprocessable("Unsupported file type", [{ field: "file", message: "Only PNG, JPG, WEBP, SVG images or PDF documents are allowed" }]);
 
     const now = new Date();
     const folder = `${now.getUTCFullYear()}/${String(now.getUTCMonth() + 1).padStart(2, "0")}`;

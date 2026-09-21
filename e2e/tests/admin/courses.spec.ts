@@ -1,5 +1,6 @@
 import { test, expect } from "../../helpers/fixtures";
 import { api, apiData, categories, deleteCourseBySlug, uniq, type ApiCourse } from "../../helpers/api";
+import path from "node:path";
 import { CLIENT_URL } from "../../playwright.config";
 
 type Paginated = { items: ApiCourse[]; pagination: { page: number; pageSize: number; total: number; totalPages: number } };
@@ -69,10 +70,17 @@ test.describe("course list", () => {
 test.describe("course editor", () => {
   const slug = uniq("e2e-editor-course");
   const title = `E2E Editor Course ${slug.slice(-6)}`;
+  const SAMPLE_PDF = path.resolve(__dirname, "../../assets/sample-syllabus.pdf");
+  let uploadedSyllabusUrl: string | null = null;
 
   test.afterAll(async () => {
     await deleteCourseBySlug(slug);
     await deleteCourseBySlug(`${slug}-renamed`);
+    // The PDF uploaded through the editor is only deletable once no course links to it.
+    if (uploadedSyllabusUrl) {
+      const media = await apiData<{ id: number; url: string }[]>("GET", "/admin/media");
+      for (const m of media.filter((m) => m.url === uploadedSyllabusUrl)) await api("DELETE", `/admin/media/${m.id}`);
+    }
   });
 
   test("create as draft → publish → edit → delete, verified in the database and on the client", async ({ page, audit }) => {
@@ -143,14 +151,35 @@ test.describe("course editor", () => {
     await expect(page.getByText("Outcome one")).toBeVisible();
     await expect(page.getByText("Module 1: Basics")).toBeVisible();
 
-    // Edit: rename + featured, then inactive.
+    // Edit: rename + featured + syllabus PDF, then inactive.
     await page.goto(`/courses/${stored.id}/edit`);
     await page.getByLabel("Course Title *").fill(`${title} Renamed`);
     await page.getByRole("switch", { name: "Featured course" }).click();
+    await page.locator('input[type="file"][accept="application/pdf"]').setInputFiles(SAMPLE_PDF);
+    await expect(page.getByText("sample-syllabus.pdf")).toBeVisible();
+    await expect(page.getByRole("link", { name: "Open file" })).toHaveAttribute("href", /\/uploads\/\d{4}\/\d{2}\/[a-f0-9]+\.pdf$/);
     await page.getByRole("button", { name: "Publish Course" }).click();
     await expect(page.getByRole("status")).toContainText("Course published.");
-    const renamed = await apiData<ApiCourse>("GET", `/admin/courses/${stored.id}`);
+    const renamed = await apiData<ApiCourse & { syllabusUrl: string | null }>("GET", `/admin/courses/${stored.id}`);
     expect(renamed).toMatchObject({ title: `${title} Renamed`, isFeatured: true, status: "active" });
+    expect(renamed.syllabusUrl).toMatch(/^\/uploads\/\d{4}\/\d{2}\/[a-f0-9]+\.pdf$/);
+    uploadedSyllabusUrl = renamed.syllabusUrl;
+
+    // The client offers the PDF: in the category table and on the course page, served with a readable file name.
+    await page.goto(`${CLIENT_URL}/courses/${category.slug}`);
+    await expect(page.getByRole("link", { name: `Download ${title} Renamed syllabus` })).toHaveAttribute("href", `/courses/${category.slug}/${slug}/syllabus`);
+    await page.goto(`${CLIENT_URL}/courses/${category.slug}/${slug}`);
+    await expect(page.getByRole("link", { name: "Download Syllabus" })).toHaveAttribute("href", `/courses/${category.slug}/${slug}/syllabus`);
+    const pdf = await fetch(`${CLIENT_URL}/courses/${category.slug}/${slug}/syllabus`);
+    expect(pdf.status).toBe(200);
+    expect(pdf.headers.get("content-disposition")).toBe(`attachment; filename="${slug}-syllabus.pdf"`);
+    expect((await pdf.text()).startsWith("%PDF")).toBe(true);
+    // The linked PDF cannot be deleted from the media library while the course uses it.
+    const media = await apiData<{ id: number; url: string; usageCount: number }[]>("GET", "/admin/media");
+    const linked = media.find((m) => m.url === renamed.syllabusUrl)!;
+    expect(linked.usageCount).toBe(1);
+    expect((await api("DELETE", `/admin/media/${linked.id}`)).status).toBe(409);
+    await page.goto(`/courses/${stored.id}/edit`);
 
     await page.getByRole("switch", { name: "Active status" }).click();
     await page.getByRole("button", { name: "Publish Course" }).click();

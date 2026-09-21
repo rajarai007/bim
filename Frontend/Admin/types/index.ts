@@ -33,6 +33,8 @@ export type AdminCourse = {
   batchLocation: string | null;
   imageUrl: string | null;
   imageAlt: string | null;
+  /** Downloadable syllabus PDF (media URL) or null. */
+  syllabusUrl: string | null;
   status: CourseStatus;
   isFeatured: boolean;
   metaTitle: string | null;

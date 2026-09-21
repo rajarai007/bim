@@ -38,6 +38,7 @@ export function publicCourseCard(c: Course) {
     duration: formatMonths(c.durationWeeks),
     durationWeeks: c.durationWeeks,
     image: image(c.imageUrl, c.imageAlt, c.title),
+    syllabusUrl: c.syllabusUrl,
     featured: c.isFeatured,
     category: { id: c.categoryId, slug: c.categorySlug, name: c.categoryName, badge: c.categoryBadge },
   };

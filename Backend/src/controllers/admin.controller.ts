@@ -187,7 +187,7 @@ export const adminController = {
     sendSuccess(res, await mediaService.list());
   },
   async uploadMedia(req: Request, res: Response) {
-    if (!req.file) throw ApiError.unprocessable("Validation failed", [{ field: "file", message: "An image file is required" }]);
+    if (!req.file) throw ApiError.unprocessable("Validation failed", [{ field: "file", message: "A file is required" }]);
     sendCreated(res, await mediaService.upload(req.file, req.user!.id), "File uploaded");
   },
   async deleteMedia(req: Request, res: Response) {

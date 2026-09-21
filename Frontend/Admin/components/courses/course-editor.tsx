@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import { Field, Input, Select, Textarea } from "@/components/ui/field";
+import { FilePicker } from "@/components/ui/file-picker";
 import { FormStatus } from "@/components/ui/form-status";
 import { ImagePicker } from "@/components/ui/image-picker";
 import { Switch } from "@/components/ui/switch";
@@ -46,6 +47,7 @@ export function CourseEditor({
   const [active, setActive] = useState(course ? course.status !== "inactive" : true);
   const [featured, setFeatured] = useState(course?.isFeatured ?? false);
   const [imageUrl, setImageUrl] = useState<string | null>(course?.imageUrl ?? null);
+  const [syllabusUrl, setSyllabusUrl] = useState<string | null>(course?.syllabusUrl ?? null);
   const [intent, setIntent] = useState<"draft" | "publish">("publish");
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
     saveCourse.bind(null, course?.id ?? null),
@@ -203,6 +205,19 @@ export function CourseEditor({
             <Field label="Image Alt Text" htmlFor="imageAlt" error={errors.imageAlt}>
               <Input id="imageAlt" name="imageAlt" defaultValue={course?.imageAlt ?? ""} placeholder="Describe the image for accessibility" />
             </Field>
+          </Card>
+
+          <Card className="flex flex-col gap-4 p-6">
+            <CardTitle>Syllabus PDF</CardTitle>
+            <p className="font-sans text-12 leading-normal text-muted">
+              Shown as a &ldquo;Download&rdquo; button in the course duration table and on the course page. Without a file, visitors are sent to the contact form instead.
+            </p>
+            <FilePicker name="syllabusUrl" value={syllabusUrl} onChange={setSyllabusUrl} hint="PDF up to 5MB" />
+            {errors.syllabusUrl ? (
+              <p role="alert" className="font-sans text-12 leading-native text-danger">
+                {errors.syllabusUrl}
+              </p>
+            ) : null}
           </Card>
 
           <Card className="flex flex-col gap-4 p-6">

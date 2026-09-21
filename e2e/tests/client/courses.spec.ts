@@ -1,7 +1,8 @@
 import { test, expect } from "../../helpers/fixtures";
 import { apiData } from "../../helpers/api";
+import { CLIENT_URL } from "../../playwright.config";
 
-type PublicCourse = { id: number; slug: string; title: string; duration: string; featured: boolean; category: { slug: string; name: string; badge: string } };
+type PublicCourse = { id: number; slug: string; title: string; duration: string; featured: boolean; syllabusUrl: string | null; category: { slug: string; name: string; badge: string } };
 type PublicCategory = { id: number; slug: string; name: string; badge: string; overviewTitle: string; courseCount: number };
 type CourseDetail = PublicCourse & {
   detail: { heroTitle: string; meta: { duration: string; mode: string; admissions: string }; outcomes: string[]; modules: { title: string; description: string }[]; software: string[]; careers: string[]; whoShouldJoin: string; eligibility: string };
@@ -43,6 +44,21 @@ test("category page shows every active course of the category and its featured p
   } else {
     await expect(page.getByRole("heading", { level: 2, name: "Featured Programs" })).toHaveCount(0);
   }
+  // Duration & syllabus table: one row per course, in API order, with a download or a request link.
+  await expect(page.getByRole("heading", { level: 2, name: "Course Duration & Syllabus" })).toBeVisible();
+  const rows = page.locator("table tbody tr");
+  await expect(rows).toHaveCount(courses.length);
+  for (const [index, course] of courses.entries()) {
+    const row = rows.nth(index);
+    await expect(row.getByRole("cell").first()).toHaveText(String(index + 1));
+    await expect(row.getByRole("link", { name: course.title, exact: true })).toHaveAttribute("href", `/courses/${category.slug}/${course.slug}`);
+    await expect(row).toContainText(course.duration);
+    if (course.syllabusUrl) {
+      await expect(row.getByRole("link", { name: `Download ${course.title} syllabus` })).toHaveAttribute("href", `/courses/${category.slug}/${course.slug}/syllabus`);
+    } else {
+      await expect(row.getByRole("link", { name: `Request ${course.title} syllabus` })).toHaveAttribute("href", "/contact");
+    }
+  }
   // Clicking a card reaches the detail page.
   await page.getByRole("link", { name: new RegExp(`^${courses[0].title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`) }).first().click();
   await expect(page).toHaveURL(new RegExp(`/courses/${category.slug}/${courses[0].slug}$`));
@@ -63,8 +79,8 @@ test("course detail renders the API data and the syllabus accordion works", asyn
   for (const s of course.detail.software) await expect(page.getByText(s, { exact: true }).first()).toBeVisible();
   for (const c of course.detail.careers) await expect(page.getByText(c, { exact: true }).first()).toBeVisible();
 
-  // Hero image is the LCP and must load eagerly.
-  const hero = page.locator("img").first();
+  // Hero image (the first one below the header) is the LCP and must load eagerly.
+  const hero = page.locator("section img").first();
   await expect(hero).toHaveAttribute("loading", "eager");
   await expect(hero).toHaveAttribute("alt", /.+/);
 
@@ -95,9 +111,33 @@ test("course detail renders the API data and the syllabus accordion works", asyn
     await expect(related).toHaveCount(0);
   }
 
-  // CTA buttons
+  // CTA buttons: the syllabus button downloads the PDF when one is uploaded, otherwise it leads to the contact form.
   await expect(page.getByRole("link", { name: "Enquire Now" }).nth(1)).toHaveAttribute("href", "/contact");
-  await expect(page.getByRole("link", { name: "Download Syllabus" })).toHaveAttribute("href", "/contact");
+  const syllabusButton = page.getByRole("link", { name: "Download Syllabus" });
+  if (course.syllabusUrl) {
+    await expect(syllabusButton).toHaveAttribute("href", `/courses/${course.category.slug}/${course.slug}/syllabus`);
+    await expect(syllabusButton).toHaveAttribute("download", "");
+  } else {
+    await expect(syllabusButton).toHaveAttribute("href", "/contact");
+    await expect(syllabusButton).not.toHaveAttribute("download", /.*/);
+  }
+});
+
+test("the syllabus download route serves a PDF only for courses that have one", async () => {
+  const courses = await apiData<PublicCourse[]>("GET", "/courses", { auth: false });
+  const withPdf = courses.find((c) => c.syllabusUrl);
+  const without = courses.find((c) => !c.syllabusUrl);
+  if (withPdf) {
+    const res = await fetch(`${CLIENT_URL}/courses/${withPdf.category.slug}/${withPdf.slug}/syllabus`);
+    expect(res.status).toBe(200);
+    expect(res.headers.get("content-type")).toContain("application/pdf");
+    expect(res.headers.get("content-disposition")).toBe(`attachment; filename="${withPdf.slug}-syllabus.pdf"`);
+    expect((await res.text()).startsWith("%PDF")).toBe(true);
+  }
+  if (without) {
+    expect((await fetch(`${CLIENT_URL}/courses/${without.category.slug}/${without.slug}/syllabus`)).status).toBe(404);
+  }
+  expect((await fetch(`${CLIENT_URL}/courses/no-such-category/no-such-course/syllabus`)).status).toBe(404);
 });
 
 test("home page featured courses and categories come from the API", async ({ page }) => {

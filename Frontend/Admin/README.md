@@ -53,7 +53,7 @@ app/(admin)/enquiries/export  streams the CSV export from the API with the admin
 components/
   layout/                Sidebar, TopBar (+ mobile drawer), AdminPage, Logo
   ui/                    Button, Card, StatusBadge, fields, Switch, Table, Pagination (URL-driven),
-                         SearchInput, Dialog, ImagePicker (uploads to the API), FormStatus
+                         SearchInput, Dialog, ImagePicker / FilePicker (upload to the API), FormStatus
   charts/                Sparkline, TrendChart, DonutChart (data-driven inline SVG)
   dashboard/ courses/ enquiries/ settings/ catalog/ media/ auth/
 features/*/service.ts    Server-side reads from the API

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState, useTransition } from "react";
-import { Trash2, Upload } from "lucide-react";
+import { FileText, Trash2, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import { FormStatus } from "@/components/ui/form-status";
@@ -49,7 +49,7 @@ export function MediaGrid({ items }: { items: MediaItem[] }) {
         <div className="flex flex-col gap-1">
           <CardTitle size="lg">Media Library</CardTitle>
           <p className="font-sans text-12 leading-native text-muted">
-            {items.length} files · images used on course cards, projects, trainers and page banners.
+            {items.length} files · images for course cards, projects, trainers and page banners, plus PDF syllabus downloads.
           </p>
           <FormStatus message={notice.message} error={notice.error} />
         </div>
@@ -58,7 +58,7 @@ export function MediaGrid({ items }: { items: MediaItem[] }) {
             ref={inputRef}
             type="file"
             multiple
-            accept="image/png,image/jpeg,image/webp,image/svg+xml"
+            accept="image/png,image/jpeg,image/webp,image/svg+xml,application/pdf"
             className="sr-only"
             onChange={(e) => onFiles(e.target.files)}
           />
@@ -73,17 +73,30 @@ export function MediaGrid({ items }: { items: MediaItem[] }) {
           {items.map((m, index) => (
             <li key={m.id}>
               <Card className="group relative flex h-full flex-col overflow-hidden">
-                <span className="relative block aspect-[4/3] w-full bg-page">
-                  <Image
-                    src={mediaUrl(m.url)}
-                    alt={m.fileName}
-                    fill
-                    sizes="(min-width: 1280px) 180px, 33vw"
-                    // The first row is above the fold (and the LCP); the rest can load lazily.
-                    loading={index < 6 ? "eager" : "lazy"}
-                    className="object-cover"
-                  />
-                </span>
+                {m.mimeType === "application/pdf" ? (
+                  <a
+                    href={mediaUrl(m.url)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Open ${m.fileName}`}
+                    className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-2 bg-page text-primary transition-colors hover:bg-primary-tint"
+                  >
+                    <FileText className="size-10" strokeWidth={1.5} aria-hidden />
+                    <span className="font-sans text-11 font-bold uppercase leading-native">PDF</span>
+                  </a>
+                ) : (
+                  <span className="relative block aspect-[4/3] w-full bg-page">
+                    <Image
+                      src={mediaUrl(m.url)}
+                      alt={m.fileName}
+                      fill
+                      sizes="(min-width: 1280px) 180px, 33vw"
+                      // The first row is above the fold (and the LCP); the rest can load lazily.
+                      loading={index < 6 ? "eager" : "lazy"}
+                      className="object-cover"
+                    />
+                  </span>
+                )}
                 <span className="flex flex-col gap-1 p-3 leading-native">
                   <span className="truncate font-sans text-12 font-bold text-ink" title={m.fileName}>{m.fileName}</span>
                   <span className="font-sans text-11 text-muted">

@@ -6,7 +6,7 @@ import { toCamel, toCamelRows } from "./mapper";
 
 const columns = `co.id, co.category_id, co.slug, co.title, co.short_description, co.full_description, co.eligibility,
   co.who_should_join, co.outcomes, co.syllabus, co.software, co.careers, co.duration_weeks, co.training_mode,
-  co.batch_location, co.image_url, co.image_alt, co.status, co.is_featured, co.meta_title, co.meta_description,
+  co.batch_location, co.image_url, co.image_alt, co.syllabus_url, co.status, co.is_featured, co.meta_title, co.meta_description,
   co.sort_order, co.created_at, co.updated_at,
   ca.slug AS category_slug, ca.name AS category_name, ca.badge AS category_badge`;
 
@@ -29,6 +29,7 @@ export type CourseInput = {
   batchLocation: string | null;
   imageUrl: string | null;
   imageAlt: string | null;
+  syllabusUrl: string | null;
   status: CourseStatus;
   isFeatured: boolean;
   metaTitle: string | null;
@@ -110,15 +111,15 @@ export const courseRepository = {
       `INSERT INTO courses (
          category_id, slug, title, short_description, full_description, eligibility, who_should_join, outcomes,
          syllabus, software, careers, duration_weeks, training_mode, batch_location, image_url, image_alt,
-         status, is_featured, meta_title, meta_description, sort_order
-       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::jsonb, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20,
+         syllabus_url, status, is_featured, meta_title, meta_description, sort_order
+       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::jsonb, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21,
          (SELECT coalesce(max(sort_order), 0) + 1 FROM courses))
        RETURNING id`,
       [
         input.categoryId, input.slug, input.title, input.shortDescription, input.fullDescription, input.eligibility,
         input.whoShouldJoin, input.outcomes, JSON.stringify(input.syllabus), input.software, input.careers,
-        input.durationWeeks, input.trainingMode, input.batchLocation, input.imageUrl, input.imageAlt, input.status,
-        input.isFeatured, input.metaTitle, input.metaDescription,
+        input.durationWeeks, input.trainingMode, input.batchLocation, input.imageUrl, input.imageAlt, input.syllabusUrl,
+        input.status, input.isFeatured, input.metaTitle, input.metaDescription,
       ],
     );
     return (await this.findById(rows[0]!.id))!;
@@ -129,14 +130,14 @@ export const courseRepository = {
       `UPDATE courses SET
          category_id = $2, slug = $3, title = $4, short_description = $5, full_description = $6, eligibility = $7,
          who_should_join = $8, outcomes = $9, syllabus = $10::jsonb, software = $11, careers = $12, duration_weeks = $13,
-         training_mode = $14, batch_location = $15, image_url = $16, image_alt = $17, status = $18, is_featured = $19,
-         meta_title = $20, meta_description = $21
+         training_mode = $14, batch_location = $15, image_url = $16, image_alt = $17, syllabus_url = $18, status = $19,
+         is_featured = $20, meta_title = $21, meta_description = $22
        WHERE id = $1`,
       [
         id, input.categoryId, input.slug, input.title, input.shortDescription, input.fullDescription, input.eligibility,
         input.whoShouldJoin, input.outcomes, JSON.stringify(input.syllabus), input.software, input.careers,
-        input.durationWeeks, input.trainingMode, input.batchLocation, input.imageUrl, input.imageAlt, input.status,
-        input.isFeatured, input.metaTitle, input.metaDescription,
+        input.durationWeeks, input.trainingMode, input.batchLocation, input.imageUrl, input.imageAlt, input.syllabusUrl,
+        input.status, input.isFeatured, input.metaTitle, input.metaDescription,
       ],
     );
     return rowCount ? this.findById(id) : null;

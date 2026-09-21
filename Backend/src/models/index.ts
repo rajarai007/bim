@@ -70,6 +70,8 @@ export type Course = {
   batchLocation: string | null;
   imageUrl: string | null;
   imageAlt: string | null;
+  /** Downloadable syllabus PDF (media URL), or null when none has been uploaded. */
+  syllabusUrl: string | null;
   status: CourseStatus;
   isFeatured: boolean;
   metaTitle: string | null;
