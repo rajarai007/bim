@@ -835,9 +835,9 @@ export const settings = {
   whatsapp: "+91 84487 65107",
   email: "bimcareer1543@gmail.com",
   workingHours: "Mon - Sat (9:00 AM - 6:30 PM)",
-  instagramUrl: "https://instagram.com",
+  instagramUrl: "https://www.instagram.com/bimcareer/",
   facebookUrl: "https://facebook.com",
-  linkedinUrl: "https://linkedin.com",
+  linkedinUrl: "https://www.linkedin.com/company/bim-career-academy/",
   youtubeUrl: "https://youtube.com",
 };
 

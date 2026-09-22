@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { SocialRail } from "@/components/layout/social-rail";
 import { getCategories } from "@/features/courses/service";
 import { getSiteSettings } from "@/features/settings/service";
 
@@ -28,6 +29,7 @@ export async function SiteChrome({ children }: { children: ReactNode }) {
         {children}
       </main>
       <Footer settings={settings} categories={categories} />
+      <SocialRail settings={settings} />
     </>
   );
 }

@@ -13,9 +13,9 @@ export const siteConfig = {
     address: "Okhla Head, Jamia Nagar, New Delhi 110025, India",
   },
   social: {
-    instagram: "https://instagram.com",
+    instagram: "https://www.instagram.com/bimcareer/",
     facebook: "https://facebook.com",
-    linkedin: "https://linkedin.com",
+    linkedin: "https://www.linkedin.com/company/bim-career-academy/",
     youtube: "https://youtube.com",
   },
 } as const;
