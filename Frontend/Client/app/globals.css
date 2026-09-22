@@ -1071,8 +1071,7 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
     linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) 12px calc(100% - 12px) / var(--tick) 1px no-repeat,
     linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) 12px calc(100% - 12px) / 1px var(--tick) no-repeat,
     linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) calc(100% - 12px) calc(100% - 12px) / var(--tick) 1px no-repeat,
-    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) calc(100% - 12px) calc(100% - 12px) / 1px var(--tick) no-repeat,
-    linear-gradient(90deg, transparent, rgb(255 255 255 / 0.6), transparent) 0 62% / 100% 1px no-repeat;
+    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) calc(100% - 12px) calc(100% - 12px) / 1px var(--tick) no-repeat;
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35);
 }
 
@@ -1116,4 +1115,129 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
     inset 0 1px 0 rgb(255 255 255 / 0.9),
     0 1px 0 var(--color-line),
     0 -1px 0 var(--color-line);
+}
+
+/* ---- Modal (syllabus request popup) ---------------------------------------- */
+/* A vellum sheet lifted off the page: the backdrop dims and blurs the drawing
+   underneath, the panel rises and settles (bottom sheet on phones), and the
+   form rows land one after another. Closing runs the same choreography in
+   reverse (`data-state="closing"`) before the node unmounts. The layer sits
+   under the custom cursor (z 100) and over the sticky header (z 50). */
+.modal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  align-items: end;
+  justify-items: center;
+  padding: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+@media (min-width: 640px) {
+  .modal-root {
+    align-items: center;
+    padding: 24px;
+  }
+}
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(70% 60% at 50% 40%, rgb(255 90 31 / 0.1), transparent 70%),
+    rgb(15 23 42 / 0.38);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  backdrop-filter: blur(10px) saturate(1.2);
+}
+.modal-panel {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  transform-origin: 50% 100%;
+}
+@media (min-width: 640px) {
+  .modal-panel {
+    border-radius: var(--radius-lg);
+    transform-origin: 50% 60%;
+  }
+}
+/* More opaque than the sidebar glass: the sheet sits over a dimmed, blurred page. */
+.modal-sheet {
+  background-color: rgb(255 255 255 / 0.9);
+}
+/* Drafting ticks in the sheet corners, like the viewer frame on photos. */
+.modal-sheet::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  pointer-events: none;
+  border-radius: inherit;
+  --tick: 12px;
+  --ink: rgb(255 90 31 / 0.55);
+  background:
+    linear-gradient(var(--ink), var(--ink)) 0 0 / var(--tick) 1px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) 0 0 / 1px var(--tick) no-repeat,
+    linear-gradient(var(--ink), var(--ink)) 100% 0 / var(--tick) 1px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) 100% 0 / 1px var(--tick) no-repeat,
+    linear-gradient(var(--ink), var(--ink)) 0 100% / var(--tick) 1px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) 0 100% / 1px var(--tick) no-repeat,
+    linear-gradient(var(--ink), var(--ink)) 100% 100% / var(--tick) 1px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) 100% 100% / 1px var(--tick) no-repeat;
+}
+/* Sheet icon: the page "prints" a few lines while the form is open. */
+.modal-sheet-line {
+  transform-box: fill-box;
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .modal-backdrop {
+    animation: modal-fade 400ms var(--ease-brand) both;
+  }
+  .modal-panel {
+    animation: modal-sheet 620ms var(--ease-out-expo) both;
+  }
+  @media (min-width: 640px) {
+    .modal-panel {
+      animation-name: modal-rise;
+    }
+  }
+  .modal-item {
+    animation: reveal-up 700ms var(--ease-brand) both;
+    animation-delay: calc(140ms + var(--i, 0) * 60ms);
+  }
+  .modal-sheet-line {
+    animation: draw-in 600ms var(--ease-out-expo) both;
+    animation-delay: calc(320ms + var(--i, 0) * 90ms);
+  }
+  .modal-check {
+    animation: star-pop 600ms var(--ease-out-expo) both;
+  }
+  .modal-root[data-state="closing"] .modal-backdrop {
+    animation: modal-fade 240ms var(--ease-in-out-soft) both reverse;
+  }
+  .modal-root[data-state="closing"] .modal-panel {
+    animation: modal-drop 240ms var(--ease-in-out-soft) both;
+  }
+  .modal-root[data-state="closing"] .modal-item,
+  .modal-root[data-state="closing"] .modal-sheet-line {
+    animation: none;
+  }
+}
+@keyframes modal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modal-rise {
+  from { opacity: 0; transform: translateY(32px) scale(0.94); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+@keyframes modal-sheet {
+  from { transform: translateY(100%); }
+  to { transform: none; }
+}
+@keyframes modal-drop {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateY(16px) scale(0.97); }
 }

@@ -25,7 +25,7 @@ export const createEnquirySchema = z.object({
   experience: z.enum(experienceLevels).or(z.literal("")).nullish().transform((v) => (v ? v : null)),
   message: optionalText(4000),
   consent: z.boolean().optional().default(false),
-  source: z.enum(["contact_form", "course_page"]).default("contact_form"),
+  source: z.enum(["contact_form", "course_page", "syllabus_download"]).default("contact_form"),
 });
 export type CreateEnquiryInput = z.infer<typeof createEnquirySchema>;
 

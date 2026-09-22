@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import type { ComponentProps, ComponentPropsWithoutRef, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type Variant = "primary" | "secondary" | "outline" | "outline-filled" | "whatsapp";
@@ -39,7 +39,7 @@ type CommonProps = {
 };
 
 type ButtonAsButton = CommonProps &
-  Omit<ComponentPropsWithoutRef<"button">, "className" | "children"> & {
+  Omit<ComponentProps<"button">, "className" | "children"> & {
     href?: undefined;
   };
 
@@ -79,7 +79,7 @@ export function Button(props: ButtonProps) {
     );
   }
 
-  const { type = "button", ...buttonRest } = rest as ComponentPropsWithoutRef<"button">;
+  const { type = "button", ...buttonRest } = rest as ComponentProps<"button">;
   return (
     <button type={type} className={classes} {...magnet} {...buttonRest}>
       {children}

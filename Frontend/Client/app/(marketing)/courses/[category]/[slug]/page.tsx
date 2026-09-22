@@ -6,6 +6,7 @@ import { CheckWide } from "@/components/icons/check-wide";
 import { CompactCourseCard, courseMorphName } from "@/components/courses/course-card";
 import { EnquiryCard } from "@/components/courses/enquiry-card";
 import { SyllabusAccordion } from "@/components/courses/syllabus-accordion";
+import { SyllabusRequestDialog } from "@/components/courses/syllabus-request-dialog";
 import { Breadcrumb } from "@/components/layout/breadcrumb";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
@@ -104,9 +105,11 @@ export default async function CoursePage({ params }: Props) {
             <Button href={routes.contact} size="lg">
               Enquire Now
             </Button>
-            <Button href={routes.courseSyllabus(category.slug, course.slug)} download variant="outline" size="lg">
-              Download Syllabus
-            </Button>
+            <SyllabusRequestDialog
+              courseTitle={course.title}
+              courseSlug={course.slug}
+              href={routes.courseSyllabus(category.slug, course.slug)}
+            />
           </div>
         </div>
         {/* Morph target for the course-card photo (same ViewTransition name).

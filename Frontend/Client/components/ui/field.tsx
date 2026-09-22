@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import type { ComponentProps, ComponentPropsWithoutRef, CSSProperties, ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
 import { ChevronDownWide } from "@/components/icons/chevron-down-wide";
 import { cn } from "@/lib/utils";
@@ -13,15 +13,17 @@ export function Field({
   error,
   children,
   className,
+  style,
 }: {
   label: string;
   htmlFor: string;
   error?: string;
   children: ReactNode;
   className?: string;
+  style?: CSSProperties;
 }) {
   return (
-    <div className={cn("group/field flex min-w-0 flex-1 flex-col items-start gap-2", className)}>
+    <div className={cn("group/field flex min-w-0 flex-1 flex-col items-start gap-2", className)} style={style}>
       <label
         htmlFor={htmlFor}
         className="font-sans text-13 font-bold leading-native text-body transition-colors duration-300 ease-brand group-focus-within/field:text-primary"
@@ -42,7 +44,7 @@ export function Field({
   );
 }
 
-type InputProps = ComponentPropsWithoutRef<"input"> & {
+type InputProps = ComponentProps<"input"> & {
   invalid?: boolean;
   /** Surface used behind the control — sidebar forms sit on a darker canvas. */
   surface?: "surface" | "canvas" | "elevated";

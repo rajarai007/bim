@@ -140,7 +140,7 @@ export type Lead = {
   experienceLevel: string | null;
   message: string | null;
   consent: boolean;
-  source: "contact_form" | "course_page";
+  source: "contact_form" | "course_page" | "syllabus_download";
   status: LeadStatus;
   createdAt: string;
   updatedAt: string;

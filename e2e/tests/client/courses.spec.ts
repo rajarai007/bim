@@ -44,7 +44,8 @@ test("category page shows every active course of the category and its featured p
   } else {
     await expect(page.getByRole("heading", { level: 2, name: "Featured Programs" })).toHaveCount(0);
   }
-  // Duration & syllabus table: one row per course, in API order, with a download or a request link.
+  // Duration & syllabus table: one row per course, in API order, each with a syllabus download
+  // (the route falls back to a generated PDF when none is uploaded).
   await expect(page.getByRole("heading", { level: 2, name: "Course Duration & Syllabus" })).toBeVisible();
   const rows = page.locator("table tbody tr");
   await expect(rows).toHaveCount(courses.length);
@@ -53,11 +54,7 @@ test("category page shows every active course of the category and its featured p
     await expect(row.getByRole("cell").first()).toHaveText(String(index + 1));
     await expect(row.getByRole("link", { name: course.title, exact: true })).toHaveAttribute("href", `/courses/${category.slug}/${course.slug}`);
     await expect(row).toContainText(course.duration);
-    if (course.syllabusUrl) {
-      await expect(row.getByRole("link", { name: `Download ${course.title} syllabus` })).toHaveAttribute("href", `/courses/${category.slug}/${course.slug}/syllabus`);
-    } else {
-      await expect(row.getByRole("link", { name: `Request ${course.title} syllabus` })).toHaveAttribute("href", "/contact");
-    }
+    await expect(row.getByRole("link", { name: `Download ${course.title} syllabus` })).toHaveAttribute("href", `/courses/${category.slug}/${course.slug}/syllabus`);
   }
   // Clicking a card reaches the detail page.
   await page.getByRole("link", { name: new RegExp(`^${courses[0].title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`) }).first().click();
@@ -111,31 +108,31 @@ test("course detail renders the API data and the syllabus accordion works", asyn
     await expect(related).toHaveCount(0);
   }
 
-  // CTA buttons: the syllabus button downloads the PDF when one is uploaded, otherwise it leads to the contact form.
+  // CTA buttons: "Enquire Now" leads to the contact page; "Download Syllabus" opens the enquiry popup
+  // (the PDF itself only downloads after the popup form is submitted, see forms.spec.ts).
   await expect(page.getByRole("link", { name: "Enquire Now" }).nth(1)).toHaveAttribute("href", "/contact");
-  const syllabusButton = page.getByRole("link", { name: "Download Syllabus" });
-  if (course.syllabusUrl) {
-    await expect(syllabusButton).toHaveAttribute("href", `/courses/${course.category.slug}/${course.slug}/syllabus`);
-    await expect(syllabusButton).toHaveAttribute("download", "");
-  } else {
-    await expect(syllabusButton).toHaveAttribute("href", "/contact");
-    await expect(syllabusButton).not.toHaveAttribute("download", /.*/);
-  }
+  await expect(page.getByRole("link", { name: "Download Syllabus" })).toHaveCount(0);
+  await page.getByRole("button", { name: "Download Syllabus" }).click();
+  const dialog = page.getByRole("dialog", { name: "Get the syllabus" });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator("#syl-course")).toHaveValue(course.title);
+  await expect(dialog.locator("#syl-fullName")).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(dialog).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Download Syllabus" })).toBeFocused();
 });
 
-test("the syllabus download route serves a PDF only for courses that have one", async () => {
+test("the syllabus download route serves a PDF for every course (uploaded or generated)", async () => {
   const courses = await apiData<PublicCourse[]>("GET", "/courses", { auth: false });
   const withPdf = courses.find((c) => c.syllabusUrl);
   const without = courses.find((c) => !c.syllabusUrl);
-  if (withPdf) {
-    const res = await fetch(`${CLIENT_URL}/courses/${withPdf.category.slug}/${withPdf.slug}/syllabus`);
+  for (const course of [withPdf, without]) {
+    if (!course) continue;
+    const res = await fetch(`${CLIENT_URL}/courses/${course.category.slug}/${course.slug}/syllabus`);
     expect(res.status).toBe(200);
     expect(res.headers.get("content-type")).toContain("application/pdf");
-    expect(res.headers.get("content-disposition")).toBe(`attachment; filename="${withPdf.slug}-syllabus.pdf"`);
+    expect(res.headers.get("content-disposition")).toBe(`attachment; filename="${course.slug}-syllabus.pdf"`);
     expect((await res.text()).startsWith("%PDF")).toBe(true);
-  }
-  if (without) {
-    expect((await fetch(`${CLIENT_URL}/courses/${without.category.slug}/${without.slug}/syllabus`)).status).toBe(404);
   }
   expect((await fetch(`${CLIENT_URL}/courses/no-such-category/no-such-course/syllabus`)).status).toBe(404);
 });

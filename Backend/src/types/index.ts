@@ -25,7 +25,7 @@ export type TestimonialStatus = "published" | "pending";
 export type ProjectStatus = "published" | "draft";
 export type FaqStatus = "published" | "draft";
 export type EnquiryStatus = "new" | "contacted" | "follow-up" | "converted" | "lost";
-export type EnquirySource = "contact_form" | "course_page";
+export type EnquirySource = "contact_form" | "course_page" | "syllabus_download";
 
 export type SyllabusModule = { title: string; description: string };
 

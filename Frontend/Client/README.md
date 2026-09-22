@@ -28,7 +28,8 @@ cp .env.example .env.local   # NEXT_PUBLIC_API_URL=http://localhost:4000 (the ba
 
 ```
 app/(marketing)/         routes (home, about, contact, courses, trainers, projects, faq, privacy)
-  courses/[category]/[slug]/syllabus/route.ts  syllabus PDF download: the uploaded file from the API, or one generated from the course content (features/courses/syllabus-pdf.ts; lib/pdf.ts writes the PDF, lib/png.ts + lib/brand-logo.ts embed the logo)
+  courses/[category]/[slug]/syllabus/route.ts  syllabus PDF download: the uploaded file from the API, or one generated from the course content (features/courses/syllabus-pdf.ts; lib/pdf.ts writes the PDF, lib/png.ts + lib/brand-logo.ts embed the logo).
+                         On the course page the "Download Syllabus" CTA opens components/courses/syllabus-request-dialog.tsx, which stores a `syllabus_download` enquiry (course, name, phone, email) and then starts the download.
 components/
   ui/                    Button, Badge, chips, form fields, SectionHeading, Divider
   layout/                Header, Footer, Container, Section, PageBanner, Breadcrumb

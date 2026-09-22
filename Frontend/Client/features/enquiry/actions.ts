@@ -22,7 +22,7 @@ const fieldMap: Record<string, keyof EnquiryPayload> = {
 /** Submits an enquiry to the backend (runs on the server, so the API origin stays private). */
 export async function submitEnquiry(
   payload: EnquiryPayload,
-  source: "contact_form" | "course_page" = "contact_form",
+  source: "contact_form" | "course_page" | "syllabus_download" = "contact_form",
 ): Promise<SubmitEnquiryResult> {
   try {
     const data = await apiFetch<{ id: number }>("/enquiries", {

@@ -178,7 +178,7 @@ test.describe("course editor", () => {
     await page.goto(`${CLIENT_URL}/courses/${category.slug}`);
     await expect(page.getByRole("link", { name: `Download ${title} Renamed syllabus` })).toHaveAttribute("href", `/courses/${category.slug}/${slug}/syllabus`);
     await page.goto(`${CLIENT_URL}/courses/${category.slug}/${slug}`);
-    await expect(page.getByRole("link", { name: "Download Syllabus" })).toHaveAttribute("href", `/courses/${category.slug}/${slug}/syllabus`);
+    await expect(page.getByRole("button", { name: "Download Syllabus" })).toBeVisible();
     const pdf = await fetch(`${CLIENT_URL}/courses/${category.slug}/${slug}/syllabus`);
     expect(pdf.status).toBe(200);
     expect(pdf.headers.get("content-disposition")).toBe(`attachment; filename="${slug}-syllabus.pdf"`);

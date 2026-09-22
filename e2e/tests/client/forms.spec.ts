@@ -140,6 +140,48 @@ test.describe("course page enquiry form", () => {
     expect(stored).toMatchObject({ mobile: "98765 00005", email: null, courseName: course.title, experienceLevel: "Professional", source: "course_page", consent: false });
   });
 
+  test("the syllabus popup validates, stores a syllabus_download enquiry and starts the PDF download", async ({ page }) => {
+    const courses = await apiData<{ slug: string; title: string; category: { slug: string } }[]>("GET", "/courses", { auth: false });
+    const course = courses[0];
+    await page.goto(`/courses/${course.category.slug}/${course.slug}`);
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+
+    await page.getByRole("button", { name: "Download Syllabus" }).click();
+    const dialog = page.getByRole("dialog", { name: "Get the syllabus" });
+    await expect(dialog).toBeVisible();
+    await expect(dialog.locator("#syl-course")).toHaveValue(course.title);
+    await expect(dialog.locator("#syl-course")).toHaveAttribute("readonly", "");
+
+    // Only the four popup fields exist; all of them are required.
+    await expect(dialog.locator("input")).toHaveCount(4);
+    await dialog.getByRole("button", { name: "Download Syllabus" }).click();
+    await expect(dialog.getByText("Please enter your full name.")).toBeVisible();
+    await expect(dialog.getByText("Please enter your mobile number.")).toBeVisible();
+    await expect(dialog.getByText("Please enter your email address.")).toBeVisible();
+
+    const name = uniq(PREFIX);
+    await dialog.locator("#syl-fullName").fill(name);
+    await dialog.locator("#syl-mobile").fill("98765 00007");
+    await dialog.locator("#syl-email").fill("bad@");
+    await dialog.getByRole("button", { name: "Download Syllabus" }).click();
+    await expect(dialog.getByText("Enter a valid email address.")).toBeVisible();
+    expect(await findEnquiryByName(name)).toBeUndefined();
+
+    await dialog.locator("#syl-email").fill("Syllabus.Lead@Example.com");
+    const download = page.waitForEvent("download");
+    await dialog.getByRole("button", { name: "Download Syllabus" }).click();
+    // The dialog is renamed by its success heading once the enquiry is accepted.
+    const done = page.getByRole("dialog", { name: "Your syllabus is downloading" });
+    await expect(done.getByRole("status")).toContainText("Your syllabus is downloading");
+    expect((await download).suggestedFilename()).toBe(`${course.slug}-syllabus.pdf`);
+
+    const stored = await findEnquiryByName(name);
+    expect(stored).toMatchObject({ mobile: "98765 00007", email: "syllabus.lead@example.com", courseName: course.title, source: "syllabus_download", consent: false });
+
+    await done.getByRole("button", { name: "Done" }).click();
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+  });
+
   test("optional email in the course form is validated when provided", async ({ page }) => {
     // The sidebar form has no email field; the contact form treats a provided email strictly.
     await page.goto("/contact");

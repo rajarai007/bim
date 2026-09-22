@@ -14,6 +14,12 @@ import { formatReceivedAt, formatShortDate } from "@/lib/format";
 import type { Lead, LeadStatus, Pagination as PaginationData } from "@/types";
 import { cn } from "@/lib/utils";
 
+const sourceLabels: Record<Lead["source"], string> = {
+  contact_form: "Contact form",
+  course_page: "Course page form",
+  syllabus_download: "Syllabus download",
+};
+
 /* Column template shared by header and rows (matches Figma widths). */
 const gridCols =
   "grid grid-cols-[60px_160px_130px_180px_minmax(0,1fr)_130px_110px_80px] items-center gap-4 px-4";
@@ -229,7 +235,7 @@ export function LeadTable({
                           {lead.message ?? "No message submitted with this enquiry."}
                         </p>
                         <p className="font-sans text-12 leading-native text-muted">
-                          Source: {lead.source === "course_page" ? "Course page form" : "Contact form"} · Consent:{" "}
+                          Source: {sourceLabels[lead.source] ?? "Contact form"} · Consent:{" "}
                           {lead.consent ? "Given" : "Not given"}
                         </p>
                       </div>

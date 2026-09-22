@@ -175,6 +175,19 @@ describe("public API", () => {
       expect(rows[0].course_id).toBeGreaterThan(0);
     });
 
+    it("accepts the syllabus-download popup (name, mobile, email)", async () => {
+      const res = await api().post("/api/v1/enquiries").send({
+        fullName: "Syllabus Lead",
+        mobile: "9876543211",
+        email: "syllabus@example.com",
+        courseSlug: "revit-architecture",
+        source: "syllabus_download",
+      });
+      expect(res.status).toBe(201);
+      const { rows } = await pool.query(`SELECT source, course_name FROM enquiries WHERE id = $1`, [res.body.data.id]);
+      expect(rows[0]).toMatchObject({ source: "syllabus_download", course_name: expect.any(String) });
+    });
+
     it("accepts the compact course-page form (no email)", async () => {
       const res = await api().post("/api/v1/enquiries").send({
         fullName: "Sidebar Lead",
