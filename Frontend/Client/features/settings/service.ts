@@ -12,6 +12,22 @@ type ApiSettings = {
 
 const digits = (value: string) => value.replace(/[^0-9+]/g, "");
 
+/**
+ * A social URL with no path (e.g. "https://instagram.com") is the seeded
+ * placeholder rather than a profile, so the known account in `siteConfig`
+ * is used instead. Any real profile URL set in the admin console wins.
+ */
+function profileUrl(value: string | null, fallbackUrl: string): string | null {
+  if (!value) return fallbackUrl || null;
+  try {
+    const url = new URL(value);
+    if (url.pathname.replace(/\/+$/, "") === "" && !url.search) return fallbackUrl || null;
+  } catch {
+    return fallbackUrl || null;
+  }
+  return value;
+}
+
 function mapSettings(s: ApiSettings): SiteSettings {
   return {
     name: s.name,
@@ -24,7 +40,12 @@ function mapSettings(s: ApiSettings): SiteSettings {
       address: s.contact.address,
       hours: s.contact.hours,
     },
-    social: s.social,
+    social: {
+      instagram: profileUrl(s.social.instagram, siteConfig.social.instagram),
+      facebook: profileUrl(s.social.facebook, siteConfig.social.facebook),
+      linkedin: profileUrl(s.social.linkedin, siteConfig.social.linkedin),
+      youtube: profileUrl(s.social.youtube, siteConfig.social.youtube),
+    },
     gaMeasurementId: s.gaMeasurementId,
   };
 }
