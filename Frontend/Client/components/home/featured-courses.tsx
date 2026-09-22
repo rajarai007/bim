@@ -21,7 +21,7 @@ export function FeaturedCourses({ courses }: { courses: Course[] }) {
             badge={course.badge}
             description={course.description}
             image={course.image}
-            meta={{ kind: "text", label: "Offline Classes Only" }}
+            meta={{ kind: "text", label: "Offline & Online Classes" }}
           />
         ))}
       </div>

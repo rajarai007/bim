@@ -90,7 +90,7 @@ export function FeaturedCourseCard({
   description: string;
   image: ImageAsset;
   size?: "md" | "lg";
-  /** Right-hand meta: "Offline Classes Only" text (md) or duration w/ icon (lg). */
+  /** Right-hand meta: "Offline & Online Classes" text (md) or duration w/ icon (lg). */
   meta: { kind: "text"; label: string } | { kind: "duration"; label: string };
   /** Photo morphs into the course page hero on navigation. */
   morph?: boolean;
