@@ -45,7 +45,7 @@ export function Footer({ settings, categories }: { settings: SiteSettings; categ
           <div className="flex flex-col items-start gap-6">
             <FooterLogo />
             <p className="font-sans text-14 leading-body text-muted">
-              India&apos;s premier practical offline academy delivering precision education
+              India&apos;s premier practical offline &amp; online academy delivering precision education
               in BIM, structural modeling, MEP system planning, and realistic visual design.
             </p>
             <ul className="flex items-start gap-3">
@@ -121,7 +121,7 @@ export function Footer({ settings, categories }: { settings: SiteSettings; categ
           </p>
           <p className="hud-key flex items-center gap-2">
             <span className="hud-dot" />
-            Offline Technical Training Institute • New Delhi, India
+            Offline &amp; Online Technical Training Institute • New Delhi, India
           </p>
         </div>
       </Container>

@@ -3,7 +3,7 @@ export const siteConfig = {
   shortName: "BIM CAREER",
   tagline: "ACADEMY",
   description:
-    "India's premier offline training institute for BIM, Structural Design, MEP Design & Interior Design Software. Hands-on, career-focused training by industry experts.",
+    "India's premier offline & online training institute for BIM, Structural Design, MEP Design & Interior Design Software. Hands-on, career-focused training by industry experts.",
   contact: {
     phone: "+91 84487 65107",
     phoneHref: "tel:+918448765107",

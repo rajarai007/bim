@@ -15,7 +15,7 @@ function buildRows(contact: SiteSettings["contact"]): Row[] {
       icon: <MapPin className="size-4" aria-hidden />,
     },
     {
-      label: "OFFLINE ADMISSIONS HELPLINE",
+      label: "OFFLINE & ONLINE ADMISSIONS HELPLINE",
       value: contact.phone,
       href: contact.phoneHref,
       tone: "bg-accent-soft text-accent",

@@ -32,7 +32,7 @@ export default async function ProjectsPage() {
       <FinalCta
         variant="outline"
         title="Ready to build your own portfolio?"
-        description="Work on real building assets, clash coordination and rendering runs in our offline workstation lab. Talk to our admissions counselors today."
+        description="Work on real building assets, clash coordination and rendering runs in our offline & online workstation lab. Talk to our admissions counselors today."
       />
     </PageTransition>
   );

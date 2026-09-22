@@ -99,7 +99,7 @@ export const whyChooseUs: Feature[] = [
     id: "professional-environment",
     title: "Professional Environment",
     description:
-      "Highly collaborative offline classroom system designed to mirror physical engineering offices.",
+      "Highly collaborative offline & online classroom system designed to mirror physical engineering offices.",
     icon: Shield,
   },
 ];
@@ -159,7 +159,7 @@ export const careerJourney: JourneyStep[] = [
     step: "02",
     title: "Practice",
     description:
-      "Intense offline laboratory sessions working on design coordination software.",
+      "Intense offline & online laboratory sessions working on design coordination software.",
   },
   {
     step: "03",
@@ -176,7 +176,7 @@ export const careerJourney: JourneyStep[] = [
 ];
 
 export const aboutBullets = [
-  "Project-Based Offline Classrooms",
+  "Project-Based Offline & Online Classrooms",
   "Certified Trainers with Decades of Site Experience",
   "Advanced BIM Lab Infrastructure",
 ] as const;
@@ -195,6 +195,6 @@ export const founderMessage = {
     "We don't train you to pass a software exam. We train you to hold your own on a live project from week one.",
   paragraphs: [
     "BIM Career Academy started with a problem I kept running into on live AEC projects: graduates who knew the commands but had never seen a clash report, an LOD schedule or a BIM Execution Plan. The software was never the gap. The process was.",
-    "So we built the academy the way a coordination studio actually runs. Offline batches, capped seats, real project files, and trainers who still work on site. You leave with a portfolio and a workflow you can defend in an interview, not just a certificate.",
+    "So we built the academy the way a coordination studio actually runs. Offline and online batches, capped seats, real project files, and trainers who still work on site. You leave with a portfolio and a workflow you can defend in an interview, not just a certificate.",
   ],
 } as const;

@@ -27,7 +27,7 @@ export function AboutPreview() {
             <span className="glass glass-edge hud hud-float">
               <span className="hud-dot" />
               <span className="hud-key">Mode</span>
-              <span className="hud-value">Offline Lab</span>
+              <span className="hud-value">Offline &amp; Online</span>
             </span>
           </div>
           <div data-depth="0.8" className="absolute right-5 bottom-5">

@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return getPageMetadata("/about", {
     title: "About Us",
     description:
-      "BIM Career Academy delivers practical, industry-aligned offline training in BIM, structural, MEP and interior design software.",
+      "BIM Career Academy delivers practical, industry-aligned offline & online training in BIM, structural, MEP and interior design software.",
   });
 }
 
