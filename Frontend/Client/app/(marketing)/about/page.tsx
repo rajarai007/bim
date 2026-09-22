@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AboutCta } from "@/components/about/about-cta";
+import { FounderMessage } from "@/components/about/founder-message";
 import { IntroSection } from "@/components/about/intro-section";
 import { PhilosophySection } from "@/components/about/philosophy-section";
 import { StrengthsSection } from "@/components/about/strengths-section";
@@ -24,6 +25,7 @@ export default function AboutPage() {
         crumbs={[{ label: "Home", href: routes.home }, { label: "About Us" }]}
       />
       <IntroSection />
+      <FounderMessage />
       <PhilosophySection />
       <StrengthsSection />
       <AboutCta />
