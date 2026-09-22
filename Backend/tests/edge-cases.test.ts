@@ -228,7 +228,7 @@ describe("constraints and visibility", () => {
     expect((await post({ ...base, status: "live" })).status).toBe(422);
     const minimal = await post(base);
     expect(minimal.status).toBe(201);
-    expect(minimal.body.data).toMatchObject({ status: "draft", trainingMode: "Offline Lab", isFeatured: false, outcomes: [], syllabus: [] });
+    expect(minimal.body.data).toMatchObject({ status: "draft", trainingMode: "Offline & Online", isFeatured: false, outcomes: [], syllabus: [] });
     await api().delete(`/api/v1/admin/courses/${minimal.body.data.id}`).set(auth);
   });
 });

@@ -50,7 +50,7 @@ function bodyFromForm(formData: FormData, syllabus: SyllabusModule[]) {
     software: text(formData, "software"),
     careers: text(formData, "careers"),
     durationWeeks: Number(text(formData, "duration")),
-    trainingMode: text(formData, "mode") || "Offline Lab",
+    trainingMode: text(formData, "mode") || "Offline & Online",
     batchLocation: text(formData, "location") || null,
     imageUrl: text(formData, "imageUrl") || null,
     imageAlt: text(formData, "imageAlt") || null,

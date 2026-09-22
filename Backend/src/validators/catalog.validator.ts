@@ -26,7 +26,7 @@ export const syllabusModuleSchema = z.object({
 });
 
 export const courseStatuses = ["active", "draft", "inactive"] as const;
-export const trainingModes = ["Offline Lab", "Hybrid (Online + Offline)", "Online Live"] as const;
+export const trainingModes = ["Offline & Online", "Offline Lab", "Online Live"] as const;
 
 export const courseBodySchema = z.object({
   categoryId: z.coerce.number().int().positive({ message: "Category is required" }),
@@ -41,7 +41,7 @@ export const courseBodySchema = z.object({
   software: stringList,
   careers: stringList,
   durationWeeks: z.coerce.number().int().min(1, "Duration is required").max(104),
-  trainingMode: z.string().trim().min(1).max(60).default("Offline Lab"),
+  trainingMode: z.string().trim().min(1).max(60).default("Offline & Online"),
   batchLocation: optionalText(160),
   imageUrl: optionalUrl(),
   imageAlt: optionalText(255),

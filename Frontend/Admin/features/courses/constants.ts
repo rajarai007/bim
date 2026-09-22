@@ -8,4 +8,4 @@ export const durationOptions = [
   { weeks: 16, label: "16 Weeks (4 Months)" },
 ] as const;
 
-export const trainingModes = ["Offline Lab", "Hybrid (Online + Offline)", "Online Live"] as const;
+export const trainingModes = ["Offline & Online", "Offline Lab", "Online Live"] as const;

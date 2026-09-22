@@ -187,11 +187,11 @@ export const courses: SeedCourse[] = [
     ],
     software: ["Autodesk Revit", "Navisworks Manage", "AutoCAD 2D"],
     careers: ["BIM Modeler", "Revit Specialist", "BIM Coordinator", "Architectural Drafter", "Design Modeler"],
-    trainingMode: "Offline Lab",
+    trainingMode: "Offline & Online",
     batchLocation: "Okhla Center",
     metaTitle: "Revit Architecture Mastery Course | BIM Career Academy",
     metaDescription:
-      "Master Autodesk Revit Architecture from basics to advanced BIM modeling with hands-on offline training in New Delhi.",
+      "Master Autodesk Revit Architecture from basics to advanced BIM modeling with hands-on offline & online training in New Delhi.",
   },
   {
     slug: "revit-structure",
@@ -588,7 +588,7 @@ export const testimonials: SeedTestimonial[] = [
     name: "Anjali Gupta",
     program: "Revit Architecture & BIM Mastery Graduate",
     quote:
-      "BIM Career Academy changed the trajectory of my design capabilities. The offline practical approach made Navisworks coordination extremely clear. Highly recommended!",
+      "BIM Career Academy changed the trajectory of my design capabilities. The offline & online practical approach made Navisworks coordination extremely clear. Highly recommended!",
     rating: 5,
     avatarUrl: "/images/person-05.png",
     status: "published",
@@ -730,7 +730,7 @@ export const faqs: SeedFaq[] = [
     category: "general",
     question: "Is the training online or offline?",
     answer:
-      "All our primary training programs are strictly offline, conducted in our advanced workstation lab at Okhla, New Delhi. This hands-on offline approach ensures students can successfully collaborate on real-world engineering coordination files, mimic actual architectural office interactions, and clear industry tests.",
+      "Both. We run offline batches in our advanced workstation lab at Okhla, New Delhi, and live online batches for students who cannot attend in person. Either way the training is hands-on: you work on real-world engineering coordination files, mirror actual architectural office interactions, and prepare for industry tests.",
   },
   {
     category: "general",
@@ -796,7 +796,7 @@ export const faqs: SeedFaq[] = [
     category: "practicalities",
     question: "Is the training completely offline?",
     answer:
-      "Yes, our modules require heavy collaborative design coordination, clash analysis, and workstation workflows that can only be successfully taught in a physical engineering office style lab.",
+      "No \u2014 we run both offline and online batches. Our modules involve heavy collaborative design coordination, clash analysis and workstation workflows. Offline students work through these in our physical engineering-office-style lab; online students cover the same material in live, instructor-led sessions with guided screen-shared coordination.",
     showOnHome: true,
   },
   {
@@ -848,7 +848,7 @@ export const pages = [
     sectionCount: 12,
     metaTitle: "BIM Career Academy — Build Your Career in BIM & Design Technology",
     metaDescription:
-      "India's premier offline training institute for BIM, Structural Design, MEP Design & Interior Design Software.",
+      "India's premier offline & online training institute for BIM, Structural Design, MEP Design & Interior Design Software.",
   },
   {
     path: "/courses",
@@ -864,7 +864,7 @@ export const pages = [
     sectionCount: 5,
     metaTitle: "About Us | BIM Career Academy",
     metaDescription:
-      "Practical, industry-aligned offline training in BIM, structural, MEP and interior design software.",
+      "Practical, industry-aligned offline & online training in BIM, structural, MEP and interior design software.",
   },
   {
     path: "/contact",
