@@ -9,6 +9,13 @@ describe("public API", () => {
     expect(res.body.data.database).toBe("connected");
   });
 
+  it("GET /health/live answers without touching the database", async () => {
+    const res = await api().get("/health/live");
+    expect(res.status).toBe(200);
+    expect(res.body.data.status).toBe("ok");
+    expect(res.body.data).not.toHaveProperty("database");
+  });
+
   it("returns 404 in the standard envelope for unknown routes", async () => {
     const res = await api().get("/api/v1/does-not-exist");
     expect(res.status).toBe(404);

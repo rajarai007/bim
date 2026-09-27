@@ -5,8 +5,9 @@
 # The frontends deploy separately on Netlify; only the API lives here.
 #
 # Free-tier notes:
-#  - The instance sleeps after 15 min idle; .github/workflows/keep-alive.yml pings
-#    /health every 10 min so visitors never wait for a cold start.
+#  - The instance sleeps after 15 min idle and takes ~35 s to wake. A Netlify scheduled
+#    function (Frontend/Client/netlify/functions/keep-api-awake.mts) pings /health/live
+#    every 10 min; .github/workflows/keep-alive.yml is a best-effort backup.
 #  - The filesystem is ephemeral, so uploads are stored in Postgres (UPLOAD_STORAGE=db).
 services:
   - type: web
@@ -17,7 +18,9 @@ services:
     rootDir: Backend
     buildCommand: npm ci --include=dev && npm run build
     startCommand: npm run db:migrate:prod && npm run db:seed:prod && npm start
-    healthCheckPath: /health
+    # Liveness only: /health runs a query, and Render checks every few seconds while the
+    # instance is up, which would keep the Neon compute from ever suspending.
+    healthCheckPath: /health/live
     envVars:
       - key: NODE_VERSION
         value: "22"
