@@ -46,7 +46,7 @@ export function Footer({ settings, categories }: { settings: SiteSettings; categ
             <FooterLogo />
             <p className="font-sans text-14 leading-body text-muted">
               India&apos;s premier practical offline &amp; online academy delivering precision education
-              in BIM, structural modeling, MEP system planning, and realistic visual design.
+              in BIM, structural modeling, MEP system planning, and multidisciplinary BIM coordination.
             </p>
             <ul className="flex items-start gap-3">
               {socials.map(({ label, href, Icon }) => (

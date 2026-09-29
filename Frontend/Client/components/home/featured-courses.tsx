@@ -2,6 +2,7 @@ import { FeaturedCourseCard } from "@/components/courses/course-card";
 import { Section } from "@/components/layout/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { routes } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 import type { Course } from "@/types";
 
 export function FeaturedCourses({ courses }: { courses: Course[] }) {
@@ -12,7 +13,14 @@ export function FeaturedCourses({ courses }: { courses: Course[] }) {
         badgeTone="primary"
         title="Featured Architectural Engineering Courses"
       />
-      <div data-reveal-stagger="up" className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+      {/* Four courses fill one row on wide screens instead of leaving one orphaned under three. */}
+      <div
+        data-reveal-stagger="up"
+        className={cn(
+          "grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8",
+          courses.length === 4 ? "xl:grid-cols-4" : "lg:grid-cols-3",
+        )}
+      >
         {courses.map((course) => (
           <FeaturedCourseCard
             key={course.slug}

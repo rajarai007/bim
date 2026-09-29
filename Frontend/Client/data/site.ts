@@ -14,19 +14,11 @@ import {
 import type { Feature, JourneyStep } from "@/types";
 
 export const softwareList = [
+  "Revit Architecture",
+  "Revit Structure",
+  "Revit MEP",
+  "Navisworks Manage",
   "AutoCAD",
-  "Revit",
-  "Navisworks",
-  "STAAD.Pro",
-  "ETABS",
-  "SAFE",
-  "Tekla",
-  "SketchUp",
-  "3ds Max",
-  "Enscape",
-  "V-Ray",
-  "Lumion",
-  "Photoshop",
 ] as const;
 
 /**

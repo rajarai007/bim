@@ -5,6 +5,12 @@ import { Tag } from "@/components/ui/chip";
 import { Divider } from "@/components/ui/divider";
 import type { Trainer } from "@/types";
 
+/**
+ * Width of one trainer column inside a `flex flex-wrap gap-6 lg:gap-8` row:
+ * matches a 1 / 2 / 4-column grid while letting a short last row center.
+ */
+export const trainerColumn = "w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-24px)]";
+
 /** Full trainer card used on the Trainers page. */
 export function TrainerCard({ trainer }: { trainer: Trainer }) {
   return (
