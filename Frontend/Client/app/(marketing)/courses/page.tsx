@@ -9,7 +9,7 @@ import { PageTransition } from "@/components/motion/page-transition";
 
 const defaults = {
   title: "Courses",
-  description: "Explore our comprehensive range of BIM, Structural, MEP & Interior Design training programs.",
+  description: "Explore our comprehensive range of BIM, Structural & MEP training programs.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -32,7 +32,7 @@ export default async function CoursesPage() {
     <PageTransition>
       <PageBanner
         title="Our Courses"
-        description="Explore our comprehensive range of BIM, Structural, MEP & Interior Design training programs"
+        description="Explore our comprehensive range of BIM, Structural & MEP training programs"
         glyph="wide"
         crumbs={[{ label: "Home", href: routes.home }, { label: "Courses" }]}
       />
