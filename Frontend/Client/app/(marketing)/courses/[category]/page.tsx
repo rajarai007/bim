@@ -6,7 +6,7 @@ import { CourseDurationTable } from "@/components/courses/course-duration-table"
 import { PageBanner } from "@/components/layout/page-banner";
 import { Section } from "@/components/layout/section";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { getCategoryBySlug, getCoursesByCategory } from "@/features/courses/service";
+import { getCategories, getCategoryBySlug, getCoursesByCategory } from "@/features/courses/service";
 import { routes } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { PageTransition } from "@/components/motion/page-transition";
@@ -26,6 +26,11 @@ function trailingSpan(index: number, total: number): string {
   const remainder = total % 4;
   const inLastRow = remainder > 1 && index >= total - remainder;
   return spanClasses[inLastRow ? 12 / remainder : 3];
+}
+
+/** Prerender every category at build; ones added later render on first visit, then cache. */
+export async function generateStaticParams() {
+  return (await getCategories()).map((category) => ({ category: category.slug }));
 }
 
 export async function generateMetadata({

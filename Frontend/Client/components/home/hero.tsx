@@ -90,26 +90,24 @@ export function Hero() {
           data-scroll="recede"
           className="flex w-full max-w-[680px] flex-col items-start gap-6 md:gap-8"
         >
-          <div data-reveal="left">
+          <div data-enter="left">
             <Badge>AEC Industry Specialization</Badge>
           </div>
           <h1
-            data-reveal="words"
-            data-reveal-delay="1"
-            className="font-heading text-36 font-medium leading-hero text-heading md:text-48 xl:text-56"
+            data-enter="words"
+            className="font-heading text-36 font-medium leading-hero text-heading md:text-48 xl:text-56 [--enter-delay:80ms]"
           >
             <SplitWords text="Build Your Career in BIM & Design Technology" />
           </h1>
           <p
-            data-reveal="up"
-            data-reveal-delay="5"
-            className="font-sans text-16 leading-body text-body md:text-18"
+            data-enter="up"
+            className="font-sans text-16 leading-body text-body md:text-18 [--enter-delay:250ms]"
           >
             {siteConfig.description}
           </p>
           <div
-            data-reveal-stagger="up"
-            className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-start sm:gap-4 [--stagger-offset:650ms]"
+            data-enter-stagger="up"
+            className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-start sm:gap-4 [--stagger-offset:350ms]"
           >
             <Button href={routes.courses} size="lg">
               <Layers className="size-4 transition-transform duration-300 ease-brand group-hover/btn:rotate-12" aria-hidden />
@@ -119,7 +117,7 @@ export function Hero() {
               Enquire Now
             </Button>
           </div>
-          <div data-reveal="fade" data-reveal-delay="8" className="draw-in mt-2 hidden w-full max-w-[420px] sm:block">
+          <div data-enter="fade" className="draw-in mt-2 hidden w-full max-w-[420px] sm:block [--enter-delay:500ms]">
             <div className="dim-line" />
           </div>
         </div>

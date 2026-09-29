@@ -3,6 +3,7 @@ import multer from "multer";
 import { adminController } from "../controllers/admin.controller";
 import { env } from "../config/env";
 import { requireAdmin } from "../middleware/auth";
+import { revalidateSiteOnWrite } from "../middleware/revalidate-site";
 import { validate } from "../middleware/validate";
 import {
   adminCourseListQuery,
@@ -27,6 +28,7 @@ const upload = multer({
 /** Everything under /admin requires a signed-in admin. */
 export const adminRoutes = Router();
 adminRoutes.use(requireAdmin);
+adminRoutes.use(revalidateSiteOnWrite);
 
 adminRoutes.get("/dashboard", adminController.dashboard);
 

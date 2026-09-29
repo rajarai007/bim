@@ -40,24 +40,23 @@ export function PageBanner({
       <DraftingMarks variant="banner" />
       <Container className={cn("relative flex flex-col items-start py-12 md:py-16 xl:py-20", description ? "gap-5" : "gap-4")}>
         <h1
-          data-reveal="words"
+          data-enter="words"
           className="font-heading text-32 font-medium leading-native text-heading md:text-40 xl:text-48"
         >
           <SplitWords text={title} />
         </h1>
-        <div aria-hidden data-reveal="fade" data-reveal-delay="2" className="draw-in w-full max-w-[220px]">
+        <div aria-hidden data-enter="fade" className="draw-in w-full max-w-[220px] [--enter-delay:150ms]">
           <div className="dim-line" />
         </div>
         {description ? (
           <p
-            data-reveal="up"
-            data-reveal-delay="3"
-            className="max-w-[1120px] font-sans text-16 leading-normal text-body md:text-18"
+            data-enter="up"
+            className="max-w-[1120px] font-sans text-16 leading-normal text-body md:text-18 [--enter-delay:200ms]"
           >
             {description}
           </p>
         ) : null}
-        <div data-reveal="up" data-reveal-delay="4" className="glass glass-edge inline-flex rounded-md px-3.5 py-2">
+        <div data-enter="up" className="glass glass-edge inline-flex rounded-md px-3.5 py-2 [--enter-delay:280ms]">
           <Breadcrumb items={crumbs} glyph={glyph} />
         </div>
       </Container>

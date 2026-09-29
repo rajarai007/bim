@@ -17,8 +17,12 @@ const figtree = Figtree({
   display: "swap",
 });
 
-/** Content is managed in the admin console, so every page renders fresh data on request. */
-export const dynamic = "force-dynamic";
+/**
+ * Pages are prerendered and served from the CDN; each is regenerated in the
+ * background at most once a minute (and immediately after admin edits, see
+ * app/api/revalidate). Must match CONTENT_REVALIDATE_SECONDS in lib/api.ts.
+ */
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: {

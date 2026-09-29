@@ -14,12 +14,17 @@ import { SplitWords } from "@/components/motion/split-words";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Pill, SoftwareChip } from "@/components/ui/chip";
-import { getCourseBySlug } from "@/features/courses/service";
+import { getCourseBySlug, getCourses } from "@/features/courses/service";
 import { getSiteSettings } from "@/features/settings/service";
 import { routes } from "@/lib/constants";
 import { PageTransition } from "@/components/motion/page-transition";
 
 type Props = PageProps<"/courses/[category]/[slug]">;
+
+/** Prerender every active course at build; ones added later render on first visit, then cache. */
+export async function generateStaticParams() {
+  return (await getCourses()).map((course) => ({ category: course.category.slug, slug: course.slug }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category: categorySlug, slug } = await params;
@@ -46,7 +51,7 @@ export default async function CoursePage({ params }: Props) {
 
   return (
     <PageTransition>
-      <Container className="pt-6" data-reveal="fade">
+      <Container className="pt-6" data-enter="fade">
         <Breadcrumb
           glyph="wide"
           items={[
@@ -64,23 +69,22 @@ export default async function CoursePage({ params }: Props) {
         containerClassName="flex flex-col items-center gap-10 lg:flex-row lg:gap-16"
       >
         <div className="flex w-full min-w-0 flex-col items-start gap-6 md:gap-8 lg:flex-1">
-          <div data-reveal="left">
+          <div data-enter="left">
             <Badge tone="primary">{category.name}</Badge>
           </div>
           <h1
-            data-reveal="words"
-            data-reveal-delay="1"
-            className="font-heading text-32 font-medium leading-native text-heading md:text-40 xl:text-48"
+            data-enter="words"
+            className="font-heading text-32 font-medium leading-native text-heading md:text-40 xl:text-48 [--enter-delay:80ms]"
           >
             <SplitWords text={detail.heroTitle} />
           </h1>
-          <p data-reveal="up" data-reveal-delay="4" className="font-sans text-16 leading-body text-muted">
+          <p data-enter="up" className="font-sans text-16 leading-body text-muted [--enter-delay:250ms]">
             {detail.heroDescription}
           </p>
           {/* Key facts as a viewer-style spec strip. */}
           <dl
-            data-reveal-stagger="scale"
-            className="flex w-full flex-wrap items-start gap-3 leading-native [--stagger-offset:500ms]"
+            data-enter-stagger="scale"
+            className="flex w-full flex-wrap items-start gap-3 leading-native [--stagger-offset:300ms]"
           >
             {meta.map(([label, value], index) => (
               <div
@@ -99,8 +103,8 @@ export default async function CoursePage({ params }: Props) {
             ))}
           </dl>
           <div
-            data-reveal-stagger="up"
-            className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-start sm:gap-4 [--stagger-offset:750ms]"
+            data-enter-stagger="up"
+            className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-start sm:gap-4 [--stagger-offset:420ms]"
           >
             <Button href={routes.contact} size="lg">
               Enquire Now

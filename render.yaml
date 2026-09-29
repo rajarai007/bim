@@ -38,6 +38,11 @@ services:
         value: https://bimcareeracademy.com,https://www.bimcareeracademy.com,https://admin.bimcareeracademy.com
       - key: ADMIN_URL
         value: https://admin.bimcareeracademy.com
+      # Admin edits expire the public site's page cache (same secret on Netlify).
+      - key: SITE_REVALIDATE_URL
+        value: https://bimcareeracademy.com/api/revalidate
+      - key: REVALIDATE_SECRET
+        sync: false
       - key: DATABASE_URL
         sync: false
       - key: JWT_SECRET

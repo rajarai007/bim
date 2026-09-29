@@ -1,8 +1,15 @@
 /**
- * Server-side HTTP client for the BIM backend. Every page/service fetches
- * fresh data (`no-store`) so admin edits are reflected immediately.
+ * Server-side HTTP client for the BIM backend. Reads are cached (ISR): pages
+ * are prerendered and served from the CDN, then regenerated in the background
+ * at most every `CONTENT_REVALIDATE_SECONDS`, so visitors never wait on the API.
+ * Admin edits expire the cache right away through `/api/revalidate`.
  */
 export const API_URL = (process.env.API_INTERNAL_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000").replace(/\/$/, "");
+
+/** Keep in sync with `revalidate` in app/layout.tsx (route config must be a literal). */
+export const CONTENT_REVALIDATE_SECONDS = 60;
+/** Cache tag on every API read; `/api/revalidate` expires it after admin edits. */
+export const CONTENT_CACHE_TAG = "api";
 
 export type FieldError = { field: string; message: string };
 
@@ -53,10 +60,15 @@ export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise
 }
 
 async function request<T>(path: string, init: RequestInit): Promise<T> {
+  const method = (init.method ?? "GET").toUpperCase();
+  const caching: RequestInit =
+    method === "GET" || method === "HEAD"
+      ? { next: { revalidate: CONTENT_REVALIDATE_SECONDS, tags: [CONTENT_CACHE_TAG] } }
+      : { cache: "no-store" };
   let res: Response;
   try {
     res = await fetch(`${API_URL}/api/v1${path}`, {
-      cache: "no-store",
+      ...caching,
       ...init,
       headers: { Accept: "application/json", ...(init.body ? { "Content-Type": "application/json" } : {}), ...init.headers },
     });

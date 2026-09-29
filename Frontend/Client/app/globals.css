@@ -349,6 +349,44 @@ body {
   }
 }
 
+/* ---- First-paint entrances ----------------------------------------------- */
+/* Above-the-fold content (home hero, page banners, course hero) must never
+   wait for JavaScript: `data-enter` plays the same motion as `data-reveal`, but
+   from CSS alone, starting the moment the page paints. No observer, no hidden
+   state beyond each animation's own `backwards` fill, so it cannot get stuck.
+
+     data-enter="up|left|fade|scale|words"   (+ optional [--enter-delay:120ms])
+     data-enter-stagger="up|scale"           (children cascade 70ms apart,
+                                              starting at --stagger-offset)   */
+@media (prefers-reduced-motion: no-preference) {
+  [data-enter],
+  [data-enter-stagger] > * {
+    animation: reveal-up 700ms var(--ease-brand) backwards;
+    animation-delay: var(--enter-delay, 0ms);
+  }
+  [data-enter="left"] { animation-name: reveal-left; }
+  [data-enter="fade"] { animation-name: reveal-fade; }
+  :is([data-enter="scale"], [data-enter-stagger="scale"] > *) { animation-name: reveal-scale; }
+
+  [data-enter-stagger] > * { --enter-delay: var(--stagger-offset, 0ms); }
+  [data-enter-stagger] > :nth-child(2) { --enter-delay: calc(var(--stagger-offset, 0ms) + 70ms); }
+  [data-enter-stagger] > :nth-child(3) { --enter-delay: calc(var(--stagger-offset, 0ms) + 140ms); }
+  [data-enter-stagger] > :nth-child(n + 4) { --enter-delay: calc(var(--stagger-offset, 0ms) + 210ms); }
+
+  [data-enter="words"] { animation: none; }
+  [data-enter="words"] .word-mask { perspective: 600px; }
+  [data-enter="words"] .word {
+    transform-origin: 50% 100%;
+    animation: word-rise 800ms var(--ease-brand) backwards;
+    animation-delay: calc(var(--enter-delay, 0ms) + var(--word-index, 0) * 40ms);
+  }
+
+  .draw-in[data-enter] .dim-line {
+    animation: draw-in 1100ms var(--ease-out-expo) backwards;
+    animation-delay: calc(var(--enter-delay, 0ms) + 150ms);
+  }
+}
+
 /* ---- Keyframes ----------------------------------------------------------- */
 @keyframes reveal-up {
   from { opacity: 0; transform: translateY(28px); }

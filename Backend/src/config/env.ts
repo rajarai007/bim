@@ -40,6 +40,13 @@ const schema = z.object({
 
   /** Origin of the admin console — used to build password-reset links. */
   ADMIN_URL: z.string().url().default("http://localhost:3001"),
+  /** Public site endpoint that expires its page cache after admin edits (Client app/api/revalidate). */
+  SITE_REVALIDATE_URL: z.preprocess((v) => (v === "" ? undefined : v), z.string().url().optional()),
+  /** Shared with the public site's REVALIDATE_SECRET. */
+  REVALIDATE_SECRET: z.preprocess(
+    (v) => (v === "" ? undefined : v),
+    z.string().min(16, "REVALIDATE_SECRET must be at least 16 characters").optional(),
+  ),
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.coerce.number().int().positive().default(587),
   SMTP_SECURE: booleanFromString,
