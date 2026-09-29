@@ -18,7 +18,7 @@ export function CategoryCard({ category }: { category: Category }) {
       <span className="relative flex size-12 items-center justify-center rounded-md bg-accent-soft text-accent transition-[scale,rotate,box-shadow,translate] duration-400 ease-brand group-hover:-translate-y-1 group-hover:-rotate-6 group-hover:scale-110 group-hover:shadow-[0_0_0_6px_var(--color-accent-soft)]">
         <CategoryIcon icon={category.icon} className="size-6 transition-transform duration-400 ease-brand group-hover:rotate-6" />
       </span>
-      <h3 className="relative w-full font-heading text-20 font-bold leading-native text-heading">
+      <h3 className="relative w-full font-heading text-20 font-semibold leading-native text-heading">
         <Link href={href} className="transition-colors hover:text-accent">
           {category.name}
         </Link>
@@ -26,7 +26,7 @@ export function CategoryCard({ category }: { category: Category }) {
       <p className="relative w-full font-sans text-14 leading-normal text-muted">{category.summary}</p>
       <Link
         href={href}
-        className="group/link relative mt-auto flex items-center gap-1 font-sans text-13 font-bold leading-native text-primary transition-colors hover:text-[#ff6b36]"
+        className="group/link relative mt-auto flex items-center gap-1 font-sans text-13 font-semibold leading-native text-primary transition-colors hover:text-[#ff6b36]"
       >
         Explore Domain
         <ChevronRight

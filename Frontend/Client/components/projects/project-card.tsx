@@ -27,7 +27,7 @@ export function ProjectCard({ project }: { project: Project }) {
         <div className="flex w-full items-center justify-between">
           <Badge size="sm">{category.badge}</Badge>
         </div>
-        <h3 className="w-full font-heading text-18 font-extrabold leading-native text-heading">
+        <h3 className="w-full font-heading text-18 font-semibold leading-native text-heading">
           {project.title}
         </h3>
         <p className="w-full font-sans text-13 leading-normal text-muted">{project.description}</p>
@@ -67,10 +67,10 @@ export function ProjectShowcaseCard({ project }: { project: Project }) {
         <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-brand group-hover:opacity-100" />
       </div>
       <div className="flex w-full items-start gap-3 p-5 leading-native">
-        <span className="font-sans text-11 font-bold uppercase text-accent whitespace-nowrap transition-transform duration-300 ease-brand group-hover:-translate-y-0.5">
+        <span className="font-sans text-11 font-semibold uppercase text-accent whitespace-nowrap transition-transform duration-300 ease-brand group-hover:-translate-y-0.5">
           {project.category.badge}
         </span>
-        <h3 className="min-w-0 flex-1 font-heading text-16 font-bold text-heading">
+        <h3 className="min-w-0 flex-1 font-heading text-16 font-semibold text-heading">
           {project.title}
         </h3>
       </div>

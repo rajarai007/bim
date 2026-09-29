@@ -121,7 +121,7 @@ export function FeaturedCourseCard({
         </div>
         <h3
           className={cn(
-            "w-full font-heading font-extrabold leading-native text-heading",
+            "w-full font-heading font-semibold leading-native text-heading",
             lg ? "text-22" : "text-20",
           )}
         >
@@ -172,7 +172,7 @@ export function CompactCourseCard({
         morph={morph}
       />
       <div className="flex flex-1 flex-col items-start gap-3 p-5">
-        <h3 className="w-full truncate font-heading text-16 font-extrabold leading-native text-heading">
+        <h3 className="w-full truncate font-heading text-16 font-semibold leading-native text-heading">
           <Link href={href} className="transition-colors hover:text-primary">
             {title}
           </Link>
@@ -182,7 +182,7 @@ export function CompactCourseCard({
         </p>
         <Link
           href={href}
-          className="group/link mt-auto flex items-center gap-1 font-sans text-13 font-bold leading-native text-primary transition-colors hover:text-[#ff6b36]"
+          className="group/link mt-auto flex items-center gap-1 font-sans text-13 font-semibold leading-native text-primary transition-colors hover:text-[#ff6b36]"
         >
           View Details
           <ChevronWide
@@ -223,7 +223,7 @@ export function StandardCourseCard({
         morph={morph}
       />
       <div className="flex flex-1 flex-col items-start gap-4 p-5">
-        <h3 className="w-full truncate font-heading text-18 font-extrabold leading-native text-heading">
+        <h3 className="w-full truncate font-heading text-18 font-semibold leading-native text-heading">
           <Link href={href} className="transition-colors hover:text-primary">
             {title}
           </Link>
@@ -239,7 +239,7 @@ export function StandardCourseCard({
         <div className="flex w-full items-center justify-between gap-3">
           <Link
             href={href}
-            className="group/link flex items-center gap-1 font-sans text-13 font-bold leading-native text-primary transition-colors hover:text-[#ff6b36]"
+            className="group/link flex items-center gap-1 font-sans text-13 font-semibold leading-native text-primary transition-colors hover:text-[#ff6b36]"
           >
             View Details
             <ChevronWide

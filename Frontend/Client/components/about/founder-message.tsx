@@ -47,10 +47,10 @@ export function FounderMessage() {
             className="flex min-w-0 flex-1 flex-col items-start gap-6 p-8 md:p-10 lg:justify-center lg:p-12 xl:p-14 [--stagger-offset:200ms]"
           >
             <Badge>Leadership</Badge>
-            <h2 className="font-heading text-28 font-extrabold leading-native text-heading md:text-32 xl:text-36">
+            <h2 className="font-heading text-28 font-semibold leading-native text-heading md:text-32 xl:text-36">
               A Message From Our Founder
             </h2>
-            <blockquote className="relative w-full pl-8 font-heading text-18 font-bold leading-body text-heading md:text-20">
+            <blockquote className="relative w-full pl-8 font-heading text-18 font-semibold leading-body text-heading md:text-20">
               <Quote
                 className="absolute top-0.5 left-0 size-5 shrink-0 text-accent"
                 aria-hidden
@@ -64,10 +64,10 @@ export function FounderMessage() {
             ))}
             <Divider />
             <div className="flex w-full flex-col gap-1">
-              <p className="font-heading text-18 font-extrabold leading-native text-heading">
+              <p className="font-heading text-18 font-semibold leading-native text-heading">
                 {founderMessage.name}
               </p>
-              <p className="font-sans text-13 font-bold leading-native text-primary">
+              <p className="font-sans text-13 font-semibold leading-native text-primary">
                 {founderMessage.role}, {siteConfig.name}
               </p>
             </div>

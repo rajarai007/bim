@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const h2 =
-  "font-heading text-24 font-extrabold leading-native text-heading xl:text-28";
+  "font-heading text-24 font-semibold leading-native text-heading xl:text-28";
 
 export default async function CoursePage({ params }: Props) {
   const { category: categorySlug, slug } = await params;
@@ -70,7 +70,7 @@ export default async function CoursePage({ params }: Props) {
           <h1
             data-reveal="words"
             data-reveal-delay="1"
-            className="font-heading text-32 font-black leading-native text-heading md:text-40 xl:text-48"
+            className="font-heading text-32 font-medium leading-native text-heading md:text-40 xl:text-48"
           >
             <SplitWords text={detail.heroTitle} />
           </h1>
@@ -92,7 +92,7 @@ export default async function CoursePage({ params }: Props) {
                   <span className="hud-dot" data-tone={index % 2 ? "primary" : undefined} />
                   {label}
                 </dt>
-                <dd className="font-heading text-15 font-extrabold text-heading">
+                <dd className="font-heading text-15 font-semibold text-heading">
                   {value}
                 </dd>
               </div>
@@ -172,7 +172,7 @@ export default async function CoursePage({ params }: Props) {
 
           {detail.software.length ? (
             <div className="flex w-full flex-col gap-5">
-              <h2 data-reveal="up" className="font-heading text-24 font-extrabold leading-native text-heading">
+              <h2 data-reveal="up" className="font-heading text-24 font-semibold leading-native text-heading">
                 Software Covered
               </h2>
               <ul data-reveal-stagger="scale" className="flex w-full flex-wrap gap-3 [--stagger-step:50ms]">
@@ -189,7 +189,7 @@ export default async function CoursePage({ params }: Props) {
             <div data-reveal-stagger="up" className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8 [--stagger-step:150ms]">
               {detail.whoShouldJoin ? (
                 <div data-spotlight data-tilt className="card-lift flex flex-col items-start gap-4 rounded-md bg-surface p-6">
-                  <h2 className="font-heading text-20 font-extrabold leading-native text-heading">
+                  <h2 className="font-heading text-20 font-semibold leading-native text-heading">
                     Who Should Join
                   </h2>
                   <p className="font-sans text-14 leading-normal text-muted">
@@ -199,7 +199,7 @@ export default async function CoursePage({ params }: Props) {
               ) : null}
               {detail.eligibility ? (
                 <div data-spotlight="accent" data-tilt className="card-lift flex flex-col items-start gap-4 rounded-md bg-surface p-6">
-                  <h2 className="font-heading text-20 font-extrabold leading-native text-heading">
+                  <h2 className="font-heading text-20 font-semibold leading-native text-heading">
                     Eligibility
                   </h2>
                   <p className="font-sans text-14 leading-normal text-muted">
@@ -212,7 +212,7 @@ export default async function CoursePage({ params }: Props) {
 
           {detail.careers.length ? (
             <div className="flex w-full flex-col gap-4">
-              <h2 data-reveal="up" className="font-heading text-24 font-extrabold leading-native text-heading">
+              <h2 data-reveal="up" className="font-heading text-24 font-semibold leading-native text-heading">
                 Career Opportunities
               </h2>
               <ul data-reveal-stagger="scale" className="flex w-full flex-wrap gap-2 [--stagger-step:50ms]">
@@ -237,7 +237,7 @@ export default async function CoursePage({ params }: Props) {
           tone="surface"
           containerClassName="flex flex-col gap-8 xl:gap-10"
         >
-          <h2 data-reveal="up" className="font-heading text-28 font-extrabold leading-native text-heading xl:text-32">
+          <h2 data-reveal="up" className="font-heading text-28 font-semibold leading-native text-heading xl:text-32">
             Related Programs
           </h2>
           <div data-reveal-stagger="up" className="grid grid-cols-1 gap-6 md:grid-cols-3">

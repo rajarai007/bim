@@ -41,7 +41,7 @@ export function PageBanner({
       <Container className={cn("relative flex flex-col items-start py-12 md:py-16 xl:py-20", description ? "gap-5" : "gap-4")}>
         <h1
           data-reveal="words"
-          className="font-heading text-32 font-black leading-native text-heading md:text-40 xl:text-48"
+          className="font-heading text-32 font-medium leading-native text-heading md:text-40 xl:text-48"
         >
           <SplitWords text={title} />
         </h1>

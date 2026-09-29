@@ -47,7 +47,7 @@ export default async function CoursesPage() {
         ))
       ) : (
         <Section containerClassName="flex flex-col items-center gap-3 py-16 text-center">
-          <h2 className="font-heading text-24 font-extrabold leading-native text-heading">No courses published yet</h2>
+          <h2 className="font-heading text-24 font-semibold leading-native text-heading">No courses published yet</h2>
           <p className="font-sans text-15 leading-body text-muted">
             Our catalogue is being updated. Please check back soon or contact our admissions team.
           </p>

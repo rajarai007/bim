@@ -24,10 +24,10 @@ export function CareerJourney() {
             data-tilt
             className="card-lift group flex h-full flex-col items-start gap-4 rounded-md bg-surface p-8"
           >
-            <span className="relative flex size-12 items-center justify-center rounded-full bg-primary-soft font-heading text-20 font-black leading-native text-primary shadow-[0_0_0_6px_rgb(255_90_31/0.06)] transition-[scale,color,background-color,box-shadow] duration-400 ease-brand group-hover:scale-110 group-hover:bg-accent-soft group-hover:text-accent group-hover:shadow-[0_0_0_8px_var(--color-accent-soft)]">
+            <span className="relative flex size-12 items-center justify-center rounded-full bg-primary-soft font-heading text-20 font-semibold leading-native text-primary shadow-[0_0_0_6px_rgb(255_90_31/0.06)] transition-[scale,color,background-color,box-shadow] duration-400 ease-brand group-hover:scale-110 group-hover:bg-accent-soft group-hover:text-accent group-hover:shadow-[0_0_0_8px_var(--color-accent-soft)]">
               {step.step}
             </span>
-            <h3 className="font-heading text-18 font-extrabold leading-native text-heading">
+            <h3 className="font-heading text-18 font-semibold leading-native text-heading">
               {step.title}
             </h3>
             <p className="font-sans text-13 leading-normal text-muted">{step.description}</p>
@@ -36,7 +36,7 @@ export function CareerJourney() {
       </ol>
       </div>
       <p data-reveal="up" className="w-full rounded-md border border-line bg-surface-translucent p-5 text-center font-sans text-13 leading-native text-muted">
-        💡 <strong className="font-bold text-heading">Please Note:</strong> We focus purely on
+        💡 <strong className="font-semibold text-heading">Please Note:</strong> We focus purely on
         engineering excellence, hands-on modeling skills, and realistic capability building. We do
         not provide hollow placement guarantees, but rather equip you to clear strict design-testing
         rounds.

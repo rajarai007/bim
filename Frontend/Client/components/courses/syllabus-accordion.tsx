@@ -39,12 +39,12 @@ export function SyllabusAccordion({ modules }: { modules: SyllabusModule[] }) {
                 onClick={() => toggle(i)}
                 className="group flex w-full items-center justify-between gap-4 text-left"
               >
-                <span className="flex flex-1 items-center gap-3 font-heading text-16 font-extrabold leading-native text-heading transition-colors duration-200 group-hover:text-accent">
+                <span className="flex flex-1 items-center gap-3 font-heading text-16 font-semibold leading-native text-heading transition-colors duration-200 group-hover:text-accent">
                   {/* Module index as a drafting tick: rotates open like a section marker. */}
                   <span
                     aria-hidden
                     className={cn(
-                      "flex size-6 shrink-0 items-center justify-center rounded-xs border border-accent/40 bg-accent-soft font-sans text-10 font-bold text-accent transition-[rotate,background-color] duration-300 ease-brand",
+                      "flex size-6 shrink-0 items-center justify-center rounded-xs border border-accent/40 bg-accent-soft font-sans text-10 font-semibold text-accent transition-[rotate,background-color] duration-300 ease-brand",
                       !open && "-rotate-45 bg-transparent",
                     )}
                   >

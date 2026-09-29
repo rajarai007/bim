@@ -199,7 +199,7 @@ function SyllabusModal({
               </svg>
             </span>
             <div className="modal-item flex flex-col gap-2" style={order(1)}>
-              <h2 id={titleId} className="font-heading text-22 font-extrabold leading-native text-heading">
+              <h2 id={titleId} className="font-heading text-22 font-semibold leading-native text-heading">
                 Your syllabus is downloading
               </h2>
               <p id={descId} className="font-sans text-14 leading-body text-muted">
@@ -224,7 +224,7 @@ function SyllabusModal({
             <div className="modal-item flex w-full items-start gap-4 pr-8" style={order(0)}>
               <SheetIcon />
               <div className="flex min-w-0 flex-col gap-1.5">
-                <h2 id={titleId} className="font-heading text-22 font-extrabold leading-native text-heading">
+                <h2 id={titleId} className="font-heading text-22 font-semibold leading-native text-heading">
                   Get the syllabus
                 </h2>
                 <p id={descId} className="font-sans text-14 leading-body text-muted">

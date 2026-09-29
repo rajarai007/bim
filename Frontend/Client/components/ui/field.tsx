@@ -26,7 +26,7 @@ export function Field({
     <div className={cn("group/field flex min-w-0 flex-1 flex-col items-start gap-2", className)} style={style}>
       <label
         htmlFor={htmlFor}
-        className="font-sans text-13 font-bold leading-native text-body transition-colors duration-300 ease-brand group-focus-within/field:text-primary"
+        className="font-sans text-13 font-semibold leading-native text-body transition-colors duration-300 ease-brand group-focus-within/field:text-primary"
       >
         {label}
       </label>

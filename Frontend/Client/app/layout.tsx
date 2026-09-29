@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope, Outfit } from "next/font/google";
+import { Figtree } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { AmbientLight } from "@/components/motion/ambient-light";
@@ -8,17 +8,10 @@ import { MotionProvider } from "@/components/motion/motion-provider";
 import { getSiteSettings } from "@/features/settings/service";
 import { siteConfig } from "@/lib/config";
 
-// Both families are variable fonts: one file each, and the full weight axis is
-// available for kinetic headings (weight settles on reveal, see globals.css).
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-  weight: "variable",
-  display: "swap",
-});
-
-const manrope = Manrope({
-  variable: "--font-manrope",
+// One variable family for headings and body alike; hierarchy comes from size
+// and weight (medium display, semibold titles), not from a second typeface.
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
   weight: "variable",
   display: "swap",
@@ -43,7 +36,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${outfit.variable} ${manrope.variable} h-full`}
+      className={`${figtree.variable} h-full`}
     >
       <body className="flex min-h-full flex-col">
         <MotionProvider />

@@ -38,7 +38,7 @@ export function FinalCta({
         <div data-reveal="scale" className="glass-strong glass-edge flex w-full flex-col items-center gap-6 rounded-lg px-6 py-10 md:px-12 md:py-14">
         <h2
           data-reveal="words"
-          className="max-w-[960px] font-heading text-28 font-black leading-native text-heading md:text-32 xl:text-40"
+          className="max-w-[960px] font-heading text-28 font-medium leading-native text-heading md:text-32 xl:text-40"
         >
           <SplitWords text={title} />
         </h2>

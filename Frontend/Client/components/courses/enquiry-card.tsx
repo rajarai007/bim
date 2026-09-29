@@ -18,7 +18,7 @@ export function EnquiryCard({
       {/* Light source behind the panel so the glass has something to refract. */}
       <div aria-hidden className="panel-glow pointer-events-none absolute -inset-6 -z-10" />
       <div className="glass-strong glass-edge flex w-full flex-col items-start gap-6 rounded-lg p-6 md:p-8">
-      <h2 className="font-heading text-22 font-extrabold leading-native text-heading">
+      <h2 className="font-heading text-22 font-semibold leading-native text-heading">
         Interested in {courseTitle}?
       </h2>
       <p className="font-sans text-14 leading-native text-muted">

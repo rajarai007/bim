@@ -131,7 +131,7 @@ export function Header({ contact }: { contact: SiteSettings["contact"] }) {
                 className={cn(
                   "py-2 font-sans text-14 leading-native whitespace-nowrap transition-colors duration-300 ease-brand",
                   active
-                    ? "font-bold text-primary"
+                    ? "font-semibold text-primary"
                     : "font-medium text-body hover:text-heading",
                 )}
               >
@@ -220,7 +220,7 @@ export function Header({ contact }: { contact: SiteSettings["contact"] }) {
                   className={cn(
                     "border-b border-line py-4 font-sans text-16 leading-native transition-[color,opacity,translate] duration-300 ease-brand",
                     open ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0",
-                    active ? "font-bold text-primary" : "font-medium text-body hover:text-primary",
+                    active ? "font-semibold text-primary" : "font-medium text-body hover:text-primary",
                   )}
                 >
                   {item.label}

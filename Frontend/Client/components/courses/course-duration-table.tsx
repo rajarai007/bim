@@ -5,10 +5,10 @@ import { cn } from "@/lib/utils";
 import type { Category, Course } from "@/types";
 
 const th =
-  "border border-line/40 px-3 py-4 text-left font-heading text-14 font-extrabold leading-compact text-white md:px-5 md:text-16";
+  "border border-line/40 px-3 py-4 text-left font-heading text-14 font-semibold leading-compact text-white md:px-5 md:text-16";
 const td = "border border-line px-3 py-4 align-top font-sans text-13 leading-compact text-body md:px-5 md:text-15";
 const action =
-  "inline-flex items-center gap-1.5 rounded-sm px-2.5 py-2 font-sans text-12 font-bold leading-native whitespace-nowrap transition-[background-color,color,translate] duration-300 ease-brand hover:-translate-y-0.5 md:px-4 md:text-13";
+  "inline-flex items-center gap-1.5 rounded-sm px-2.5 py-2 font-sans text-12 font-semibold leading-native whitespace-nowrap transition-[background-color,color,translate] duration-300 ease-brand hover:-translate-y-0.5 md:px-4 md:text-13";
 
 /**
  * "Course Duration & Syllabus" table for a category: serial number, title,

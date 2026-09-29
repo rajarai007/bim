@@ -54,7 +54,7 @@ export function PlacementSection() {
         className="flex w-full min-w-0 flex-col items-start gap-5 lg:w-[380px] lg:shrink-0 [--stagger-step:120ms]"
       >
         <Badge tone="primary">Placement Cell</Badge>
-        <h2 className="font-heading text-28 font-extrabold leading-native text-heading md:text-32 xl:text-36">
+        <h2 className="font-heading text-28 font-semibold leading-native text-heading md:text-32 xl:text-36">
           Biggest Placement Cell For BIM In Asia
         </h2>
         <p className="font-sans text-16 leading-body text-muted">

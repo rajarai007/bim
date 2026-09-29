@@ -9,7 +9,7 @@ export function AdvisorCta() {
     <section className="relative w-full overflow-clip border-y border-primary bg-primary-soft">
       <DraftingMarks variant="compact" />
       <Container className="relative flex flex-col items-center gap-6 py-12 text-center md:py-16 xl:py-20 [--stagger-step:120ms]" data-reveal-stagger="up">
-        <h2 className="font-heading text-24 font-extrabold leading-native text-heading md:text-28 xl:text-32">
+        <h2 className="font-heading text-24 font-semibold leading-native text-heading md:text-28 xl:text-32">
           Not sure which course is right for you?
         </h2>
         <p className="font-sans text-15 leading-native text-muted md:text-16">

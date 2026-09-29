@@ -80,7 +80,7 @@ export default async function CategoryPage({ params }: PageProps<"/courses/[cate
       ) : null}
 
       <Section tone="surface" containerClassName="flex flex-col gap-10 xl:gap-12">
-        <h2 data-reveal="up" className="font-heading text-28 font-extrabold leading-native text-heading xl:text-36">
+        <h2 data-reveal="up" className="font-heading text-28 font-semibold leading-native text-heading xl:text-36">
           All {category.badge} Courses
         </h2>
         {all.length ? (
@@ -109,7 +109,7 @@ export default async function CategoryPage({ params }: PageProps<"/courses/[cate
       {all.length ? (
         <Section containerClassName="flex flex-col gap-8 xl:gap-10">
           <div data-reveal-stagger="up" className="flex w-full flex-col items-start gap-2 leading-native">
-            <h2 className="font-heading text-28 font-extrabold text-heading xl:text-36">Course Duration &amp; Syllabus</h2>
+            <h2 className="font-heading text-28 font-semibold text-heading xl:text-36">Course Duration &amp; Syllabus</h2>
             <p className="font-sans text-16 text-muted">
               Download the detailed syllabus of any {category.badge} program.
             </p>

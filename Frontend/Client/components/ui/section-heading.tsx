@@ -30,7 +30,7 @@ export function SectionHeading({
       )}
     >
       {badge ? <Badge tone={badgeTone}>{badge}</Badge> : null}
-      <Heading className="font-heading text-28 font-extrabold leading-native text-heading md:text-32 xl:text-36">
+      <Heading className="font-heading text-28 font-semibold leading-native text-heading md:text-32 xl:text-36">
         {title}
       </Heading>
       {/* Dimension line draws itself in once the heading has revealed. */}

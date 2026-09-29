@@ -60,7 +60,7 @@ export function ContactInfo({ contact }: { contact: SiteSettings["contact"] }) {
         data-reveal-delay="2"
         className="glass glass-edge flex w-full flex-col items-start gap-7 rounded-lg p-6 md:p-8"
       >
-        <h2 className="font-heading text-24 font-extrabold leading-native text-heading">
+        <h2 className="font-heading text-24 font-semibold leading-native text-heading">
           Academy Details
         </h2>
         <ul data-reveal-stagger="left" className="flex w-full flex-col gap-7 [--stagger-offset:300ms]">
@@ -92,7 +92,7 @@ export function ContactInfo({ contact }: { contact: SiteSettings["contact"] }) {
       </div>
 
       <div data-reveal="up" className="flex w-full flex-col items-start gap-4">
-        <h2 className="font-heading text-18 font-extrabold leading-native text-heading">
+        <h2 className="font-heading text-18 font-semibold leading-native text-heading">
           Location Map
         </h2>
         <div className="group relative flex h-[220px] w-full items-center justify-center overflow-hidden rounded-md shadow-[var(--shadow-sheet)]">
@@ -104,7 +104,7 @@ export function ContactInfo({ contact }: { contact: SiteSettings["contact"] }) {
             className="object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.06]"
           />
           <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 rounded-[inherit]" />
-          <span className="glass glass-edge relative rounded-xs px-4 py-2 font-sans text-11 font-bold leading-native text-primary whitespace-nowrap transition-[scale] duration-500 ease-brand group-hover:scale-105">
+          <span className="glass glass-edge relative rounded-xs px-4 py-2 font-sans text-11 font-semibold leading-native text-primary whitespace-nowrap transition-[scale] duration-500 ease-brand group-hover:scale-105">
             CENTERED AT OKHLA HEAD
           </span>
         </div>

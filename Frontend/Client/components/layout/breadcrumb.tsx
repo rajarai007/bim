@@ -37,7 +37,7 @@ export function Breadcrumb({
                   aria-current={isLast ? "page" : undefined}
                   className={cn(
                     "font-sans text-14 leading-native whitespace-nowrap",
-                    isLast ? "font-bold text-primary" : "font-medium text-muted",
+                    isLast ? "font-semibold text-primary" : "font-medium text-muted",
                   )}
                 >
                   {item.label}

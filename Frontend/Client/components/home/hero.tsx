@@ -96,7 +96,7 @@ export function Hero() {
           <h1
             data-reveal="words"
             data-reveal-delay="1"
-            className="font-heading text-36 font-black leading-hero text-heading md:text-48 xl:text-56"
+            className="font-heading text-36 font-medium leading-hero text-heading md:text-48 xl:text-56"
           >
             <SplitWords text="Build Your Career in BIM & Design Technology" />
           </h1>

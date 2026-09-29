@@ -22,10 +22,11 @@
   --color-whatsapp-soft: rgb(37 211 102 / 0.13);
   --color-whatsapp-line: rgb(37 211 102 / 0.27);
 
-  --color-heading: #0f172a;
-  --color-body: #1e293b;
-  --color-muted: #5b6577;
-  --color-muted-soft: rgb(91 101 119 / 0.1);
+  /* Neutral (not slate) greys: near-black titles over softer body copy. */
+  --color-heading: #111111;
+  --color-body: #4a4a4a;
+  --color-muted: #666666; /* ≥4.5:1 on canvas, surface and elevated */
+  --color-muted-soft: rgb(102 102 102 / 0.1);
 
   /* Photo overlays are pale paper washes so hero / banners / closing CTA
      match the light grid and keep dark copy. */
@@ -40,8 +41,9 @@
   --grid-block: 144px; /* 6 minor cells per bold line */
 
   /* ---- Typography ------------------------------------------------------ */
-  --font-heading: var(--font-outfit), "Outfit", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
+  /* Figtree throughout; the two tokens stay so headings can diverge later. */
+  --font-heading: var(--font-figtree), "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-figtree), "Figtree", ui-sans-serif, system-ui, sans-serif;
 
   /* Pixel scale used across the design (text-11 … text-56). */
   --text-10: 10px;
@@ -64,16 +66,18 @@
 
   /* Line heights used in Figma. */
   --leading-native: normal; /* Figma "Auto" line height */
-  --leading-hero: 1.15;
+  --leading-hero: 1.1;
+  --tracking-heading: -0.02em;
   --leading-compact: 1.4;
   --leading-body: 1.6;
 
   /* ---- Radius ---------------------------------------------------------- */
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-pill: 100px;
+  /* Soft, generous corners: 12px buttons and cards, 16px panels. */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
 
   /* ---- Layout ---------------------------------------------------------- */
   --container-page: 1440px; /* Figma frame width */
@@ -97,12 +101,12 @@
   /* ---- Depth & light --------------------------------------------------- */
   /* Paper depth: a stack of sheets, never a single black drop shadow. */
   --shadow-sheet:
-    0 1px 2px rgb(15 23 42 / 0.04),
-    0 8px 24px -12px rgb(15 23 42 / 0.16);
+    0 1px 2px rgb(15 23 42 / 0.03),
+    0 8px 24px rgb(15 23 42 / 0.06);
   --shadow-sheet-lifted:
-    0 2px 4px rgb(15 23 42 / 0.05),
-    0 24px 48px -20px rgb(15 23 42 / 0.28),
-    0 0 0 1px rgb(15 23 42 / 0.04);
+    0 2px 4px rgb(15 23 42 / 0.04),
+    0 20px 40px -16px rgb(15 23 42 / 0.2),
+    0 0 0 1px rgb(15 23 42 / 0.03);
   --shadow-glass:
     inset 0 1px 0 rgb(255 255 255 / 0.85),
     0 1px 2px rgb(15 23 42 / 0.04),
@@ -159,6 +163,7 @@ body {
   h6 {
     font-family: var(--font-heading);
     color: var(--color-heading);
+    letter-spacing: var(--tracking-heading);
   }
 }
 
@@ -522,7 +527,7 @@ body {
 }
 @media (hover: hover) {
   .card-lift:hover {
-    translate: 0 -6px;
+    translate: 0 -4px;
     box-shadow: var(--shadow-sheet-lifted);
   }
 }
@@ -774,7 +779,7 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
   transform: translate(-50%, -50%) scale(0.6);
   font-family: var(--font-sans);
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #fff;
@@ -940,14 +945,14 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
 }
 .hud-key {
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-muted);
 }
 .hud-value {
   font-family: var(--font-heading);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-heading);
 }
 

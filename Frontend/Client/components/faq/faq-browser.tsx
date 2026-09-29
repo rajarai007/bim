@@ -40,7 +40,7 @@ export function FaqBrowser({
               aria-controls={`faq-panel-${category.slug}`}
               onClick={() => setActive(category.slug)}
               className={cn(
-                "group flex shrink-0 items-center gap-2 rounded-sm border p-4 text-left font-sans text-14 font-bold leading-native transition-[color,border-color,background-color,translate] duration-300 ease-brand active:scale-[0.98] lg:w-full lg:hover:translate-x-1",
+                "group flex shrink-0 items-center gap-2 rounded-sm border p-4 text-left font-sans text-14 font-semibold leading-native transition-[color,border-color,background-color,translate] duration-300 ease-brand active:scale-[0.98] lg:w-full lg:hover:translate-x-1",
                 selected
                   ? "border-primary bg-primary-soft text-primary"
                   : "border-line bg-surface text-body hover:border-primary/50",

@@ -30,7 +30,7 @@ const quickLinks = [
 const linkClass =
   "inline-block font-sans text-14 leading-native text-muted transition-[color,translate] duration-300 ease-brand hover:translate-x-1 hover:text-body";
 
-const headingClass = "font-heading text-16 font-bold uppercase leading-native text-heading";
+const headingClass = "font-heading text-16 font-semibold uppercase leading-native text-heading";
 
 export function Footer({ settings, categories }: { settings: SiteSettings; categories: Category[] }) {
   const socials = socialIcons.flatMap(({ key, label, Icon }) => {

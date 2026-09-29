@@ -18,7 +18,7 @@ export function CategorySection({
   return (
     <Section containerClassName="flex flex-col gap-8">
       <div data-reveal-stagger="up" className="flex w-full flex-col items-start gap-2 leading-native">
-        <h2 className="font-heading text-24 font-extrabold text-heading md:text-28 xl:text-32">
+        <h2 className="font-heading text-24 font-semibold text-heading md:text-28 xl:text-32">
           {category.overviewTitle}
         </h2>
         <p className="font-sans text-16 text-muted">{category.tagline}</p>
@@ -37,7 +37,7 @@ export function CategorySection({
       <Link
         href={routes.category(category.slug)}
         data-reveal="up"
-        className="group/link flex items-center gap-2 font-sans text-15 font-bold leading-native text-primary transition-colors hover:text-[#ff6b36]"
+        className="group/link flex items-center gap-2 font-sans text-15 font-semibold leading-native text-primary transition-colors hover:text-[#ff6b36]"
       >
         {viewAllLabel}
         <ChevronWide

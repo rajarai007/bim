@@ -8,7 +8,7 @@ type Size = "md" | "lg";
 // `transform` is in the transition list for the magnetic pull (see Spatial
 // system in globals.css); lift uses `translate` and press uses `scale`.
 const base =
-  "btn-shine group/btn inline-flex items-center justify-center gap-2 rounded-sm font-sans font-bold whitespace-nowrap transition-[background-color,border-color,color,translate,scale,box-shadow,transform] duration-300 ease-brand hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] active:duration-100 disabled:pointer-events-none disabled:opacity-60";
+  "btn-shine group/btn inline-flex items-center justify-center gap-2 rounded-md font-sans font-semibold whitespace-nowrap transition-[background-color,border-color,color,translate,scale,box-shadow,transform] duration-300 ease-brand hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] active:duration-100 disabled:pointer-events-none disabled:opacity-60";
 
 const variants: Record<Variant, string> = {
   primary:
@@ -24,8 +24,8 @@ const variants: Record<Variant, string> = {
 };
 
 const sizes: Record<Size, string> = {
-  md: "px-6 py-3 text-14",
-  lg: "px-8 py-3.5 text-15",
+  md: "min-h-12 px-6 py-3 text-15",
+  lg: "min-h-[52px] px-8 py-3.5 text-16",
 };
 
 type CommonProps = {
