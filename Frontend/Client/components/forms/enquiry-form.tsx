@@ -109,14 +109,14 @@ export function EnquiryForm({ courseTitle, courseSlug }: { courseTitle: string; 
           ))}
         </Select>
       </Field>
-      <Button type="submit" fullWidth disabled={status === "submitting"}>
+      <Button type="submit" fullWidth disabled={status === "submitting"} loading={status === "submitting"}>
         {status === "submitting" ? "Submitting…" : "Submit Query"}
       </Button>
       <p role="status" aria-live="polite" className="font-sans text-13 leading-native empty:hidden">
         {status === "success" ? (
           <span className="text-accent">Thank you — we&apos;ll be in touch shortly.</span>
         ) : status === "error" ? (
-          <span className="text-primary">{serverMessage ?? "Something went wrong. Please try again."}</span>
+          <span className="text-primary-bright">{serverMessage ?? "Something went wrong. Please try again."}</span>
         ) : null}
       </p>
     </form>

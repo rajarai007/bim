@@ -13,7 +13,10 @@ import { cn } from "@/lib/utils";
 // The image wrapper clips itself (rounded-t-[inherit]) so the card can stay
 // overflow-visible and its spotlight ring / lift shadow aren't cut off.
 const cardBase =
-  "card-lift group flex h-full flex-col border border-line bg-surface hover:border-primary/50";
+  "card-lift group flex h-full flex-col bg-surface/80 hover:border-primary/40";
+
+const linkClass =
+  "group/link flex items-center gap-1 font-sans text-13 font-semibold leading-native text-primary-bright transition-colors hover:text-heading";
 
 /** Shared-element name: the course page's hero photo carries the same one. */
 export const courseMorphName = (slug: string) => `course-${slug}`;
@@ -53,7 +56,7 @@ function CardImage({
       aria-hidden
       tabIndex={-1}
       data-cursor="view"
-      className={cn("relative block w-full shrink-0 overflow-hidden rounded-t-[inherit]", heightClass)}
+      className={cn("pop relative block w-full shrink-0 overflow-hidden rounded-t-[inherit] [--pop:18px]", heightClass)}
     >
       {morph ? (
         <ViewTransition name={courseMorphName(href.slice(href.lastIndexOf("/") + 1))} share="vt-morph" default="none">
@@ -62,11 +65,12 @@ function CardImage({
       ) : (
         photo
       )}
-      {/* Soft top-down tint that lifts on hover so the photo brightens. */}
+      {/* The photo sinks into the card's dark surface; the wash lifts on hover. */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-t from-surface/60 to-transparent opacity-70 transition-opacity duration-500 ease-brand group-hover:opacity-0"
+        className="photo-sink absolute inset-0 opacity-90 transition-opacity duration-500 ease-brand group-hover:opacity-50"
       />
+      <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-brand group-hover:opacity-100" />
     </Link>
   );
 }
@@ -110,7 +114,7 @@ export function FeaturedCourseCard({
           <Badge>{badge}</Badge>
           {meta.kind === "duration" ? (
             <span className="flex items-center gap-1.5 font-sans text-13 leading-native text-muted whitespace-nowrap">
-              <BookOpen className="size-4" aria-hidden />
+              <BookOpen className="size-4 text-accent" aria-hidden />
               {meta.label}
             </span>
           ) : (
@@ -125,7 +129,7 @@ export function FeaturedCourseCard({
             lg ? "text-22" : "text-20",
           )}
         >
-          <Link href={href} className="transition-colors hover:text-primary">
+          <Link href={href} className="transition-colors hover:text-primary-bright">
             {title}
           </Link>
         </h3>
@@ -173,17 +177,14 @@ export function CompactCourseCard({
       />
       <div className="flex flex-1 flex-col items-start gap-3 p-5">
         <h3 className="w-full truncate font-heading text-16 font-semibold leading-native text-heading">
-          <Link href={href} className="transition-colors hover:text-primary">
+          <Link href={href} className="transition-colors hover:text-primary-bright">
             {title}
           </Link>
         </h3>
         <p className="line-clamp-2 w-full font-sans text-13 leading-compact text-muted">
           {description}
         </p>
-        <Link
-          href={href}
-          className="group/link mt-auto flex items-center gap-1 font-sans text-13 font-semibold leading-native text-primary transition-colors hover:text-[#ff6b36]"
-        >
+        <Link href={href} className={cn(linkClass, "mt-auto")}>
           View Details
           <ChevronWide
             size={12}
@@ -224,7 +225,7 @@ export function StandardCourseCard({
       />
       <div className="flex flex-1 flex-col items-start gap-4 p-5">
         <h3 className="w-full truncate font-heading text-18 font-semibold leading-native text-heading">
-          <Link href={href} className="transition-colors hover:text-primary">
+          <Link href={href} className="transition-colors hover:text-primary-bright">
             {title}
           </Link>
         </h3>
@@ -237,10 +238,7 @@ export function StandardCourseCard({
         </span>
         <Divider className="mt-auto" />
         <div className="flex w-full items-center justify-between gap-3">
-          <Link
-            href={href}
-            className="group/link flex items-center gap-1 font-sans text-13 font-semibold leading-native text-primary transition-colors hover:text-[#ff6b36]"
-          >
+          <Link href={href} className={linkClass}>
             View Details
             <ChevronWide
               size={12}

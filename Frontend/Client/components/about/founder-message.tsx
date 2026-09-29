@@ -15,7 +15,7 @@ export function FounderMessage() {
     <Section>
       <div
         data-spotlight="accent"
-        className="card-lift overflow-hidden rounded-lg border border-line bg-surface"
+        className="card-lift card-aurora overflow-hidden rounded-xl bg-surface/80"
       >
         <div className="flex flex-col lg:flex-row lg:items-stretch">
           <div

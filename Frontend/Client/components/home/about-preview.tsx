@@ -9,7 +9,7 @@ import { routes } from "@/lib/constants";
 export function AboutPreview() {
   return (
     <Section padding="lg" containerClassName="flex flex-col items-center gap-10 lg:flex-row lg:gap-16">
-      <div data-reveal="clip" className="group relative h-[240px] w-full shrink-0 overflow-hidden rounded-lg shadow-[var(--shadow-sheet-lifted)] sm:h-[320px] lg:h-[380px] lg:flex-1">
+      <div data-reveal="clip" data-tilt className="group relative h-[240px] w-full shrink-0 overflow-hidden rounded-xl border border-line shadow-[var(--shadow-sheet-lifted)] sm:h-[320px] lg:h-[380px] lg:flex-1">
         {/* Oversized so the scroll parallax never exposes an edge. */}
         <div data-parallax="0.12" className="absolute inset-x-0 -inset-y-[12%]">
           <Image

@@ -7,7 +7,7 @@ import type { Course } from "@/types";
 
 export function FeaturedCourses({ courses }: { courses: Course[] }) {
   return (
-    <Section padding="lg" containerClassName="flex flex-col gap-10 xl:gap-12">
+    <Section padding="lg" tilt containerClassName="flex flex-col gap-10 xl:gap-12">
       <SectionHeading
         badge="Popular Training Programs"
         badgeTone="primary"
@@ -15,7 +15,7 @@ export function FeaturedCourses({ courses }: { courses: Course[] }) {
       />
       {/* Four courses fill one row on wide screens instead of leaving one orphaned under three. */}
       <div
-        data-reveal-stagger="up"
+        data-reveal-stagger="flip"
         className={cn(
           "grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8",
           courses.length === 4 ? "xl:grid-cols-4" : "lg:grid-cols-3",

@@ -39,8 +39,9 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
             key={t.id}
             data-spotlight="accent"
             data-tilt
-            className="card-lift glass glass-edge group flex h-full flex-col items-start gap-6 rounded-md p-8 hover:border-accent/40"
+            className="card-lift glass glass-edge group relative flex h-full flex-col items-start gap-6 overflow-hidden rounded-lg p-8 hover:border-accent/40"
           >
+            <span aria-hidden className="pointer-events-none absolute -top-3 right-5 font-heading text-[120px] leading-none font-semibold text-accent/10 transition-colors duration-500 group-hover:text-accent/20">&ldquo;</span>
             <Rating value={t.rating} name={t.name} />
             <blockquote className="font-sans text-14 leading-body text-body">{t.quote}</blockquote>
             <Divider className="mt-auto" />

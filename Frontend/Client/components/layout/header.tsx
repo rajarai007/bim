@@ -18,6 +18,11 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+/**
+ * Floating glass navigation. The sticky <header> itself stays free of
+ * transforms and filters (it hosts the fixed mobile drawer); the frosted
+ * shell inside it tightens and lights up once the page scrolls.
+ */
 export function Header({ contact }: { contact: SiteSettings["contact"] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -38,7 +43,7 @@ export function Header({ contact }: { contact: SiteSettings["contact"] }) {
     };
   }, [open]);
 
-  // One indicator slides between nav links: it follows the hovered link and
+  // One soft pill slides between nav links: it follows the hovered link and
   // settles back on the active route. Measured from the DOM so it never
   // depends on link widths; written directly so hovering never re-renders.
   const navRef = useRef<HTMLElement>(null);
@@ -65,7 +70,7 @@ export function Header({ contact }: { contact: SiteSettings["contact"] }) {
     return () => window.removeEventListener("resize", settleIndicator);
   }, [pathname, settleIndicator]);
 
-  // Frost the header once the page scrolls and drive the reading-progress bar.
+  // Frost the shell once the page scrolls and drive the reading-progress bar.
   // The bar is written straight to the DOM so scrolling never re-renders.
   const [scrolled, setScrolled] = useState(false);
   const progressRef = useRef<HTMLDivElement>(null);
@@ -92,116 +97,100 @@ export function Header({ contact }: { contact: SiteSettings["contact"] }) {
     };
   }, []);
 
+  const iconButton =
+    "flex size-10 items-center justify-center rounded-full border border-line bg-white/4 text-body shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-[background-color,color,border-color,translate,scale,box-shadow] duration-300 ease-brand hover:-translate-y-0.5 hover:border-line-strong hover:bg-white/8 hover:text-heading active:translate-y-0 active:scale-95";
+
   return (
-    <header
-      className={cn(
-        "header-in sticky top-0 z-50 w-full border-b border-line transition-shadow duration-300 ease-brand",
-        scrolled && "shadow-[0_12px_32px_-16px_rgb(15_23_42/0.18)]",
-      )}
-    >
-      {/* Frosted backdrop lives on its own layer: backdrop-filter on the
-          header itself would become the containing block for the fixed
-          mobile drawer below. */}
-      <div
-        aria-hidden
-        className={cn(
-          "absolute inset-0 -z-10 transition-[background-color,backdrop-filter] duration-300 ease-brand",
-          scrolled ? "bg-canvas/70 backdrop-blur-xl backdrop-saturate-150" : "bg-canvas",
-        )}
-      />
-      <Container className="flex h-16 items-center justify-between xl:h-20">
-        <Logo />
-
-        <nav
-          ref={navRef}
-          aria-label="Primary"
-          className="relative hidden items-center gap-6 xl:flex"
-          onPointerLeave={settleIndicator}
+    <header className="header-in sticky top-0 z-50 w-full">
+      <Container className="pt-3 md:pt-4">
+        <div
+          data-scrolled={scrolled || undefined}
+          className="nav-shell flex h-14 items-center justify-between gap-4 px-3 md:h-16 md:px-4 xl:px-5"
         >
-          {navItems.map((item) => {
-            const active = isActive(pathname, item.href);
-            return (
-              <Link
-                key={item.label}
-                href={item.href}
-                aria-current={active ? "page" : undefined}
-                onPointerEnter={(event) => moveIndicator(event.currentTarget)}
-                onFocus={(event) => moveIndicator(event.currentTarget)}
-                onBlur={settleIndicator}
-                className={cn(
-                  "py-2 font-sans text-14 leading-native whitespace-nowrap transition-colors duration-300 ease-brand",
-                  active
-                    ? "font-semibold text-primary"
-                    : "font-medium text-body hover:text-heading",
-                )}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-          <span
-            ref={indicatorRef}
-            aria-hidden
-            className="pointer-events-none absolute bottom-0 left-0 h-0.5 w-0 rounded-full bg-primary opacity-0 transition-[transform,width,opacity] duration-500 ease-out-expo"
-          />
-        </nav>
+          <Logo />
 
-        <div className="flex items-center gap-4">
-          <div className="hidden items-start gap-2 md:flex">
-            <a
-              href={contact.phoneHref}
-              aria-label={`Call ${contact.phone}`}
-              className="flex size-9 items-center justify-center rounded-full bg-surface text-body transition-[background-color,color,translate,scale,box-shadow] duration-300 ease-brand hover:-translate-y-0.5 hover:bg-elevated hover:text-heading hover:shadow-[0_8px_20px_-8px_rgb(15_23_42/0.18)] active:translate-y-0 active:scale-95"
-            >
-              <PhoneCall className="size-4" aria-hidden />
-            </a>
-            {contact.whatsappHref ? (
-              <a
-                href={contact.whatsappHref}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Chat on WhatsApp"
-                className="flex size-9 items-center justify-center rounded-full border border-whatsapp-line bg-whatsapp-soft text-whatsapp transition-[background-color,translate,scale,box-shadow] duration-300 ease-brand hover:-translate-y-0.5 hover:bg-whatsapp/25 hover:shadow-[0_8px_20px_-8px_rgb(37_211_102/0.6)] active:translate-y-0 active:scale-95"
-              >
-                <WhatsAppIcon className="size-[18px]" />
-              </a>
-            ) : null}
-          </div>
-          <div className="hidden sm:block">
-            <Button href={routes.contact}>Enquire Now</Button>
-          </div>
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            aria-label={open ? "Close menu" : "Open menu"}
-            className="flex size-10 items-center justify-center rounded-sm border border-line bg-surface text-body transition-[color,border-color,scale] duration-200 ease-brand hover:border-primary/50 hover:text-heading active:scale-95 xl:hidden"
+          <nav
+            ref={navRef}
+            aria-label="Primary"
+            className="relative hidden items-center gap-1 xl:flex"
+            onPointerLeave={settleIndicator}
           >
-            <span
-              className={cn(
-                "flex transition-transform duration-300 ease-brand",
-                open && "rotate-90",
-              )}
+            <span ref={indicatorRef} aria-hidden className="nav-indicator" />
+            {navItems.map((item) => {
+              const active = isActive(pathname, item.href);
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  onPointerEnter={(event) => moveIndicator(event.currentTarget)}
+                  onFocus={(event) => moveIndicator(event.currentTarget)}
+                  onBlur={settleIndicator}
+                  className={cn(
+                    "relative z-10 rounded-pill px-3.5 py-2 font-sans text-14 leading-native whitespace-nowrap transition-colors duration-300 ease-brand",
+                    active ? "font-semibold text-primary-bright" : "font-medium text-body hover:text-heading",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="flex items-center gap-2.5 md:gap-3">
+            <div className="hidden items-center gap-2 md:flex">
+              <a href={contact.phoneHref} aria-label={`Call ${contact.phone}`} className={iconButton}>
+                <PhoneCall className="size-4" aria-hidden />
+              </a>
+              {contact.whatsappHref ? (
+                <a
+                  href={contact.whatsappHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Chat on WhatsApp"
+                  className={cn(
+                    iconButton,
+                    "border-whatsapp-line bg-whatsapp-soft text-whatsapp hover:border-whatsapp/60 hover:bg-whatsapp/25 hover:text-whatsapp hover:shadow-[0_10px_24px_-10px_rgb(37_211_102/0.6)]",
+                  )}
+                >
+                  <WhatsAppIcon className="size-[18px]" />
+                </a>
+              ) : null}
+            </div>
+            <div className="hidden sm:block">
+              <Button href={routes.contact} className="min-h-10 px-5 py-2 text-14 md:min-h-11">
+                Enquire Now
+              </Button>
+            </div>
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              aria-label={open ? "Close menu" : "Open menu"}
+              className={cn(iconButton, "rounded-sm xl:hidden")}
             >
-              {open ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
-            </span>
-          </button>
+              <span className={cn("flex transition-transform duration-300 ease-brand", open && "rotate-90")}>
+                {open ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
+              </span>
+            </button>
+          </div>
+
+          {/* Reading progress along the shell's bottom edge. */}
+          <div
+            ref={progressRef}
+            aria-hidden
+            className="scroll-progress pointer-events-none absolute inset-x-5 -bottom-px h-px rounded-full"
+          />
         </div>
       </Container>
 
-      {/* Reading progress */}
-      <div
-        ref={progressRef}
-        aria-hidden
-        className="scroll-progress pointer-events-none absolute inset-x-0 -bottom-px h-0.5"
-      />
-
-      {/* Mobile drawer */}
+      {/* Mobile drawer: a sibling of the shell, so the shell's backdrop filter
+          never becomes its containing block. */}
       <div
         id="mobile-nav"
         className={cn(
-          "fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-line bg-canvas transition-[opacity,translate] duration-200 ease-brand xl:hidden",
+          "nav-drawer fixed inset-x-0 top-[68px] bottom-0 z-40 overflow-y-auto border-t border-line transition-[opacity,translate] duration-200 ease-brand md:top-20 xl:hidden",
           open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
         )}
         aria-hidden={!open}
@@ -218,12 +207,16 @@ export function Header({ contact }: { contact: SiteSettings["contact"] }) {
                   tabIndex={open ? 0 : -1}
                   style={{ transitionDelay: open ? `${60 + index * 45}ms` : "0ms" }}
                   className={cn(
-                    "border-b border-line py-4 font-sans text-16 leading-native transition-[color,opacity,translate] duration-300 ease-brand",
+                    "flex items-center justify-between border-b border-line py-4 font-sans text-18 leading-native transition-[color,opacity,translate] duration-300 ease-brand",
                     open ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0",
-                    active ? "font-semibold text-primary" : "font-medium text-body hover:text-primary",
+                    active ? "font-semibold text-primary-bright" : "font-medium text-body hover:text-heading",
                   )}
                 >
                   {item.label}
+                  <span
+                    aria-hidden
+                    className={cn("size-1.5 rounded-full", active ? "bg-primary shadow-[0_0_10px_rgb(255_90_31/0.9)]" : "bg-line-strong")}
+                  />
                 </Link>
               );
             })}

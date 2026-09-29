@@ -6,7 +6,7 @@ import { useEffect } from "react";
 const REVEAL_SELECTOR = "[data-reveal], [data-reveal-stagger] > *";
 
 /** Max card pitch/roll under the pointer, in degrees. Believable, not a gimmick. */
-const TILT_MAX = 7;
+const TILT_MAX = 9;
 /** How far (px) beyond its own edge a magnetic CTA starts to feel the pointer. */
 const MAGNET_REACH = 56;
 /** Fraction of the pointer offset a magnetic CTA follows, and its travel cap. */

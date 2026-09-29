@@ -7,7 +7,7 @@ import { philosophyPoints } from "@/data/site";
 export function PhilosophySection() {
   return (
     <Section tone="surface" containerClassName="flex flex-col items-center gap-10 lg:flex-row lg:gap-12">
-      <div data-reveal="clip" className="group relative h-[240px] w-full shrink-0 overflow-hidden rounded-md shadow-[var(--shadow-sheet-lifted)] sm:h-[320px] lg:h-[360px] lg:flex-1">
+      <div data-reveal="clip" data-tilt className="group relative h-[240px] w-full shrink-0 overflow-hidden rounded-lg border border-line shadow-[var(--shadow-sheet-lifted)] sm:h-[320px] lg:h-[360px] lg:flex-1">
         <Image
           src="/images/about-philosophy.png"
           alt="Isometric MEP coordination model of an office floor"

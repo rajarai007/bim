@@ -17,9 +17,9 @@ export function TrainerCard({ trainer }: { trainer: Trainer }) {
     <article
       data-spotlight
       data-tilt
-      className="card-lift group flex h-full flex-col rounded-md border border-line bg-surface hover:border-primary/50"
+      className="card-lift group flex h-full flex-col rounded-lg bg-surface/80 hover:border-primary/40"
     >
-      <div className="relative h-[220px] w-full shrink-0 overflow-hidden rounded-t-[inherit]">
+      <div className="pop relative h-[220px] w-full shrink-0 overflow-hidden rounded-t-[inherit] [--pop:18px]">
         <Image
           src={trainer.image.src}
           alt={trainer.image.alt}
@@ -29,7 +29,7 @@ export function TrainerCard({ trainer }: { trainer: Trainer }) {
         />
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-t from-surface/70 to-transparent opacity-80 transition-opacity duration-500 ease-brand group-hover:opacity-0"
+          className="absolute inset-0 photo-sink opacity-90 transition-opacity duration-500 ease-brand group-hover:opacity-0"
         />
         <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-brand group-hover:opacity-100" />
       </div>
@@ -57,7 +57,7 @@ export function TrainerCard({ trainer }: { trainer: Trainer }) {
               target="_blank"
               rel="noreferrer"
               aria-label={`${trainer.name} on LinkedIn`}
-              className="flex size-4 shrink-0 items-center justify-center text-muted transition-[color,scale] duration-300 ease-brand hover:scale-125 hover:text-[#0a66c2]"
+              className="flex size-4 shrink-0 items-center justify-center text-muted transition-[color,scale] duration-300 ease-brand hover:scale-125 hover:text-[#3b9cff]"
             >
               <LinkedinIcon className="size-4" />
             </a>
@@ -74,9 +74,9 @@ export function TrainerCardCompact({ trainer }: { trainer: Trainer }) {
     <article
       data-spotlight
       data-tilt
-      className="card-lift group flex h-full flex-col rounded-md border border-line bg-surface hover:border-primary/50"
+      className="card-lift group flex h-full flex-col rounded-lg bg-surface/80 hover:border-primary/40"
     >
-      <div className="relative h-[220px] w-full shrink-0 overflow-hidden rounded-t-[inherit]">
+      <div className="pop relative h-[220px] w-full shrink-0 overflow-hidden rounded-t-[inherit] [--pop:18px]">
         <Image
           src={trainer.image.src}
           alt={trainer.image.alt}
@@ -86,7 +86,7 @@ export function TrainerCardCompact({ trainer }: { trainer: Trainer }) {
         />
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-t from-surface/70 to-transparent opacity-80 transition-opacity duration-500 ease-brand group-hover:opacity-0"
+          className="absolute inset-0 photo-sink opacity-90 transition-opacity duration-500 ease-brand group-hover:opacity-0"
         />
         <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-brand group-hover:opacity-100" />
       </div>

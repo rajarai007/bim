@@ -186,14 +186,14 @@ function SyllabusModal({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="group/close absolute top-4 right-4 z-10 flex size-9 items-center justify-center rounded-full text-muted transition-[background-color,color,rotate] duration-300 ease-brand hover:bg-elevated hover:text-heading hover:rotate-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          className="group/close absolute top-4 right-4 z-10 flex size-9 items-center justify-center rounded-full text-muted transition-[background-color,color,rotate] duration-300 ease-brand hover:bg-white/10 hover:text-heading hover:rotate-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
           <X className="size-4" aria-hidden />
         </button>
 
         {status === "success" ? (
           <div className="flex flex-col items-center gap-5 py-4 text-center" role="status" aria-live="polite">
-            <span className="modal-check flex size-16 items-center justify-center rounded-full bg-accent-soft text-accent shadow-[0_0_0_10px_rgb(10_158_138/0.08)]">
+            <span className="modal-check flex size-16 items-center justify-center rounded-full bg-accent-soft text-accent shadow-[0_0_0_10px_rgb(34_211_197/0.1),0_0_40px_rgb(34_211_197/0.35)]">
               <svg viewBox="0 0 24 24" className="size-8" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                 <path d="M5 12.5 10 17.5 19 7.5" />
               </svg>
@@ -213,7 +213,7 @@ function SyllabusModal({
               <a
                 href={href}
                 download
-                className="font-sans text-13 font-semibold text-primary underline-offset-4 transition-colors hover:underline"
+                className="font-sans text-13 font-semibold text-primary-bright underline-offset-4 transition-colors hover:underline"
               >
                 Didn&apos;t start? Download again
               </a>
@@ -277,11 +277,11 @@ function SyllabusModal({
             </Field>
 
             <div className="modal-item flex w-full flex-col gap-3" style={order(5)}>
-              <Button type="submit" fullWidth disabled={status === "submitting"}>
+              <Button type="submit" fullWidth disabled={status === "submitting"} loading={status === "submitting"}>
                 <Download className="size-4" aria-hidden />
                 {status === "submitting" ? "Preparing your PDF…" : "Download Syllabus"}
               </Button>
-              <p role="status" aria-live="polite" className="font-sans text-13 leading-native text-primary empty:hidden">
+              <p role="status" aria-live="polite" className="font-sans text-13 leading-native text-primary-bright empty:hidden">
                 {status === "error" ? serverMessage ?? "Something went wrong. Please try again." : null}
               </p>
               <p className="font-sans text-12 leading-native text-muted">
@@ -299,7 +299,7 @@ function SyllabusModal({
 /** A small sheet whose lines draw themselves in — the syllabus being printed. */
 function SheetIcon() {
   return (
-    <span className="flex size-12 shrink-0 items-center justify-center rounded-md bg-primary-soft text-primary" aria-hidden>
+    <span className="well size-12 shrink-0" aria-hidden>
       <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V8z" />
         <path d="M14 3v5h5" />

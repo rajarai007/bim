@@ -1,51 +1,59 @@
 @import "tailwindcss";
 
 /*
- * Design tokens extracted from the Figma file "Bim" (cPit0RIu9HRAeUyqi9HxnD).
- * Every value below maps 1:1 to a value used in the design; components should
- * consume these tokens rather than raw hex/px values.
+ * "Night studio" design system.
+ *
+ * A dark drafting table: layered graphite/navy surfaces with a faint blueprint
+ * grid, brand orange as the single hot accent, cyan-teal for instrument
+ * readouts, and a violet undertone reserved for atmosphere. Every colour,
+ * radius, shadow, easing and glass recipe lives here as a token; components
+ * consume tokens (Tailwind utilities or the component classes below) and never
+ * raw values.
  */
 @theme {
   /* ---- Colors ---------------------------------------------------------- */
-  /* Light "graph paper" theme: the page canvas is pale grey with a drafting
-     grid painted on <body> (see Base below); sections and cards sit on white. */
-  --color-canvas: #f3f3f3; /* page background (paper) */
-  --color-surface: #ffffff; /* alternating section bg, cards on canvas */
-  --color-elevated: #e9e9ec; /* cards on surface, secondary buttons, chips */
-  --color-line: #d6d6db; /* borders / dividers */
+  /* Surfaces: near-black navy canvas, graphite sheets, raised cards. */
+  --color-canvas: #07090f; /* page background */
+  --color-surface: #0c1018; /* section sheets, cards on canvas */
+  --color-elevated: #141a27; /* cards on surface, secondary buttons, chips */
+  --color-line: rgb(255 255 255 / 0.08); /* borders / dividers */
+  --color-line-strong: rgb(255 255 255 / 0.16);
 
-  --color-primary: #ff5a1f; /* brand orange */
-  --color-primary-soft: rgb(255 90 31 / 0.1);
-  --color-accent: #0a9e8a; /* brand teal, darkened for legibility on paper */
-  --color-accent-soft: rgb(10 158 138 / 0.1);
+  --color-primary: #ff5a1f; /* brand orange: the one hot accent */
+  --color-primary-bright: #ff7a45; /* gradient top / hover */
+  --color-primary-deep: #e8480f; /* gradient bottom */
+  --color-primary-soft: rgb(255 90 31 / 0.14);
+  --color-accent: #22d3c5; /* brand teal, lifted to cyan for dark surfaces */
+  --color-accent-strong: #5ee6db; /* accent button hover */
+  --color-accent-soft: rgb(34 211 197 / 0.12);
+  --color-violet: #7c5cff; /* atmosphere only (ambient light, mesh) */
+  --color-violet-soft: rgb(124 92 255 / 0.14);
   --color-whatsapp: #25d366;
-  --color-whatsapp-soft: rgb(37 211 102 / 0.13);
-  --color-whatsapp-line: rgb(37 211 102 / 0.27);
+  --color-whatsapp-soft: rgb(37 211 102 / 0.14);
+  --color-whatsapp-line: rgb(37 211 102 / 0.3);
 
-  /* Neutral (not slate) greys: near-black titles over softer body copy. */
-  --color-heading: #111111;
-  --color-body: #4a4a4a;
-  --color-muted: #666666; /* ≥4.5:1 on canvas, surface and elevated */
-  --color-muted-soft: rgb(102 102 102 / 0.1);
+  /* Type: cool white titles over softer body copy; muted stays ≥ 4.5:1 on every surface. */
+  --color-heading: #f4f6fb;
+  --color-body: #b8c0d2;
+  --color-muted: #8b95ab;
+  --color-muted-soft: rgb(139 149 171 / 0.12);
 
-  /* Photo overlays are pale paper washes so hero / banners / closing CTA
-     match the light grid and keep dark copy. */
-  --color-overlay-hero: rgb(243 243 243 / 0.86);
-  --color-overlay-banner: rgb(243 243 243 / 0.9);
-  --color-surface-translucent: rgb(255 255 255 / 0.6);
+  /* Photo overlays: deep washes so photos read as atmosphere behind light copy. */
+  --color-overlay-hero: rgb(7 9 15 / 0.72);
+  --color-overlay-banner: rgb(7 9 15 / 0.8);
+  --color-surface-translucent: rgb(255 255 255 / 0.03);
 
-  /* Drafting grid drawn on the body. */
-  --grid-minor: rgb(0 0 0 / 0.07);
-  --grid-major: rgb(0 0 0 / 0.13);
+  /* Blueprint grid drawn on the body: cool blue ink, barely there. */
+  --grid-minor: rgb(140 170 255 / 0.045);
+  --grid-major: rgb(140 170 255 / 0.09);
   --grid-cell: 24px;
   --grid-block: 144px; /* 6 minor cells per bold line */
 
   /* ---- Typography ------------------------------------------------------ */
-  /* Figtree throughout; the two tokens stay so headings can diverge later. */
   --font-heading: var(--font-figtree), "Figtree", ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-figtree), "Figtree", ui-sans-serif, system-ui, sans-serif;
 
-  /* Pixel scale used across the design (text-11 … text-56). */
+  /* Pixel scale (text-10 … text-72). */
   --text-10: 10px;
   --text-11: 11px;
   --text-12: 12px;
@@ -63,80 +71,84 @@
   --text-40: 40px;
   --text-48: 48px;
   --text-56: 56px;
+  --text-64: 64px;
+  --text-72: 72px;
 
-  /* Line heights used in Figma. */
-  --leading-native: normal; /* Figma "Auto" line height */
-  --leading-hero: 1.1;
-  --tracking-heading: -0.02em;
+  --leading-native: normal;
+  --leading-hero: 1.02;
   --leading-compact: 1.4;
-  --leading-body: 1.6;
+  --leading-body: 1.65;
+  --tracking-heading: -0.02em;
+  --tracking-display: -0.035em;
+  --tracking-label: 0.12em;
 
   /* ---- Radius ---------------------------------------------------------- */
-  /* Soft, generous corners: 12px buttons and cards, 16px panels. */
   --radius-xs: 6px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
   --radius-pill: 9999px;
 
   /* ---- Layout ---------------------------------------------------------- */
-  --container-page: 1440px; /* Figma frame width */
-  --spacing-gutter: 80px; /* Figma horizontal page padding */
+  --container-page: 1440px;
+  --spacing-gutter: 80px;
 
   /* ---- Motion ---------------------------------------------------------- */
   --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
   --default-transition-duration: 200ms;
-  /* One scale for state changes… */
-  --duration-fast: 250ms; /* micro-interactions: cursor, icons */
-  --duration-base: 450ms; /* component: card lift, reveal settle */
-  --duration-cinematic: 900ms; /* section / route level */
-  /* …and one for things that FOLLOW the pointer, near → far, so the whole
-     scene reads as one physical space (tilt → depth layers → ambient light). */
+  --duration-fast: 250ms;
+  --duration-base: 450ms;
+  --duration-cinematic: 900ms;
   --follow-near: 120ms;
   --follow-mid: 400ms;
   --follow-far: 1200ms;
 
   /* ---- Depth & light --------------------------------------------------- */
-  /* Paper depth: a stack of sheets, never a single black drop shadow. */
+  /* Dark depth is a hairline of light on the top edge plus a deep, soft drop. */
   --shadow-sheet:
-    0 1px 2px rgb(15 23 42 / 0.03),
-    0 8px 24px rgb(15 23 42 / 0.06);
+    inset 0 1px 0 rgb(255 255 255 / 0.05),
+    0 1px 2px rgb(0 0 0 / 0.4),
+    0 16px 40px -20px rgb(0 0 0 / 0.7);
   --shadow-sheet-lifted:
-    0 2px 4px rgb(15 23 42 / 0.04),
-    0 20px 40px -16px rgb(15 23 42 / 0.2),
-    0 0 0 1px rgb(15 23 42 / 0.03);
+    inset 0 1px 0 rgb(255 255 255 / 0.08),
+    0 2px 6px rgb(0 0 0 / 0.45),
+    0 36px 70px -28px rgb(0 0 0 / 0.85),
+    0 0 0 1px rgb(255 255 255 / 0.06);
   --shadow-glass:
-    inset 0 1px 0 rgb(255 255 255 / 0.85),
-    0 1px 2px rgb(15 23 42 / 0.04),
-    0 16px 40px -20px rgb(15 23 42 / 0.22);
-  --glow-primary: rgb(255 90 31 / 0.2); /* spotlight while a card tilts */
-  --glow-accent: rgb(10 158 138 / 0.18);
-  --color-accent-strong: #0b8f7d; /* accent button hover */
-  --glass-fill: rgb(255 255 255 / 0.58);
-  --glass-fill-strong: rgb(255 255 255 / 0.74);
-  --glass-line: rgb(255 255 255 / 0.8);
-  --glass-blur: 18px;
+    inset 0 1px 0 rgb(255 255 255 / 0.1),
+    inset 0 -1px 0 rgb(255 255 255 / 0.02),
+    0 24px 60px -30px rgb(0 0 0 / 0.8);
+  --shadow-glow-primary: 0 18px 44px -16px rgb(255 90 31 / 0.65);
+  --shadow-glow-accent: 0 18px 44px -16px rgb(34 211 197 / 0.5);
+  --glow-primary: rgb(255 90 31 / 0.22);
+  --glow-accent: rgb(34 211 197 / 0.18);
+  --glass-fill: rgb(14 18 28 / 0.55);
+  --glass-fill-strong: rgb(12 16 25 / 0.8);
+  --glass-line: rgb(255 255 255 / 0.32);
+  --glass-blur: 20px;
   --perspective: 1100px;
 }
 
 /* Base -------------------------------------------------------------------- */
 html {
   scroll-behavior: smooth;
-  /* Scroll-reveal elements start translated sideways (see Motion system); `clip`
-     keeps them from widening the page on phones without creating a scroll
-     container, so the sticky header keeps working. */
   overflow-x: clip;
+  /* Native controls (select menus, scrollbars, form widgets) render dark. */
+  color-scheme: dark;
+  background-color: var(--color-canvas);
 }
 
 body {
   overflow-x: clip;
-  /* Graph-paper background: fine grid every cell, bold rule every block. */
+  /* Blueprint grid: fine line every cell, bold rule every block, over a deep
+     navy with the faintest violet undertone toward the top. */
   background-color: var(--color-canvas);
   background-image:
-    linear-gradient(to right, var(--grid-major) 2px, transparent 2px),
-    linear-gradient(to bottom, var(--grid-major) 2px, transparent 2px),
+    linear-gradient(to right, var(--grid-major) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-major) 1px, transparent 1px),
     linear-gradient(to right, var(--grid-minor) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-minor) 1px, transparent 1px);
   background-size:
@@ -153,7 +165,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Layered so utility classes can override the defaults. */
 @layer base {
   h1,
   h2,
@@ -164,6 +175,10 @@ body {
     font-family: var(--font-heading);
     color: var(--color-heading);
     letter-spacing: var(--tracking-heading);
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
   }
 }
 
@@ -172,11 +187,9 @@ body {
   color: #fff;
 }
 
-/* Focus ring shared by all interactive elements. Form controls draw their own
-   (brand border + halo in components/ui/field.tsx), so they skip the outline. */
 :where(a, button, summary):focus-visible {
   outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+  outline-offset: 3px;
   border-radius: var(--radius-xs);
 }
 :where(input, select, textarea):focus-visible {
@@ -195,23 +208,462 @@ body {
   }
 }
 
-/* ------------------------------------------------------------------------ */
-/* Motion system                                                             */
+/* ======================================================================== */
+/* Component classes                                                         */
 /*                                                                           */
-/* Scroll reveals are opt-in via data attributes and driven by a single      */
-/* IntersectionObserver in `components/motion/motion-provider.tsx`:          */
+/* Layered as `components` so Tailwind utilities on the same element still   */
+/* win (e.g. `hover:border-accent/50` on a `.card-lift`).                    */
+/* ======================================================================== */
+@layer components {
+  /* ---- Display type ------------------------------------------------------ */
+  .display {
+    letter-spacing: var(--tracking-display);
+    line-height: var(--leading-hero);
+  }
+  /* Warm gradient ink for the one phrase a heading wants to light up. */
+  .gradient-text {
+    background-image: linear-gradient(100deg, #ffb08a 0%, var(--color-primary-bright) 40%, var(--color-primary) 70%, #ff9b6a 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .gradient-text-cool {
+    background-image: linear-gradient(100deg, #d7fbf7 0%, var(--color-accent) 45%, #9fd8ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* Small uppercase instrument labels. */
+  .label {
+    font-size: var(--text-11);
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  /* ---- Glass ------------------------------------------------------------- */
+  .glass {
+    background-color: var(--glass-fill);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-glass);
+  }
+  .glass-strong {
+    background-color: var(--glass-fill-strong);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-glass);
+  }
+  /* Hairline of light along the top edge: light catching the rim of the glass. */
+  .glass-edge {
+    position: relative;
+  }
+  .glass-edge::before {
+    content: "";
+    position: absolute;
+    inset: 0 10% auto 10%;
+    height: 1px;
+    border-radius: inherit;
+    background: linear-gradient(90deg, transparent, var(--glass-line), transparent);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ---- Cards ------------------------------------------------------------- */
+  /* Raised sheet: graphite gradient, hairline border, light on the top edge. */
+  .card-lift {
+    position: relative;
+    border: 1px solid var(--color-line);
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.035), rgb(255 255 255 / 0) 45%);
+    box-shadow: var(--shadow-sheet);
+    transition-property: translate, transform, box-shadow, border-color, background-color;
+    transition-duration:
+      var(--duration-base),
+      var(--tilt-duration, 700ms),
+      var(--duration-base),
+      300ms,
+      300ms;
+    transition-timing-function:
+      var(--ease-brand),
+      var(--tilt-ease, var(--ease-out-expo)),
+      var(--ease-brand),
+      var(--ease-brand),
+      var(--ease-brand);
+  }
+  @media (hover: hover) {
+    .card-lift:hover {
+      translate: 0 -5px;
+      border-color: var(--color-line-strong);
+      box-shadow: var(--shadow-sheet-lifted);
+    }
+  }
+  /* Featured tier: a slow aurora runs around the border. */
+  .card-aurora {
+    position: relative;
+    isolation: isolate;
+  }
+  .card-aurora::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--aurora-angle, 0deg),
+      transparent 0%,
+      rgb(255 90 31 / 0.85) 12%,
+      transparent 28%,
+      transparent 55%,
+      rgb(34 211 197 / 0.75) 68%,
+      transparent 84%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  /* ---- Buttons ----------------------------------------------------------- */
+  .btn-primary {
+    color: #fff;
+    background-image: linear-gradient(180deg, var(--color-primary-bright) 0%, var(--color-primary) 55%, var(--color-primary-deep) 100%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.3),
+      inset 0 -1px 0 rgb(0 0 0 / 0.2),
+      0 1px 2px rgb(0 0 0 / 0.4),
+      0 12px 30px -14px rgb(255 90 31 / 0.6);
+  }
+  .btn-secondary {
+    color: var(--color-heading);
+    background-color: rgb(255 255 255 / 0.06);
+    border: 1px solid var(--color-line);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
+  }
+  .btn-outline {
+    color: var(--color-heading);
+    background-color: rgb(255 255 255 / 0.02);
+    border: 1px solid var(--color-line-strong);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
+  }
+  .btn-outline-filled {
+    color: var(--color-primary-bright);
+    background-color: rgb(255 90 31 / 0.08);
+    border: 1px solid rgb(255 90 31 / 0.45);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
+  }
+  .btn-whatsapp {
+    color: #06210f;
+    background-image: linear-gradient(180deg, #4be283 0%, var(--color-whatsapp) 60%, #1eb857 100%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.35),
+      0 1px 2px rgb(0 0 0 / 0.4),
+      0 12px 30px -14px rgb(37 211 102 / 0.55);
+  }
+  @media (hover: hover) {
+    .btn-primary:hover {
+      filter: brightness(1.08);
+      box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.35),
+        inset 0 -1px 0 rgb(0 0 0 / 0.2),
+        0 2px 4px rgb(0 0 0 / 0.4),
+        0 22px 48px -16px rgb(255 90 31 / 0.85);
+    }
+    .btn-secondary:hover {
+      background-color: rgb(255 255 255 / 0.1);
+      border-color: var(--color-line-strong);
+      box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.08),
+        0 16px 36px -18px rgb(0 0 0 / 0.8);
+    }
+    .btn-outline:hover {
+      border-color: rgb(255 90 31 / 0.6);
+      background-color: rgb(255 90 31 / 0.08);
+      box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.06),
+        0 16px 36px -18px rgb(255 90 31 / 0.45);
+    }
+    .btn-outline-filled:hover {
+      background-color: rgb(255 90 31 / 0.16);
+      border-color: rgb(255 90 31 / 0.7);
+      box-shadow: 0 16px 36px -18px rgb(255 90 31 / 0.5);
+    }
+    .btn-whatsapp:hover {
+      filter: brightness(1.06);
+      box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.4),
+        0 22px 48px -16px rgb(37 211 102 / 0.7);
+    }
+  }
+  /* Busy state: a continuous light sweep + spinner while a request is in flight. */
+  .btn-loading::after {
+    animation: shimmer 1.4s var(--ease-in-out-soft) infinite;
+  }
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgb(255 255 255 / 0.3);
+    border-top-color: currentColor;
+    animation: spin 800ms linear infinite;
+  }
+
+  /* ---- Form controls ----------------------------------------------------- */
+  .control {
+    width: 100%;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-line);
+    background-color: rgb(255 255 255 / 0.04);
+    padding: 12px 14px;
+    font-family: var(--font-sans);
+    font-size: var(--text-14);
+    line-height: normal;
+    color: var(--color-heading);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.03);
+    transition:
+      border-color 300ms var(--ease-brand),
+      box-shadow 300ms var(--ease-brand),
+      background-color 300ms var(--ease-brand);
+  }
+  .control::placeholder {
+    color: rgb(139 149 171 / 0.7);
+  }
+  .control[data-surface="canvas"] {
+    background-color: rgb(255 255 255 / 0.03);
+  }
+  .control[data-surface="elevated"] {
+    background-color: rgb(255 255 255 / 0.07);
+  }
+  @media (hover: hover) {
+    .control:hover {
+      border-color: var(--color-line-strong);
+    }
+  }
+  .control:focus {
+    border-color: rgb(255 90 31 / 0.75);
+    background-color: rgb(255 255 255 / 0.06);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.04),
+      0 0 0 4px rgb(255 90 31 / 0.16),
+      0 12px 32px -16px rgb(255 90 31 / 0.5);
+  }
+  .control[aria-invalid="true"] {
+    border-color: rgb(255 90 31 / 0.8);
+  }
+  .control:read-only:not(select) {
+    color: var(--color-body);
+  }
+  .control option {
+    background-color: var(--color-elevated);
+    color: var(--color-heading);
+  }
+
+  /* ---- Sheets (section tone="surface") ----------------------------------- */
+  /* A slightly lighter translucent band with a lit top edge; the highlight
+     drifts along the edge so section breaks feel alive without moving copy. */
+  .sheet {
+    position: relative;
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.03), rgb(255 255 255 / 0.012));
+    box-shadow:
+      0 1px 0 var(--color-line),
+      0 -1px 0 var(--color-line);
+  }
+  .sheet::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgb(255 90 31 / 0.55) 35%, rgb(34 211 197 / 0.55) 65%, transparent 100%);
+    background-size: 50% 100%;
+    background-repeat: no-repeat;
+    background-position: -100% 0;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  /* Standalone animated divider. */
+  .section-rule {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, var(--color-line-strong) 30%, var(--color-line-strong) 70%, transparent);
+    position: relative;
+    overflow: hidden;
+  }
+  .section-rule::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgb(255 90 31 / 0.9), rgb(34 211 197 / 0.9), transparent);
+    transform: translateX(-100%);
+  }
+
+  /* ---- HUD chips --------------------------------------------------------- */
+  .hud {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-body);
+    white-space: nowrap;
+  }
+  .hud-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow:
+      0 0 0 4px var(--color-accent-soft),
+      0 0 12px rgb(34 211 197 / 0.8);
+  }
+  .hud-dot[data-tone="primary"] {
+    background: var(--color-primary);
+    box-shadow:
+      0 0 0 4px var(--color-primary-soft),
+      0 0 12px rgb(255 90 31 / 0.8);
+  }
+  .hud-key {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .hud-value {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--color-heading);
+  }
+
+  /* ---- Icon wells -------------------------------------------------------- */
+  /* Icon on a soft tinted disc with an outer glow: the standard card glyph. */
+  .well {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    color: var(--color-primary-bright);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0)),
+      rgb(255 90 31 / 0.12);
+    border: 1px solid rgb(255 90 31 / 0.25);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.08),
+      0 0 0 0 rgb(255 90 31 / 0);
+    transition:
+      scale 400ms var(--ease-brand),
+      rotate 400ms var(--ease-brand),
+      translate 400ms var(--ease-brand),
+      box-shadow 400ms var(--ease-brand);
+  }
+  .well[data-tone="accent"] {
+    color: var(--color-accent);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0)),
+      rgb(34 211 197 / 0.1);
+    border-color: rgb(34 211 197 / 0.25);
+  }
+  .well[data-tone="whatsapp"] {
+    color: var(--color-whatsapp);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0)),
+      rgb(37 211 102 / 0.1);
+    border-color: rgb(37 211 102 / 0.25);
+  }
+  .well[data-tone="muted"] {
+    color: var(--color-body);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0)),
+      rgb(255 255 255 / 0.05);
+    border-color: var(--color-line);
+  }
+  .well-round {
+    border-radius: 50%;
+  }
+  @media (hover: hover) {
+    .group:hover .well {
+      scale: 1.08;
+      rotate: -6deg;
+      box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.1),
+        0 0 0 6px rgb(255 90 31 / 0.1),
+        0 10px 24px -10px rgb(255 90 31 / 0.6);
+    }
+    .group:hover .well[data-tone="accent"] {
+      box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.1),
+        0 0 0 6px rgb(34 211 197 / 0.1),
+        0 10px 24px -10px rgb(34 211 197 / 0.5);
+    }
+    .group:hover .well[data-tone="whatsapp"] {
+      box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.1),
+        0 0 0 6px rgb(37 211 102 / 0.1),
+        0 10px 24px -10px rgb(37 211 102 / 0.5);
+    }
+    .group:hover .well[data-tone="muted"] {
+      box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.1),
+        0 0 0 6px rgb(255 255 255 / 0.04);
+    }
+  }
+
+  /* ---- Skeleton / shimmer ------------------------------------------------ */
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    background-color: rgb(255 255 255 / 0.05);
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.08), transparent);
+    transform: translateX(-100%);
+  }
+
+  /* ---- Empty / error panels ---------------------------------------------- */
+  .state-panel {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 40px 24px;
+    text-align: center;
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--color-line-strong);
+    background:
+      radial-gradient(60% 80% at 50% 0%, rgb(255 90 31 / 0.08), transparent 70%),
+      rgb(255 255 255 / 0.02);
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Motion system (unchanged mechanics; see components/motion/motion-provider) */
 /*                                                                           */
 /*   data-reveal="up|down|left|right|scale|fade|blur|clip|words"             */
 /*   data-reveal-delay="1..8"        (+100ms per step)                       */
-/*   data-reveal-stagger="up|scale|left|right|fade"  (cascades children;     */
-/*     tune with --stagger-step / --stagger-offset on the container)          */
+/*   data-reveal-stagger="up|scale|left|right|fade"                          */
 /*   data-spotlight                  (cursor-tracking glow on cards)         */
 /*   data-parallax="0.2"             (scroll-linked drift for backgrounds)   */
-/*                                                                           */
-/* Reveals use animations (not transitions) so hover transforms on the same  */
-/* element keep their own timing once the element is visible.               */
-/* Everything is gated behind scripting:enabled + reduced-motion so content  */
-/* is never hidden without JS or for users who opt out of motion.            */
 /* ------------------------------------------------------------------------ */
 @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
   :root {
@@ -219,11 +671,9 @@ body {
     --stagger-step: 80ms;
   }
 
-  /* ---- Hidden states --------------------------------------------------- */
   [data-reveal] {
     --reveal-delay: 0ms;
   }
-  /* Stagger children start from the container's optional `--stagger-offset`. */
   [data-reveal-stagger] > * {
     --reveal-delay: var(--stagger-offset, 0ms);
   }
@@ -253,6 +703,9 @@ body {
     transform: translateY(16px);
     filter: blur(12px);
   }
+  :is([data-reveal="flip"], [data-reveal-stagger="flip"] > *):not([data-visible]) {
+    transform: perspective(1000px) rotateX(-24deg) translateY(48px) translateZ(-90px);
+  }
   [data-reveal="clip"]:not([data-visible]) {
     opacity: 1;
     clip-path: inset(0 100% 0 0);
@@ -265,7 +718,6 @@ body {
     transform: translateY(110%) rotateX(-40deg);
   }
 
-  /* ---- Revealed: play the entrance animation --------------------------- */
   :is([data-reveal], [data-reveal-stagger] > *)[data-visible] {
     animation-duration: var(--reveal-duration);
     animation-timing-function: var(--ease-brand);
@@ -293,6 +745,10 @@ body {
   [data-reveal="blur"][data-visible] {
     animation-name: reveal-blur;
   }
+  :is([data-reveal="flip"], [data-reveal-stagger="flip"] > *)[data-visible] {
+    animation-name: reveal-flip;
+    animation-duration: 1000ms;
+  }
   [data-reveal="clip"][data-visible] {
     animation-name: reveal-clip;
     animation-duration: 1100ms;
@@ -305,7 +761,6 @@ body {
     animation-delay: calc(var(--reveal-delay) + var(--word-index, 0) * 55ms);
   }
 
-  /* ---- Delays ---------------------------------------------------------- */
   [data-reveal-delay="1"] { --reveal-delay: 100ms; }
   [data-reveal-delay="2"] { --reveal-delay: 200ms; }
   [data-reveal-delay="3"] { --reveal-delay: 300ms; }
@@ -324,7 +779,7 @@ body {
   [data-reveal-stagger] > :nth-child(8) { --reveal-delay: calc(var(--stagger-offset, 0ms) + var(--stagger-step) * 7); }
   [data-reveal-stagger] > :nth-child(n + 9) { --reveal-delay: calc(var(--stagger-offset, 0ms) + var(--stagger-step) * 8); }
 
-  /* ---- Safety net: if hydration never happens, show everything at 3s. --- */
+  /* Safety net: if hydration never happens, show everything at 3s. */
   html:not([data-motion="ready"]) :is([data-reveal], [data-reveal-stagger] > *, .word) {
     animation: reveal-fallback 0s 3s forwards;
   }
@@ -341,23 +796,33 @@ body {
   .page-enter {
     animation: page-in 600ms var(--ease-brand);
   }
-
-  /* Stars on testimonial cards pop in one after another once the card shows. */
   [data-visible] .star-icon {
     animation: star-pop 500ms var(--ease-brand) both;
     animation-delay: calc(var(--reveal-delay) + 250ms + var(--star-index, 0) * 70ms);
   }
+  .sheet::before {
+    animation: edge-light 9s var(--ease-in-out-soft) infinite;
+  }
+  .section-rule::after {
+    animation: rule-sweep 6s var(--ease-in-out-soft) infinite;
+  }
+  .skeleton::after {
+    animation: skeleton-sweep 1.6s var(--ease-in-out-soft) infinite;
+  }
+  .card-aurora::before {
+    animation: aurora-spin 9s linear infinite;
+  }
+  .gradient-text {
+    animation: ink-flow 8s ease-in-out infinite alternate;
+  }
+  .pulse-dot::after {
+    animation: survey-ping 2.6s var(--ease-out-expo) infinite;
+  }
 }
 
 /* ---- First-paint entrances ----------------------------------------------- */
-/* Above-the-fold content (home hero, page banners, course hero) must never
-   wait for JavaScript: `data-enter` plays the same motion as `data-reveal`, but
-   from CSS alone, starting the moment the page paints. No observer, no hidden
-   state beyond each animation's own `backwards` fill, so it cannot get stuck.
-
-     data-enter="up|left|fade|scale|words"   (+ optional [--enter-delay:120ms])
-     data-enter-stagger="up|scale"           (children cascade 70ms apart,
-                                              starting at --stagger-offset)   */
+/* Above-the-fold content (home hero, page banners, course hero) never waits
+   for JavaScript: `data-enter` plays from CSS alone the moment the page paints. */
 @media (prefers-reduced-motion: no-preference) {
   [data-enter],
   [data-enter-stagger] > * {
@@ -366,12 +831,15 @@ body {
   }
   [data-enter="left"] { animation-name: reveal-left; }
   [data-enter="fade"] { animation-name: reveal-fade; }
+  [data-enter="blur"] { animation-name: reveal-blur; animation-duration: 900ms; }
   :is([data-enter="scale"], [data-enter-stagger="scale"] > *) { animation-name: reveal-scale; }
 
   [data-enter-stagger] > * { --enter-delay: var(--stagger-offset, 0ms); }
   [data-enter-stagger] > :nth-child(2) { --enter-delay: calc(var(--stagger-offset, 0ms) + 70ms); }
   [data-enter-stagger] > :nth-child(3) { --enter-delay: calc(var(--stagger-offset, 0ms) + 140ms); }
-  [data-enter-stagger] > :nth-child(n + 4) { --enter-delay: calc(var(--stagger-offset, 0ms) + 210ms); }
+  [data-enter-stagger] > :nth-child(4) { --enter-delay: calc(var(--stagger-offset, 0ms) + 210ms); }
+  [data-enter-stagger] > :nth-child(5) { --enter-delay: calc(var(--stagger-offset, 0ms) + 280ms); }
+  [data-enter-stagger] > :nth-child(n + 6) { --enter-delay: calc(var(--stagger-offset, 0ms) + 350ms); }
 
   [data-enter="words"] { animation: none; }
   [data-enter="words"] .word-mask { perspective: 600px; }
@@ -412,6 +880,11 @@ body {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+@keyframes reveal-flip {
+  from { opacity: 0; transform: perspective(1000px) rotateX(-24deg) translateY(48px) translateZ(-90px); }
+  60% { opacity: 1; }
+  to { opacity: 1; transform: perspective(1000px) rotateX(0) translateY(0) translateZ(0); }
+}
 @keyframes reveal-blur {
   from { opacity: 0; transform: translateY(16px); filter: blur(12px); }
   to { opacity: 1; transform: none; filter: blur(0); }
@@ -424,7 +897,6 @@ body {
   from { transform: scale(1.15); }
   to { transform: none; }
 }
-/* Words pitch up out of their mask (perspective on .word-mask). */
 @keyframes word-rise {
   from { opacity: 0; transform: translateY(110%) rotateX(-40deg); }
   to { opacity: 1; transform: none; }
@@ -453,13 +925,39 @@ body {
   from { transform: translateX(-150%) skewX(-20deg); }
   to { transform: translateX(250%) skewX(-20deg); }
 }
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes edge-light {
+  0% { background-position: -100% 0; }
+  60%, 100% { background-position: 200% 0; }
+}
+@keyframes rule-sweep {
+  0% { transform: translateX(-100%); }
+  55%, 100% { transform: translateX(100%); }
+}
+@keyframes skeleton-sweep {
+  to { transform: translateX(100%); }
+}
+@keyframes ink-flow {
+  from { background-position: 0% 50%; }
+  to { background-position: 100% 50%; }
+}
+@property --aurora-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes aurora-spin {
+  to { --aurora-angle: 360deg; }
+}
 
 /* ---- Split-word headings ------------------------------------------------- */
 .word-mask {
   display: inline-block;
   overflow: hidden;
   vertical-align: bottom;
-  padding-bottom: 0.15em; /* room for descenders inside the clip */
+  padding-bottom: 0.15em;
   margin-bottom: -0.15em;
 }
 .word {
@@ -472,12 +970,12 @@ body {
   isolation: isolate;
   --mx: 50%;
   --my: 50%;
-  --spot-color: rgb(255 90 31 / 0.14);
-  --spot-ring: rgb(255 90 31 / 0.7);
+  --spot-color: rgb(255 90 31 / 0.16);
+  --spot-ring: rgb(255 122 69 / 0.9);
 }
 [data-spotlight="accent"] {
-  --spot-color: rgb(10 158 138 / 0.12);
-  --spot-ring: rgb(10 158 138 / 0.7);
+  --spot-color: rgb(34 211 197 / 0.13);
+  --spot-ring: rgb(34 211 197 / 0.9);
 }
 /* Soft light that follows the cursor, painted between background and content. */
 [data-spotlight]::before {
@@ -488,7 +986,7 @@ body {
   border-radius: inherit;
   pointer-events: none;
   background: radial-gradient(
-    380px circle at var(--mx) var(--my),
+    420px circle at var(--mx) var(--my),
     var(--spot-color),
     transparent 60%
   );
@@ -505,7 +1003,7 @@ body {
   padding: 1px;
   pointer-events: none;
   background: radial-gradient(
-    260px circle at var(--mx) var(--my),
+    280px circle at var(--mx) var(--my),
     var(--spot-ring),
     transparent 70%
   );
@@ -528,8 +1026,7 @@ body {
 }
 
 /* ---- Photo backdrops ---------------------------------------------------- */
-/* Hero / banner / CTA photos dissolve into the paper grid on every edge so
-   they read as a wash on the sheet rather than a separate rectangle. */
+/* Photos dissolve into the dark on every edge so they read as atmosphere. */
 .photo-fade {
   --fade-x: 14%;
   --fade-y: 22%;
@@ -543,33 +1040,6 @@ body {
   mask-composite: intersect;
 }
 
-/* ---- Interactive surfaces ---------------------------------------------- */
-/* Cards: lift + deep shadow on hover. */
-.card-lift {
-  /* Lift uses `translate` so `transform` is free for the tilt system, whose
-     speed is steered through --tilt-duration / --tilt-ease (see Spatial). */
-  transition-property: translate, transform, box-shadow, border-color, background-color;
-  transition-duration:
-    var(--duration-base),
-    var(--tilt-duration, 700ms),
-    var(--duration-base),
-    200ms,
-    200ms;
-  transition-timing-function:
-    var(--ease-brand),
-    var(--tilt-ease, var(--ease-out-expo)),
-    var(--ease-brand),
-    var(--ease-brand),
-    var(--ease-brand);
-  box-shadow: var(--shadow-sheet);
-}
-@media (hover: hover) {
-  .card-lift:hover {
-    translate: 0 -4px;
-    box-shadow: var(--shadow-sheet-lifted);
-  }
-}
-
 /* Buttons: diagonal light sweep on hover. */
 .btn-shine {
   position: relative;
@@ -581,12 +1051,7 @@ body {
   inset: 0;
   width: 40%;
   pointer-events: none;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgb(255 255 255 / 0.28),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.22), transparent);
   transform: translateX(-150%) skewX(-20deg);
 }
 @media (hover: hover) {
@@ -595,68 +1060,88 @@ body {
   }
 }
 
-/* Reading progress bar along the header's bottom edge. */
+/* Reading progress bar along the nav shell's bottom edge. */
 .scroll-progress {
   transform: scaleX(0);
   transform-origin: left;
   background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  box-shadow: 0 0 12px rgb(255 90 31 / 0.6);
 }
 
-/* ======================================================================== */
-/* Spatial system                                                            */
-/*                                                                           */
-/* Depth, light and 3D on top of the motion system. Like reveals, every      */
-/* behaviour is opt-in through data attributes so components stay server-   */
-/* rendered; `components/motion/motion-provider.tsx` drives the variables:   */
-/*                                                                           */
-/*   data-tilt              (pointer-driven 3D tilt + glare; --rx/--ry/--gx) */
-/*   data-magnetic          (CTA drifts toward a nearby pointer; --mag-x/y)  */
-/*   data-depth="0.4"       (pointer parallax by depth; --dx/--dy)           */
-/*   data-cursor="view|text" (custom cursor state, see cursor.tsx)          */
-/*   .glass / .glass-strong (frosted vellum surfaces)                        */
-/*                                                                           */
-/* Pointer effects only exist for fine pointers; touch devices keep the      */
-/* static depth (shadows, glass) without the tracking.                       */
-/* ======================================================================== */
-
-/* ---- Glass (frosted tracing paper) -------------------------------------- */
-.glass {
-  background-color: var(--glass-fill);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.3);
-  backdrop-filter: blur(var(--glass-blur)) saturate(1.3);
-  border: 1px solid var(--color-line);
-  box-shadow: var(--shadow-glass);
-}
-.glass-strong {
-  background-color: var(--glass-fill-strong);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.3);
-  backdrop-filter: blur(var(--glass-blur)) saturate(1.3);
-  border: 1px solid var(--color-line);
-  box-shadow: var(--shadow-glass);
-}
-/* Hairline highlight along the top edge, like light catching a sheet's edge. */
-.glass-edge {
+/* ---- Floating navigation --------------------------------------------------- */
+/* The shell frosts and tightens once the page scrolls. It lives inside the
+   sticky <header> as a sibling of the fixed mobile drawer, so its backdrop
+   filter never becomes the drawer's containing block. */
+.nav-shell {
   position: relative;
+  border-radius: var(--radius-lg);
+  border: 1px solid transparent;
+  background-color: rgb(7 9 15 / 0);
+  transition:
+    background-color 400ms var(--ease-brand),
+    border-color 400ms var(--ease-brand),
+    box-shadow 400ms var(--ease-brand),
+    backdrop-filter 400ms var(--ease-brand);
 }
-.glass-edge::before {
+.nav-shell[data-scrolled] {
+  border-color: var(--color-line);
+  background-color: rgb(10 13 21 / 0.72);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5);
+  backdrop-filter: blur(22px) saturate(1.5);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.07),
+    0 20px 50px -24px rgb(0 0 0 / 0.9);
+}
+.nav-shell[data-scrolled]::before {
   content: "";
   position: absolute;
   inset: 0 12% auto 12%;
   height: 1px;
-  border-radius: inherit;
   background: linear-gradient(90deg, transparent, var(--glass-line), transparent);
   pointer-events: none;
 }
+/* Soft pill that slides behind the hovered / active link. */
+.nav-indicator {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 34px;
+  width: 0;
+  translate: 0 -50%;
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 0.07);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 500ms var(--ease-out-expo),
+    width 500ms var(--ease-out-expo),
+    opacity 300ms var(--ease-brand);
+}
+/* Drawer: a full-bleed dark sheet under the floating shell. */
+.nav-drawer {
+  background:
+    radial-gradient(70% 40% at 50% 0%, rgb(255 90 31 / 0.08), transparent 70%),
+    rgb(7 9 15 / 0.96);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
+/* ======================================================================== */
+/* Spatial system (mechanics unchanged; colours re-lit for the dark studio)  */
+/*                                                                           */
+/*   data-tilt              (pointer-driven 3D tilt; --rx/--ry)              */
+/*   data-magnetic          (CTA drifts toward a nearby pointer; --mag-x/y)  */
+/*   data-depth="0.4"       (pointer parallax by depth; --dx/--dy)           */
+/*   data-cursor="view|text" (custom cursor state, see cursor.tsx)          */
+/* ======================================================================== */
 
 /* ---- Tilt ----------------------------------------------------------------- */
-/* The card pivots toward the pointer; `data-spotlight` (already on every card)
-   doubles as the glare, so tilt only owns `transform`. */
 [data-tilt] {
   --rx: 0deg;
   --ry: 0deg;
   transform: perspective(var(--perspective)) rotateX(var(--rx)) rotateY(var(--ry));
 }
-/* `.card-lift` already transitions transform; anything else gets its own. */
 [data-tilt]:not(.card-lift) {
   transition: transform var(--tilt-duration, 700ms) var(--tilt-ease, var(--ease-out-expo));
 }
@@ -664,7 +1149,6 @@ body {
   --tilt-duration: var(--follow-near);
   --tilt-ease: linear;
 }
-/* Brighter light while the sheet is actually tilting under the pointer. */
 [data-tilt][data-tilting][data-spotlight]::before {
   opacity: 1;
   --spot-color: var(--glow-primary);
@@ -674,15 +1158,11 @@ body {
 }
 
 /* ---- Magnetic CTAs -------------------------------------------------------- */
-/* No transition here: the element's own transition list must include
-   `transform` (the Button does) so its hover transitions keep working. */
 [data-magnetic] {
   --mag-x: 0px;
   --mag-y: 0px;
   transform: translate3d(var(--mag-x), var(--mag-y), 0);
 }
-/* While the pointer is within reach the CTA tracks it tightly; on release it
-   settles back at the element's own (slower) transition. */
 [data-magnetic][data-magnet-active] {
   transition-duration: var(--follow-near);
   transition-timing-function: var(--ease-out-expo);
@@ -697,58 +1177,61 @@ body {
 }
 
 /* ---- Ambient light -------------------------------------------------------- */
-/* Two soft light sources (brand orange + teal) drift over the paper on their
-   own and lean toward the pointer (MotionProvider writes `--lx` / `--ly` on
-   this element). Each blob is one composited layer: the drift animates
-   `transform`, the lean transitions `translate`, nothing touches layout. */
+/* Three soft light sources drift behind the page (orange, cyan, and a violet
+   undertone) and lean toward the pointer. Each is one composited layer. */
 .ambient {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
+  background:
+    radial-gradient(120% 70% at 50% -10%, rgb(124 92 255 / 0.12), transparent 60%),
+    radial-gradient(80% 60% at 100% 100%, rgb(34 211 197 / 0.05), transparent 60%);
 }
 .ambient::before,
-.ambient::after {
+.ambient::after,
+.ambient-violet {
   content: "";
   position: absolute;
   width: 70vmax;
   height: 70vmax;
   border-radius: 50%;
-  filter: blur(40px);
-  opacity: 0.7;
-  /* Percentages of the blob's own size: a pointer at the far edge moves the
-     light ~6vmax. */
+  opacity: 0.9;
   translate: calc((var(--lx, 50%) - 50%) * 0.18) calc((var(--ly, 40%) - 40%) * 0.18);
   transition: translate var(--follow-far) var(--ease-out-expo);
   will-change: transform;
 }
 .ambient::before {
-  left: -12vmax;
-  top: -22vmax;
-  background: radial-gradient(circle, rgb(255 90 31 / 0.16), rgb(255 90 31 / 0) 60%);
+  left: -14vmax;
+  top: -24vmax;
+  background: radial-gradient(circle, rgb(255 90 31 / 0.15) 0%, rgb(255 90 31 / 0.09) 22%, rgb(255 90 31 / 0.03) 45%, rgb(255 90 31 / 0) 62%);
 }
 .ambient::after {
-  right: -18vmax;
-  bottom: -26vmax;
-  background: radial-gradient(circle, rgb(10 158 138 / 0.14), rgb(10 158 138 / 0) 60%);
+  right: -20vmax;
+  bottom: -28vmax;
+  background: radial-gradient(circle, rgb(34 211 197 / 0.1) 0%, rgb(34 211 197 / 0.06) 22%, rgb(34 211 197 / 0.02) 45%, rgb(34 211 197 / 0) 62%);
 }
-/* Fine paper grain on top of the lights, multiplied so it stays subtle. */
+.ambient-violet {
+  left: 30vw;
+  top: 30vh;
+  width: 60vmax;
+  height: 60vmax;
+  background: radial-gradient(circle, rgb(124 92 255 / 0.09) 0%, rgb(124 92 255 / 0.05) 22%, rgb(124 92 255 / 0.015) 45%, rgb(124 92 255 / 0) 62%);
+}
+/* Fine film grain over the lights so gradients never band. */
 .ambient-grain {
   position: absolute;
   inset: 0;
-  opacity: 0.35;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* ---- Custom cursor -------------------------------------------------------- */
-/* Only when the provider has confirmed a fine pointer (html[data-cursor]).   */
 html[data-cursor],
 html[data-cursor] * {
   cursor: none;
 }
-/* Native caret stays for text entry. */
 html[data-cursor] :is(input, textarea, select, [contenteditable]) {
   cursor: auto;
 }
@@ -760,7 +1243,6 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
   pointer-events: none;
   opacity: 0;
   transition: opacity var(--duration-fast) var(--ease-brand);
-  /* --cx/--cy are written by cursor.tsx every frame. */
   transform: translate3d(var(--cx, -100px), var(--cy, -100px), 0);
 }
 .cursor[data-shown] {
@@ -774,6 +1256,7 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
   height: 8px;
   border-radius: 50%;
   background: var(--color-primary);
+  box-shadow: 0 0 10px rgb(255 90 31 / 0.8);
   transition: transform var(--duration-fast) var(--ease-out-expo), opacity var(--duration-fast) var(--ease-brand);
 }
 .cursor-ring {
@@ -783,21 +1266,20 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1.5px solid rgb(15 23 42 / 0.55);
+  border: 1.5px solid rgb(244 246 251 / 0.55);
   transition:
     transform 350ms var(--ease-out-expo),
     border-color 300ms var(--ease-brand),
     background-color 300ms var(--ease-brand),
     opacity 300ms var(--ease-brand);
 }
-/* Crosshair ticks: the ring is a drafting reticle, not a plain circle. */
 .cursor-ring::before,
 .cursor-ring::after {
   content: "";
   position: absolute;
   left: 50%;
   top: 50%;
-  background: rgb(15 23 42 / 0.55);
+  background: rgb(244 246 251 / 0.55);
   transition: opacity 300ms var(--ease-brand);
 }
 .cursor-ring::before {
@@ -825,11 +1307,10 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
   white-space: nowrap;
   transition: opacity 250ms var(--ease-brand), transform 350ms var(--ease-out-expo);
 }
-/* Hovering something clickable: ring grows, ticks fade, dot shrinks. */
 .cursor[data-state="link"] .cursor-ring {
   transform: scale(1.6);
   border-color: var(--color-primary);
-  background-color: rgb(255 90 31 / 0.08);
+  background-color: rgb(255 90 31 / 0.1);
 }
 .cursor[data-state="link"] .cursor-ring::before,
 .cursor[data-state="link"] .cursor-ring::after {
@@ -838,7 +1319,6 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
 .cursor[data-state="link"] .cursor-dot {
   transform: scale(0.5);
 }
-/* Hovering an image/card marked data-cursor="view": filled disc with label. */
 .cursor[data-state="view"] .cursor-ring {
   transform: scale(2.2);
   border-color: transparent;
@@ -853,7 +1333,6 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
 }
-/* Over text inputs the native caret takes over. */
 .cursor[data-state="text"] {
   opacity: 0;
 }
@@ -865,7 +1344,6 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
 }
 
 /* ---- Route transitions (React <ViewTransition>) --------------------------- */
-/* The old page sinks and blurs out quickly; the new one rises into focus.    */
 ::view-transition {
   pointer-events: none;
 }
@@ -889,12 +1367,9 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
     filter: blur(10px);
   }
 }
-/* Header/footer live in the root snapshot, which crossfades between two
-   identical frames, so the chrome reads as a fixed anchor while pages move. */
 ::view-transition-group(root) {
   animation-duration: 200ms;
 }
-/* Shared elements (course card → course page) morph with a soft mid-flight blur. */
 ::view-transition-group(.vt-morph) {
   animation-duration: 520ms;
   animation-timing-function: var(--ease-out-expo);
@@ -916,8 +1391,6 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
     filter: blur(3px);
   }
 }
-/* With View Transitions the route animation above replaces the CSS entrance
-   (`.page-enter` in the motion block stays as the fallback for other browsers). */
 @supports (view-transition-name: none) {
   .page-enter {
     animation: none;
@@ -933,8 +1406,6 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
 }
 
 /* ---- Kinetic type ---------------------------------------------------------- */
-/* Split-word headings rise out of their masks with a slight 3D pitch, so the
-   line reads as a sheet folding up rather than text sliding. */
 [data-reveal="words"] .word-mask {
   perspective: 600px;
 }
@@ -954,52 +1425,111 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
   opacity: 1;
 }
 .hero-scene canvas {
-  display: block; /* sized in px by the scene (DPR-aware) */
+  display: block;
 }
-/* Floating data chips: small vellum panels that read like a BIM viewer's HUD. */
-.hud {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border-radius: var(--radius-md);
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1;
-  color: var(--color-body);
-  white-space: nowrap;
+
+/* Perspective floor: a cyan grid plane receding from the bottom of the hero,
+   running slowly toward the camera. One oversized layer, transform-only. */
+.floor-grid {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 48%;
+  perspective: 720px;
+  perspective-origin: 50% 0%;
+  pointer-events: none;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 30%, #000 70%, transparent 100%);
+  mask-image: linear-gradient(to top, transparent 0%, #000 30%, #000 70%, transparent 100%);
 }
-.hud-dot {
-  width: 6px;
-  height: 6px;
+.floor-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0 -50% -140% -50%;
+  transform-origin: 50% 0;
+  transform: rotateX(64deg) translate3d(0, 0, 0);
+  background-image:
+    linear-gradient(to right, rgb(34 211 197 / 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(34 211 197 / 0.16) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+/* Horizon glow where the floor meets the dark. */
+.floor-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 40%;
+  background: linear-gradient(to bottom, rgb(34 211 197 / 0.1), transparent);
+  pointer-events: none;
+}
+
+/* Blurred light spheres behind hero content. Static filter, transform-only float. */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform;
+}
+.orb[data-tone="primary"] {
+  background: radial-gradient(closest-side, rgb(255 140 90 / 0.3) 0%, rgb(255 110 55 / 0.18) 25%, rgb(255 90 31 / 0.08) 50%, rgb(255 90 31 / 0.025) 75%, rgb(255 90 31 / 0) 100%);
+}
+.orb[data-tone="accent"] {
+  background: radial-gradient(closest-side, rgb(150 240 232 / 0.24) 0%, rgb(34 211 197 / 0.13) 25%, rgb(34 211 197 / 0.06) 50%, rgb(34 211 197 / 0.018) 75%, rgb(34 211 197 / 0) 100%);
+}
+.orb[data-tone="violet"] {
+  background: radial-gradient(closest-side, rgb(170 150 255 / 0.24) 0%, rgb(124 92 255 / 0.13) 25%, rgb(124 92 255 / 0.06) 50%, rgb(124 92 255 / 0.018) 75%, rgb(124 92 255 / 0) 100%);
+}
+
+/* Animated gradient mesh behind full-bleed bands (banner, closing CTA). */
+.mesh {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.mesh::before,
+.mesh::after {
+  content: "";
+  position: absolute;
+  width: 90vmax;
+  height: 90vmax;
+  border-radius: 50%;
+  opacity: 0.7;
+  will-change: transform;
+}
+.mesh::before {
+  left: -30vmax;
+  top: -50vmax;
+  background: radial-gradient(circle, rgb(255 90 31 / 0.14) 0%, rgb(255 110 60 / 0.09) 18%, rgb(124 92 255 / 0.06) 40%, rgb(124 92 255 / 0.015) 56%, transparent 66%);
+}
+.mesh::after {
+  right: -35vmax;
+  bottom: -55vmax;
+  background: radial-gradient(circle, rgb(34 211 197 / 0.12) 0%, rgb(34 211 197 / 0.08) 18%, rgb(124 92 255 / 0.05) 40%, rgb(124 92 255 / 0.012) 56%, transparent 66%);
+}
+
+/* Breathing status dot for eyebrow badges. */
+.pulse-dot {
+  position: relative;
+  display: inline-block;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--color-accent);
-  box-shadow: 0 0 0 4px var(--color-accent-soft);
+  box-shadow: 0 0 10px rgb(34 211 197 / 0.9);
 }
-.hud-dot[data-tone="primary"] {
-  background: var(--color-primary);
-  box-shadow: 0 0 0 4px var(--color-primary-soft);
-}
-.hud-key {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-muted);
-}
-.hud-value {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  color: var(--color-heading);
+.pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgb(34 211 197 / 0.6);
 }
 
 /* ---- Drafting accents ----------------------------------------------------- */
-/* A dimension line that draws itself in once revealed. */
 .dim-line {
   position: relative;
   height: 1px;
-  background: rgb(91 101 119 / 0.45);
+  background: linear-gradient(90deg, rgb(255 255 255 / 0.28), rgb(255 255 255 / 0.1));
   transform-origin: left;
 }
 .dim-line::before,
@@ -1009,7 +1539,7 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
   top: -4px;
   width: 1px;
   height: 9px;
-  background: var(--color-muted);
+  background: rgb(255 255 255 / 0.4);
 }
 .dim-line::before {
   left: 0;
@@ -1019,8 +1549,6 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
 }
 
 /* ---- Scroll-driven enhancement -------------------------------------------- */
-/* Where the browser supports scroll timelines, the hero copy gently recedes
-   as it leaves the viewport — pure CSS, zero JS, no fallback needed. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     [data-scroll="recede"] {
@@ -1033,6 +1561,16 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
       animation-timeline: view();
       animation-range: entry 0% entry 60%;
     }
+    /* Large screens only: on phones a stacked section is taller than the
+       viewport and would stay tilted while its top is being read. */
+    @media (min-width: 1024px) {
+      [data-scroll="tilt"] {
+        transform-origin: 50% 100%;
+        animation: scroll-tilt linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 60%;
+      }
+    }
   }
 }
 @keyframes scroll-recede {
@@ -1040,6 +1578,16 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
     opacity: 0.25;
     transform: translateY(-40px) scale(0.96);
     filter: blur(4px);
+  }
+}
+@keyframes scroll-tilt {
+  from {
+    opacity: 0.5;
+    transform: perspective(1400px) rotateX(7deg) translateY(56px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 @keyframes scroll-rise {
@@ -1055,6 +1603,22 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
   }
   .ambient::after {
     animation: ambient-drift-b 34s ease-in-out infinite alternate;
+  }
+  .ambient-violet {
+    animation: ambient-drift-c 40s ease-in-out infinite alternate;
+  }
+  .mesh::before {
+    animation: ambient-drift-a 30s ease-in-out infinite alternate;
+  }
+  .mesh::after {
+    animation: ambient-drift-b 38s ease-in-out infinite alternate;
+  }
+  .orb {
+    animation: orb-float 12s ease-in-out infinite alternate;
+    animation-delay: var(--float-delay, 0s);
+  }
+  .floor-grid::before {
+    animation: floor-run 5s linear infinite;
   }
   .hud-float {
     animation: hud-float 7s ease-in-out infinite alternate;
@@ -1076,6 +1640,19 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
   50% { transform: translate3d(-5vw, 6vh, 0) scale(1.06); }
   to { transform: translate3d(5vw, -3vh, 0) scale(0.97); }
 }
+@keyframes ambient-drift-c {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-8vw, -6vh, 0) scale(1.1); }
+  to { transform: translate3d(6vw, 4vh, 0) scale(0.92); }
+}
+@keyframes orb-float {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(3%, -6%, 0) scale(1.06); }
+}
+@keyframes floor-run {
+  from { transform: rotateX(64deg) translate3d(0, 0, 0); }
+  to { transform: rotateX(64deg) translate3d(0, 72px, 0); }
+}
 @keyframes hud-float {
   from { translate: 0 0; }
   to { translate: 0 -10px; }
@@ -1089,8 +1666,8 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
 /* Drafting grid that surfaces behind a card on hover. */
 .blueprint-bg {
   background-image:
-    linear-gradient(to right, rgb(10 158 138 / 0.12) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(10 158 138 / 0.12) 1px, transparent 1px);
+    linear-gradient(to right, rgb(34 211 197 / 0.14) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(34 211 197 / 0.14) 1px, transparent 1px);
   background-size: 24px 24px;
   background-position: -1px -1px;
   -webkit-mask-image: radial-gradient(120% 90% at 100% 0%, #000 30%, transparent 75%);
@@ -1099,48 +1676,53 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
 /* Soft brand light behind a glass panel. */
 .panel-glow {
   background:
-    radial-gradient(60% 50% at 20% 10%, rgb(255 90 31 / 0.18), transparent 70%),
-    radial-gradient(50% 45% at 90% 90%, rgb(10 158 138 / 0.16), transparent 70%);
-  filter: blur(24px);
+    radial-gradient(60% 50% at 20% 10%, rgb(255 90 31 / 0.28), transparent 70%),
+    radial-gradient(50% 45% at 90% 90%, rgb(34 211 197 / 0.22), transparent 70%);
+  filter: blur(28px);
 }
 /* Viewer frame over a photo: corner ticks + a faint level line. */
 .viewer-frame {
   --tick: 14px;
+  --ink: rgb(255 255 255 / 0.85);
   background:
-    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) 12px 12px / var(--tick) 1px no-repeat,
-    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) 12px 12px / 1px var(--tick) no-repeat,
-    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) calc(100% - 12px) 12px / var(--tick) 1px no-repeat,
-    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) calc(100% - 12px) 12px / 1px var(--tick) no-repeat,
-    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) 12px calc(100% - 12px) / var(--tick) 1px no-repeat,
-    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) 12px calc(100% - 12px) / 1px var(--tick) no-repeat,
-    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) calc(100% - 12px) calc(100% - 12px) / var(--tick) 1px no-repeat,
-    linear-gradient(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.9)) calc(100% - 12px) calc(100% - 12px) / 1px var(--tick) no-repeat;
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35);
+    linear-gradient(var(--ink), var(--ink)) 12px 12px / var(--tick) 1px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) 12px 12px / 1px var(--tick) no-repeat,
+    linear-gradient(var(--ink), var(--ink)) calc(100% - 12px) 12px / var(--tick) 1px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) calc(100% - 12px) 12px / 1px var(--tick) no-repeat,
+    linear-gradient(var(--ink), var(--ink)) 12px calc(100% - 12px) / var(--tick) 1px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) 12px calc(100% - 12px) / 1px var(--tick) no-repeat,
+    linear-gradient(var(--ink), var(--ink)) calc(100% - 12px) calc(100% - 12px) / var(--tick) 1px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) calc(100% - 12px) calc(100% - 12px) / 1px var(--tick) no-repeat;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+}
+/* Photo cards: the image sinks into the card's dark surface at the bottom. */
+.photo-sink {
+  background: linear-gradient(to top, rgb(12 16 24 / 0.95), rgb(12 16 24 / 0.2) 45%, transparent 70%);
 }
 
 /* ---- Drafting layers (DraftingMarks) ------------------------------------- */
-/* Isometric grid: two line families at ±60°, fading toward the left/top. */
 .iso-grid {
   background-image:
-    repeating-linear-gradient(60deg, rgb(15 23 42 / 0.09) 0 1px, transparent 1px 34px),
-    repeating-linear-gradient(-60deg, rgb(15 23 42 / 0.09) 0 1px, transparent 1px 34px);
+    repeating-linear-gradient(60deg, rgb(160 190 255 / 0.08) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(-60deg, rgb(160 190 255 / 0.08) 0 1px, transparent 1px 34px);
   -webkit-mask-image: radial-gradient(90% 100% at 100% 50%, #000 20%, transparent 80%);
   mask-image: radial-gradient(90% 100% at 100% 50%, #000 20%, transparent 80%);
 }
-/* Survey point: orange dot with a breathing ring. */
 .survey-point {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--color-primary);
-  box-shadow: 0 0 0 6px var(--color-primary-soft);
+  box-shadow:
+    0 0 0 6px var(--color-primary-soft),
+    0 0 18px rgb(255 90 31 / 0.9);
 }
 .survey-point::after {
   content: "";
   position: absolute;
   inset: -10px;
   border-radius: 50%;
-  border: 1px solid rgb(255 90 31 / 0.5);
+  border: 1px solid rgb(255 90 31 / 0.55);
 }
 @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
   .survey-point::after {
@@ -1151,21 +1733,33 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
   from { transform: scale(0.6); opacity: 1; }
   to { transform: scale(2.4); opacity: 0; }
 }
-/* Vellum sheet sections: a translucent sheet laid over the grid. */
-.sheet {
-  background-color: var(--color-surface-translucent);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.9),
-    0 1px 0 var(--color-line),
-    0 -1px 0 var(--color-line);
+
+/* ---- Tables ----------------------------------------------------------------- */
+.table-shell {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.table-shell thead th {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.07), rgb(255 255 255 / 0.04));
+  color: var(--color-heading);
+  border-bottom: 1px solid var(--color-line-strong);
+}
+.table-shell tbody tr {
+  transition: background-color 300ms var(--ease-brand);
+}
+.table-shell tbody tr:nth-child(even) {
+  background-color: rgb(255 255 255 / 0.015);
+}
+@media (hover: hover) {
+  .table-shell tbody tr:hover {
+    background-color: rgb(255 90 31 / 0.06);
+  }
+}
+.table-shell td {
+  border-top: 1px solid var(--color-line);
 }
 
 /* ---- Modal (syllabus request popup) ---------------------------------------- */
-/* A vellum sheet lifted off the page: the backdrop dims and blurs the drawing
-   underneath, the panel rises and settles (bottom sheet on phones), and the
-   form rows land one after another. Closing runs the same choreography in
-   reverse (`data-state="closing"`) before the node unmounts. The layer sits
-   under the custom cursor (z 100) and over the sticky header (z 50). */
 .modal-root {
   position: fixed;
   inset: 0;
@@ -1187,10 +1781,10 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(70% 60% at 50% 40%, rgb(255 90 31 / 0.1), transparent 70%),
-    rgb(15 23 42 / 0.38);
-  -webkit-backdrop-filter: blur(10px) saturate(1.2);
-  backdrop-filter: blur(10px) saturate(1.2);
+    radial-gradient(70% 60% at 50% 40%, rgb(255 90 31 / 0.12), transparent 70%),
+    rgb(3 4 8 / 0.7);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  backdrop-filter: blur(12px) saturate(1.2);
 }
 .modal-panel {
   position: relative;
@@ -1205,11 +1799,9 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
     transform-origin: 50% 60%;
   }
 }
-/* More opaque than the sidebar glass: the sheet sits over a dimmed, blurred page. */
 .modal-sheet {
-  background-color: rgb(255 255 255 / 0.9);
+  background-color: rgb(12 16 25 / 0.92);
 }
-/* Drafting ticks in the sheet corners, like the viewer frame on photos. */
 .modal-sheet::after {
   content: "";
   position: absolute;
@@ -1217,7 +1809,7 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
   pointer-events: none;
   border-radius: inherit;
   --tick: 12px;
-  --ink: rgb(255 90 31 / 0.55);
+  --ink: rgb(255 90 31 / 0.6);
   background:
     linear-gradient(var(--ink), var(--ink)) 0 0 / var(--tick) 1px no-repeat,
     linear-gradient(var(--ink), var(--ink)) 0 0 / 1px var(--tick) no-repeat,
@@ -1228,7 +1820,6 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
     linear-gradient(var(--ink), var(--ink)) 100% 100% / var(--tick) 1px no-repeat,
     linear-gradient(var(--ink), var(--ink)) 100% 100% / 1px var(--tick) no-repeat;
 }
-/* Sheet icon: the page "prints" a few lines while the form is open. */
 .modal-sheet-line {
   transform-box: fill-box;
   transform-origin: left;
@@ -1283,4 +1874,246 @@ html[data-cursor] :is(input, textarea, select, [contenteditable]) {
 @keyframes modal-drop {
   from { opacity: 1; transform: none; }
   to { opacity: 0; transform: translateY(16px) scale(0.97); }
+}
+
+/* ---- Phones: simplify the heavy layers ---------------------------------------- */
+@media (max-width: 767px) {
+  .floor-grid {
+    height: 36%;
+  }
+  .mesh::before,
+  .mesh::after {
+    opacity: 0.5;
+  }
+  .ambient-violet {
+    display: none;
+  }
+}
+
+/* ======================================================================== */
+/* 3D layer                                                                  */
+/*                                                                           */
+/* Everything here is transform-only and composited: layers that pop out of  */
+/* tilted cards, CSS gyroscope rings and wireframe cubes as ornaments, a     */
+/* banner scan line and a static perspective floor for footers/bands.       */
+/* ======================================================================== */
+
+/* ---- Depth inside tilted cards ------------------------------------------- */
+/* A tilted card keeps its children in 3D so `.pop` layers can rise toward
+   the viewer while the pointer is on it. (Elements with overflow/filters
+   flatten themselves, which is fine: they still tilt as a whole.) */
+[data-tilt] {
+  transform-style: preserve-3d;
+}
+.pop {
+  transform: translateZ(0);
+  transition: transform 600ms var(--ease-out-expo);
+}
+[data-tilt][data-tilting] .pop {
+  transform: translateZ(var(--pop, 28px));
+}
+[data-tilt][data-tilting] .well {
+  transform: translateZ(var(--pop, 34px));
+}
+.well {
+  transform: translateZ(0);
+  transition:
+    transform 600ms var(--ease-out-expo),
+    scale 400ms var(--ease-brand),
+    rotate 400ms var(--ease-brand),
+    translate 400ms var(--ease-brand),
+    box-shadow 400ms var(--ease-brand);
+}
+
+/* ---- Gyroscope: three rings spinning on different axes --------------------- */
+.gyro {
+  --size: 180px;
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  perspective: 700px;
+  pointer-events: none;
+}
+.gyro-stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+.gyro-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgb(34 211 197 / 0.45);
+  box-shadow:
+    0 0 18px rgb(34 211 197 / 0.18),
+    inset 0 0 18px rgb(34 211 197 / 0.08);
+  transform-style: preserve-3d;
+}
+.gyro-ring:nth-child(2) {
+  inset: 12%;
+  border-color: rgb(255 122 69 / 0.5);
+  box-shadow:
+    0 0 18px rgb(255 90 31 / 0.2),
+    inset 0 0 18px rgb(255 90 31 / 0.08);
+}
+.gyro-ring:nth-child(3) {
+  inset: 26%;
+  border-color: rgb(214 222 245 / 0.35);
+  box-shadow: none;
+}
+.gyro-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow:
+    0 0 0 4px rgb(255 90 31 / 0.18),
+    0 0 20px rgb(255 90 31 / 0.9);
+}
+
+/* ---- Wireframe cube ---------------------------------------------------------- */
+.cube {
+  --size: 96px;
+  --ink: rgb(34 211 197 / 0.45);
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  perspective: 900px;
+  pointer-events: none;
+}
+.cube-stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(-24deg) rotateY(38deg);
+}
+.cube-face {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--ink);
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 0.03), transparent 60%),
+    rgb(34 211 197 / 0.02);
+  box-shadow: inset 0 0 22px rgb(34 211 197 / 0.06);
+  backface-visibility: visible;
+}
+.cube-face:nth-child(1) { transform: translateZ(calc(var(--size) / 2)); }
+.cube-face:nth-child(2) { transform: rotateY(180deg) translateZ(calc(var(--size) / 2)); }
+.cube-face:nth-child(3) { transform: rotateY(90deg) translateZ(calc(var(--size) / 2)); }
+.cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(calc(var(--size) / 2)); }
+.cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(calc(var(--size) / 2)); }
+.cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(calc(var(--size) / 2)); }
+.cube[data-tone="primary"] {
+  --ink: rgb(255 122 69 / 0.45);
+}
+.cube[data-tone="primary"] .cube-face {
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 0.03), transparent 60%),
+    rgb(255 90 31 / 0.02);
+  box-shadow: inset 0 0 22px rgb(255 90 31 / 0.06);
+}
+
+/* ---- Banner scan line ------------------------------------------------------- */
+/* A section-cut sweeping down the band, like a scanner passing over the model. */
+.scanline {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(34 211 197 / 0.7) 30%, rgb(34 211 197 / 0.7) 70%, transparent);
+  box-shadow:
+    0 0 24px rgb(34 211 197 / 0.5),
+    0 0 60px rgb(34 211 197 / 0.25);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---- Static perspective floor (footer / bands) ------------------------------- */
+.floor-grid[data-static] {
+  height: 100%;
+  opacity: 0.55;
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 40%, #000 60%, transparent 100%);
+  mask-image: linear-gradient(to top, transparent 0%, #000 40%, #000 60%, transparent 100%);
+}
+.floor-grid[data-static]::before {
+  animation: none;
+  background-image:
+    linear-gradient(to right, rgb(140 170 255 / 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(140 170 255 / 0.12) 1px, transparent 1px);
+}
+.floor-grid[data-static]::after {
+  display: none;
+}
+
+/* ---- Logo coin spin -------------------------------------------------------- */
+.coin {
+  transform-style: preserve-3d;
+  transition: transform 900ms var(--ease-out-expo);
+}
+@media (hover: hover) {
+  .group:hover .coin {
+    transform: rotateY(360deg);
+  }
+}
+
+/* ---- Loops (JS + motion allowed) ------------------------------------------- */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .gyro-ring:nth-child(1) {
+    animation: gyro-a 16s linear infinite;
+  }
+  .gyro-ring:nth-child(2) {
+    animation: gyro-b 11s linear infinite;
+  }
+  .gyro-ring:nth-child(3) {
+    animation: gyro-c 8s linear infinite;
+  }
+  .cube-stage {
+    animation: cube-spin 22s linear infinite;
+  }
+  .cube[data-speed="slow"] .cube-stage {
+    animation-duration: 34s;
+    animation-direction: reverse;
+  }
+  .cube-float {
+    animation: orb-float 10s ease-in-out infinite alternate;
+    animation-delay: var(--float-delay, 0s);
+  }
+  .scanline {
+    animation: scan 7s var(--ease-in-out-soft) infinite;
+    animation-delay: var(--scan-delay, 0s);
+  }
+}
+@keyframes gyro-a {
+  from { transform: rotateX(70deg) rotateZ(0deg); }
+  to { transform: rotateX(70deg) rotateZ(360deg); }
+}
+@keyframes gyro-b {
+  from { transform: rotateY(70deg) rotateZ(0deg); }
+  to { transform: rotateY(70deg) rotateZ(-360deg); }
+}
+@keyframes gyro-c {
+  from { transform: rotateX(30deg) rotateY(0deg); }
+  to { transform: rotateX(30deg) rotateY(360deg); }
+}
+@keyframes cube-spin {
+  from { transform: rotateX(-24deg) rotateY(0deg); }
+  to { transform: rotateX(-24deg) rotateY(360deg); }
+}
+@keyframes scan {
+  0% { transform: translateY(0); opacity: 0; }
+  8% { opacity: 1; }
+  45% { opacity: 1; }
+  55% { transform: translateY(var(--scan-travel, 480px)); opacity: 0; }
+  100% { transform: translateY(var(--scan-travel, 480px)); opacity: 0; }
+}
+
+/* Phones: ornaments off, reveals stay. */
+@media (max-width: 767px) {
+  .gyro,
+  .cube {
+    display: none;
+  }
 }

@@ -11,7 +11,7 @@ function PartnerTile({ partner }: { partner: PlacementPartner }) {
     <li
       data-spotlight
       data-tilt
-      className="card-lift btn-shine group flex min-h-[96px] items-center justify-center overflow-hidden rounded-md border border-line bg-surface px-3 py-4 hover:border-primary/40 md:min-h-[104px] md:px-5"
+      className="card-lift btn-shine group flex min-h-[96px] items-center justify-center overflow-hidden rounded-lg bg-surface/80 px-3 py-4 hover:border-primary/40 md:min-h-[104px] md:px-5"
     >
       {partner.logo ? (
         <Image
@@ -26,7 +26,7 @@ function PartnerTile({ partner }: { partner: PlacementPartner }) {
           className="flex min-w-0 max-w-full flex-col items-center text-center transition-transform duration-300 ease-brand group-hover:scale-105"
           aria-label={partner.name}
         >
-          <span className="font-heading text-16 font-black tracking-wide text-heading sm:text-18 md:text-22">
+          <span className="font-heading text-16 font-bold tracking-wide text-heading sm:text-18 md:text-22">
             {partner.wordmark}
           </span>
           {partner.tagline ? (
@@ -47,6 +47,7 @@ export function PlacementSection() {
       id="placements"
       tone="surface"
       padding="lg"
+      tilt
       containerClassName="flex scroll-mt-20 flex-col gap-10 lg:flex-row lg:items-center lg:gap-16"
     >
       <div
@@ -70,7 +71,7 @@ export function PlacementSection() {
         </Button>
       </div>
       <ul
-        data-reveal-stagger="scale"
+        data-reveal-stagger="flip"
         aria-label="Placement partner companies"
         className="grid w-full grid-cols-2 gap-4 sm:grid-cols-3 lg:flex-1 [--stagger-step:80ms]"
       >

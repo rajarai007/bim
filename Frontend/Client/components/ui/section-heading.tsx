@@ -24,17 +24,17 @@ export function SectionHeading({
     <div
       data-reveal-stagger="up"
       className={cn(
-        "flex w-full flex-col gap-3",
+        "flex w-full flex-col gap-4",
         align === "center" ? "items-center text-center" : "items-start",
         className,
       )}
     >
       {badge ? <Badge tone={badgeTone}>{badge}</Badge> : null}
-      <Heading className="font-heading text-28 font-semibold leading-native text-heading md:text-32 xl:text-36">
+      <Heading className="display font-heading text-28 font-semibold text-heading md:text-36 xl:text-40">
         {title}
       </Heading>
       {/* Dimension line draws itself in once the heading has revealed. */}
-      <span aria-hidden className="draw-in mt-1 block w-16">
+      <span aria-hidden className="draw-in block w-16">
         <span className="dim-line block" />
       </span>
     </div>

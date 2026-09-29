@@ -15,12 +15,12 @@ export function SoftwareChip({
     <span
       data-tilt
       className={cn(
-        "group relative inline-flex items-center gap-2 rounded-sm border border-line bg-elevated font-sans font-semibold text-body leading-native whitespace-nowrap transition-[border-color,translate,box-shadow,color,transform] duration-300 ease-brand hover:-translate-y-0.5 hover:border-primary/60 hover:text-heading hover:shadow-[0_10px_24px_-12px_rgb(255_90_31/0.5)]",
+        "group relative inline-flex items-center gap-2 rounded-sm border border-line bg-elevated/70 font-sans font-semibold text-body leading-native whitespace-nowrap shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-[border-color,translate,box-shadow,color,transform,background-color] duration-300 ease-brand hover:-translate-y-0.5 hover:border-primary/50 hover:bg-elevated hover:text-heading hover:shadow-[0_14px_30px_-14px_rgb(255_90_31/0.55)]",
         size === "md" ? "px-5 py-3 text-13" : "px-4 py-2 text-14",
         className,
       )}
     >
-      <Cpu className="size-4 shrink-0 text-primary transition-transform duration-400 ease-brand group-hover:rotate-90 group-hover:scale-110" aria-hidden />
+      <Cpu className="size-4 shrink-0 text-primary-bright transition-transform duration-400 ease-brand group-hover:rotate-90 group-hover:scale-110" aria-hidden />
       {label}
     </span>
   );
@@ -37,7 +37,7 @@ export function Tag({
   return (
     <span
       className={cn(
-        "inline-flex items-start rounded-pill bg-elevated px-2 py-1 font-sans font-medium leading-native whitespace-nowrap transition-[background-color,color] duration-200 hover:bg-primary-soft hover:text-primary",
+        "inline-flex items-start rounded-pill border border-line bg-white/5 px-2 py-1 font-sans font-medium leading-native whitespace-nowrap transition-[background-color,color,border-color] duration-200 hover:border-primary/40 hover:bg-primary-soft hover:text-primary-bright",
         tone === "muted" ? "text-10 text-muted" : "text-11 text-body",
       )}
     >
@@ -49,7 +49,7 @@ export function Tag({
 /** Pill used for career opportunities. */
 export function Pill({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-start rounded-pill border border-primary bg-primary-soft px-4 py-2 font-sans text-13 font-semibold leading-native text-primary whitespace-nowrap transition-[background-color,color,translate,box-shadow] duration-300 ease-brand hover:-translate-y-0.5 hover:bg-primary hover:text-white hover:shadow-[0_10px_24px_-12px_rgb(255_90_31/0.6)]">
+    <span className="inline-flex items-start rounded-pill border border-primary/40 bg-primary-soft px-4 py-2 font-sans text-13 font-semibold leading-native text-primary-bright whitespace-nowrap shadow-[inset_0_1px_0_rgb(255_255_255/0.06)] transition-[background-color,color,translate,box-shadow,border-color] duration-300 ease-brand hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-white hover:shadow-[0_12px_28px_-12px_rgb(255_90_31/0.7)]">
       {children}
     </span>
   );

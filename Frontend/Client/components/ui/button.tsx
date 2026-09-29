@@ -6,26 +6,23 @@ type Variant = "primary" | "secondary" | "outline" | "outline-filled" | "whatsap
 type Size = "md" | "lg";
 
 // `transform` is in the transition list for the magnetic pull (see Spatial
-// system in globals.css); lift uses `translate` and press uses `scale`.
+// system in globals.css); lift uses `translate` and press uses `scale`. The
+// visual recipe for each variant lives in globals.css (`.btn-*`) so the
+// gradients, inner highlights and glows stay part of the design system.
 const base =
-  "btn-shine group/btn inline-flex items-center justify-center gap-2 rounded-md font-sans font-semibold whitespace-nowrap transition-[background-color,border-color,color,translate,scale,box-shadow,transform] duration-300 ease-brand hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] active:duration-100 disabled:pointer-events-none disabled:opacity-60";
+  "btn-shine group/btn relative inline-flex items-center justify-center gap-2 rounded-md font-sans font-semibold whitespace-nowrap transition-[background-color,border-color,color,translate,scale,box-shadow,transform,filter] duration-300 ease-brand hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] active:duration-100 disabled:pointer-events-none disabled:opacity-70";
 
 const variants: Record<Variant, string> = {
-  primary:
-    "bg-primary text-white hover:bg-[#ff6b36] hover:shadow-[0_12px_28px_-10px_rgb(255_90_31/0.65)]",
-  secondary:
-    "bg-elevated text-heading hover:bg-[#dcdce1] hover:shadow-[0_12px_28px_-12px_rgb(15_23_42/0.3)]",
-  outline:
-    "border border-primary bg-transparent text-primary hover:bg-primary-soft hover:shadow-[0_12px_28px_-14px_rgb(255_90_31/0.5)]",
-  "outline-filled":
-    "border border-primary bg-elevated text-primary hover:bg-[#dcdce1] hover:shadow-[0_12px_28px_-14px_rgb(255_90_31/0.5)]",
-  whatsapp:
-    "bg-whatsapp text-white hover:bg-[#2fe072] hover:shadow-[0_12px_28px_-10px_rgb(37_211_102/0.6)]",
+  primary: "btn-primary",
+  secondary: "btn-secondary",
+  outline: "btn-outline",
+  "outline-filled": "btn-outline-filled",
+  whatsapp: "btn-whatsapp",
 };
 
 const sizes: Record<Size, string> = {
   md: "min-h-12 px-6 py-3 text-15",
-  lg: "min-h-[52px] px-8 py-3.5 text-16",
+  lg: "min-h-[54px] px-8 py-3.5 text-16",
 };
 
 type CommonProps = {
@@ -34,6 +31,8 @@ type CommonProps = {
   fullWidth?: boolean;
   /** Drift toward a nearby pointer (desktop only). On by default for filled CTAs. */
   magnetic?: boolean;
+  /** Busy state: spinner + continuous light sweep. Pair with `disabled`. */
+  loading?: boolean;
   className?: string;
   children: ReactNode;
 };
@@ -56,33 +55,40 @@ export function Button(props: ButtonProps) {
     size = "md",
     fullWidth,
     magnetic = variant === "primary" || variant === "whatsapp",
+    loading = false,
     className,
     children,
     ...rest
   } = props;
-  const classes = cn(base, variants[variant], sizes[size], fullWidth && "w-full", className);
+  const classes = cn(base, variants[variant], sizes[size], fullWidth && "w-full", loading && "btn-loading", className);
   const magnet = magnetic && !fullWidth ? { "data-magnetic": "" } : {};
+  const content = (
+    <>
+      {loading ? <span className="spinner shrink-0" aria-hidden /> : null}
+      {children}
+    </>
+  );
 
   if ("href" in rest && rest.href !== undefined) {
     // A file download is a plain anchor: a client-side navigation cannot handle a non-HTML response.
     if ("download" in rest && rest.download !== undefined) {
       return (
         <a className={classes} {...magnet} {...(rest as ComponentPropsWithoutRef<"a">)}>
-          {children}
+          {content}
         </a>
       );
     }
     return (
       <Link className={classes} {...magnet} {...(rest as ComponentPropsWithoutRef<typeof Link>)}>
-        {children}
+        {content}
       </Link>
     );
   }
 
   const { type = "button", ...buttonRest } = rest as ComponentProps<"button">;
   return (
-    <button type={type} className={classes} {...magnet} {...buttonRest}>
-      {children}
+    <button type={type} className={classes} aria-busy={loading || undefined} {...magnet} {...buttonRest}>
+      {content}
     </button>
   );
 }

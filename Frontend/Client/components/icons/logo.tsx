@@ -20,7 +20,7 @@ export function Logo({ className }: { className?: string }) {
       aria-label={`${siteConfig.name} — home`}
       className={cn("group flex items-center gap-3", className)}
     >
-      <span className="relative size-10 shrink-0 transition-transform duration-300 ease-brand group-hover:-rotate-6 group-hover:scale-105">
+      <span className="coin relative size-10 shrink-0">
         <Image src={brand.mark} alt="" fill sizes="40px" priority className="object-contain" />
       </span>
       <span className="flex flex-col items-start gap-0.5 leading-native whitespace-nowrap">

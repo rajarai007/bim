@@ -11,9 +11,9 @@ export function ProjectCard({ project }: { project: Project }) {
     <article
       data-spotlight="accent"
       data-tilt
-      className="card-lift group flex h-full flex-col rounded-md border border-line bg-surface hover:border-accent/50"
+      className="card-lift group flex h-full flex-col rounded-lg bg-surface/80 hover:border-accent/40"
     >
-      <div className="relative h-[200px] w-full shrink-0 overflow-hidden rounded-t-[inherit]">
+      <div className="pop relative h-[200px] w-full shrink-0 overflow-hidden rounded-t-[inherit] [--pop:18px]">
         <Image
           src={project.image.src}
           alt={project.image.alt}
@@ -50,9 +50,9 @@ export function ProjectShowcaseCard({ project }: { project: Project }) {
     <article
       data-spotlight="accent"
       data-tilt
-      className="card-lift group flex h-full flex-col rounded-md bg-elevated"
+      className="card-lift group flex h-full flex-col rounded-lg bg-surface/80 hover:border-accent/40"
     >
-      <div className="relative h-[200px] w-full shrink-0 overflow-hidden rounded-t-[inherit]">
+      <div className="pop relative h-[200px] w-full shrink-0 overflow-hidden rounded-t-[inherit] [--pop:18px]">
         <Image
           src={project.image.src}
           alt={project.image.alt}
@@ -62,7 +62,7 @@ export function ProjectShowcaseCard({ project }: { project: Project }) {
         />
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-t from-elevated/70 to-transparent opacity-80 transition-opacity duration-500 ease-brand group-hover:opacity-0"
+          className="absolute inset-0 photo-sink opacity-90 transition-opacity duration-500 ease-brand group-hover:opacity-0"
         />
         <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-brand group-hover:opacity-100" />
       </div>

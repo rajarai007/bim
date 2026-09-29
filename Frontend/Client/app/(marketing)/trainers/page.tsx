@@ -26,15 +26,15 @@ export default async function TrainersPage() {
         crumbs={[{ label: "Home", href: routes.home }, { label: "Trainers" }]}
       />
       <Section
-        stagger="up"
+        stagger="flip"
         containerClassName="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 xl:gap-x-8 xl:gap-y-12"
       >
         {trainers.length ? (
           trainers.map((trainer) => <TrainerCard key={trainer.id} trainer={trainer} />)
         ) : (
-          <p className="font-sans text-15 leading-body text-muted sm:col-span-2 lg:col-span-4">
-            Our trainer profiles are being updated. Please check back soon.
-          </p>
+          <div className="state-panel sm:col-span-2 lg:col-span-4">
+            <p className="font-sans text-15 leading-body text-muted">Our trainer profiles are being updated. Please check back soon.</p>
+          </div>
         )}
       </Section>
       <FinalCta

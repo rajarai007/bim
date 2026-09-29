@@ -18,7 +18,7 @@ export function IntroSection() {
             modeled on modern, process-oriented architectural engineering consulting chambers.
           </p>
         </div>
-        <div data-reveal="clip" data-reveal-delay="2" className="group relative h-[220px] w-full shrink-0 overflow-hidden rounded-md shadow-[var(--shadow-sheet-lifted)] sm:h-[300px] lg:flex-1">
+        <div data-reveal="clip" data-reveal-delay="2" data-tilt className="group relative h-[220px] w-full shrink-0 overflow-hidden rounded-lg border border-line shadow-[var(--shadow-sheet-lifted)] sm:h-[300px] lg:flex-1">
           <Image
             src="/images/about-intro.png"
             alt="Engineer in a hard hat reviewing a BIM model on dual monitors"
@@ -31,8 +31,8 @@ export function IntroSection() {
       </div>
 
       <div data-reveal-stagger="up" className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8 [--stagger-step:150ms]">
-        <article data-spotlight="accent" data-tilt className="card-lift group flex flex-col items-start gap-5 rounded-md bg-surface p-8 md:p-10">
-          <span className="flex size-10 items-center justify-center rounded-md bg-accent-soft text-accent transition-[scale,rotate] duration-400 ease-brand group-hover:-rotate-6 group-hover:scale-110">
+        <article data-spotlight="accent" data-tilt className="card-lift group flex flex-col items-start gap-5 rounded-lg bg-surface/80 p-8 md:p-10">
+          <span className="well size-11" data-tone="accent">
             <Eye className="size-5" aria-hidden />
           </span>
           <h3 className="font-heading text-24 font-semibold leading-native text-heading">Our Vision</h3>
@@ -41,8 +41,8 @@ export function IntroSection() {
             professionals with cutting-edge skills and engineering confidence.
           </p>
         </article>
-        <article data-spotlight data-tilt className="card-lift group flex flex-col items-start gap-5 rounded-md bg-surface p-8 md:p-10">
-          <span className="flex size-10 items-center justify-center rounded-md bg-primary-soft text-primary transition-[scale,rotate] duration-400 ease-brand group-hover:-rotate-6 group-hover:scale-110">
+        <article data-spotlight data-tilt className="card-lift group flex flex-col items-start gap-5 rounded-lg bg-surface/80 p-8 md:p-10">
+          <span className="well size-11">
             <Target className="size-5" aria-hidden />
           </span>
           <h3 className="font-heading text-24 font-semibold leading-native text-heading">Our Mission</h3>

@@ -37,7 +37,7 @@ export default async function HomePage() {
 
   return (
     <PageTransition>
-      <Hero />
+      <Hero categories={categories} />
       <AboutPreview />
       {categories.length ? <CourseCategories categories={categories} /> : null}
       {featured.length ? <FeaturedCourses courses={featured} /> : null}

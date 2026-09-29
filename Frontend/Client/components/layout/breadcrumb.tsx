@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 export type Crumb = { label: string; href?: string };
 
 /**
- * Breadcrumb trail. Figma uses two chevron glyphs: the wide custom vector on
+ * Breadcrumb trail. Two chevron glyphs exist: the wide custom vector on
  * course pages and Lucide's chevron-right elsewhere — `glyph` selects which.
  */
 export function Breadcrumb({
@@ -36,8 +36,8 @@ export function Breadcrumb({
                 <span
                   aria-current={isLast ? "page" : undefined}
                   className={cn(
-                    "font-sans text-14 leading-native whitespace-nowrap",
-                    isLast ? "font-semibold text-primary" : "font-medium text-muted",
+                    "font-sans text-13 leading-native whitespace-nowrap",
+                    isLast ? "font-semibold text-primary-bright" : "font-medium text-muted",
                   )}
                 >
                   {item.label}
@@ -45,12 +45,12 @@ export function Breadcrumb({
               ) : (
                 <Link
                   href={item.href}
-                  className="font-sans text-14 font-medium leading-native text-muted whitespace-nowrap transition-colors hover:text-body"
+                  className="font-sans text-13 font-medium leading-native text-muted whitespace-nowrap transition-colors hover:text-heading"
                 >
                   {item.label}
                 </Link>
               )}
-              {!isLast ? <Chevron className="text-muted" /> : null}
+              {!isLast ? <Chevron className="text-muted/70" /> : null}
             </li>
           );
         })}

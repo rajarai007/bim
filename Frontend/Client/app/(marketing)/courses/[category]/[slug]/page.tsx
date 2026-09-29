@@ -74,7 +74,7 @@ export default async function CoursePage({ params }: Props) {
           </div>
           <h1
             data-enter="words"
-            className="font-heading text-32 font-medium leading-native text-heading md:text-40 xl:text-48 [--enter-delay:80ms]"
+            className="display font-heading text-36 font-medium text-heading md:text-48 xl:text-56 [--enter-delay:80ms]"
           >
             <SplitWords text={detail.heroTitle} />
           </h1>
@@ -119,7 +119,7 @@ export default async function CoursePage({ params }: Props) {
         {/* Morph target for the course-card photo (same ViewTransition name).
             No scroll reveal here: a hidden state at capture time would make
             the morph land on an empty frame. */}
-        <div className="group relative h-[240px] w-full shrink-0 overflow-hidden rounded-lg shadow-[var(--shadow-sheet-lifted)] sm:h-[320px] lg:h-[420px] lg:flex-1">
+        <div data-tilt className="group relative h-[240px] w-full shrink-0 overflow-hidden rounded-xl border border-line shadow-[var(--shadow-sheet-lifted)] sm:h-[320px] lg:h-[420px] lg:flex-1">
           <ViewTransition name={courseMorphName(course.slug)} share="vt-morph" default="none">
             <div className="absolute inset-0">
               <Image
@@ -192,7 +192,7 @@ export default async function CoursePage({ params }: Props) {
           {detail.whoShouldJoin || detail.eligibility ? (
             <div data-reveal-stagger="up" className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8 [--stagger-step:150ms]">
               {detail.whoShouldJoin ? (
-                <div data-spotlight data-tilt className="card-lift flex flex-col items-start gap-4 rounded-md bg-surface p-6">
+                <div data-spotlight data-tilt className="card-lift flex flex-col items-start gap-4 rounded-lg bg-surface/80 p-6">
                   <h2 className="font-heading text-20 font-semibold leading-native text-heading">
                     Who Should Join
                   </h2>
@@ -202,7 +202,7 @@ export default async function CoursePage({ params }: Props) {
                 </div>
               ) : null}
               {detail.eligibility ? (
-                <div data-spotlight="accent" data-tilt className="card-lift flex flex-col items-start gap-4 rounded-md bg-surface p-6">
+                <div data-spotlight="accent" data-tilt className="card-lift flex flex-col items-start gap-4 rounded-lg bg-surface/80 p-6">
                   <h2 className="font-heading text-20 font-semibold leading-native text-heading">
                     Eligibility
                   </h2>
@@ -244,7 +244,7 @@ export default async function CoursePage({ params }: Props) {
           <h2 data-reveal="up" className="font-heading text-28 font-semibold leading-native text-heading xl:text-32">
             Related Programs
           </h2>
-          <div data-reveal-stagger="up" className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div data-reveal-stagger="flip" className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {related.map((r) => (
               <CompactCourseCard
                 key={r.slug}

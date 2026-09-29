@@ -7,7 +7,7 @@ Figma file **Bim** (`cPit0RIu9HRAeUyqi9HxnD`).
 
 - Next.js 16 (App Router, Server Components by default) · React 19 · TypeScript (strict)
 - Tailwind CSS v4 — design tokens live in `app/globals.css` (`@theme`)
-- `next/font` (Outfit + Manrope) · `next/image` · `lucide-react`
+- `next/font` (Figtree) · `next/image` · `lucide-react`
 
 ## Scripts
 
@@ -46,12 +46,30 @@ lib/                     api client, media URL resolver, config (fallbacks), con
 public/images/           De-duplicated Figma assets
 ```
 
-## Design tokens
+## Design system ("night studio")
 
-Colours (`canvas`, `surface`, `elevated`, `line`, `primary`, `accent`, `body`, `muted` …),
-the pixel type scale (`text-10` … `text-56`), line heights (`leading-native`, `leading-hero`,
-`leading-compact`, `leading-body`), radii and the 1440px page container are all declared in
-`app/globals.css` and used as Tailwind utilities.
+Dark, layered theme declared in `app/globals.css`: tokens in `@theme` (surfaces
+`canvas` / `surface` / `elevated`, hairlines `line` / `line-strong`, brand `primary`
+orange + `accent` cyan-teal, `violet` for atmosphere only, `heading` / `body` /
+`muted` type colours, the pixel type scale `text-10` … `text-72`, radii, shadows,
+glass and motion timings) and reusable component classes in `@layer components`:
+
+- Surfaces: `.glass` / `.glass-strong` / `.glass-edge`, `.card-lift` (raised sheet),
+  `.card-aurora` (animated gradient border for the featured tier), `.sheet`
+  (section band with a lit top edge), `.section-rule`, `.state-panel` (empty / error)
+- Controls: `.btn-primary` / `.btn-secondary` / `.btn-outline` / `.btn-outline-filled` /
+  `.btn-whatsapp` (used by `components/ui/button.tsx`, which also has a `loading`
+  state), `.control` (dark glass inputs with the brand focus ring), `.well` (icon discs)
+- Type: `.display` (tight display tracking), `.gradient-text`, `.label`
+- Atmosphere: `.ambient` (fixed light layer), `.mesh`, `.orb`, `.floor-grid`
+  (perspective floor in the hero; `data-static` variant for the footer), `.nav-shell`
+  (floating glass navigation)
+- 3D layer: `data-reveal="flip"` / `data-reveal-stagger="flip"` (cards flip up out of
+  perspective), `<Section tilt>` (band swings into view, scroll-driven, ≥1024px), `.pop`
+  layers that rise out of a tilted `data-tilt` card, `Gyro` / `Cube` ornaments and the
+  `.scanline` in `components/motion/drafting-marks.tsx`, `.coin` logo spin. The hero
+  model assembles floor by floor on load and explodes vertically as the hero scrolls out
+  (`components/motion/blueprint-scene.tsx`).
 
 ## Motion & spatial system
 

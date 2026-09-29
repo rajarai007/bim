@@ -67,7 +67,7 @@ export default async function CategoryPage({ params }: PageProps<"/courses/[cate
       {featured.length ? (
         <Section containerClassName="flex flex-col gap-8 xl:gap-10">
           <SectionHeading badge="Admissions Active" badgeTone="primary" title="Featured Programs" />
-          <div data-reveal-stagger="up" className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div data-reveal-stagger="flip" className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {featured.map((course) => (
               <FeaturedCourseCard
                 key={course.slug}
@@ -84,12 +84,12 @@ export default async function CategoryPage({ params }: PageProps<"/courses/[cate
         </Section>
       ) : null}
 
-      <Section tone="surface" containerClassName="flex flex-col gap-10 xl:gap-12">
-        <h2 data-reveal="up" className="font-heading text-28 font-semibold leading-native text-heading xl:text-36">
+      <Section tone="surface" tilt containerClassName="flex flex-col gap-10 xl:gap-12">
+        <h2 data-reveal="up" className="display font-heading text-28 font-semibold text-heading xl:text-40">
           All {category.badge} Courses
         </h2>
         {all.length ? (
-          <div data-reveal-stagger="up" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-12">
+          <div data-reveal-stagger="flip" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-12">
             {all.map((course, index) => (
               <div key={course.slug} className={cn("min-w-0", trailingSpan(index, all.length))}>
                 <StandardCourseCard
@@ -105,16 +105,18 @@ export default async function CategoryPage({ params }: PageProps<"/courses/[cate
             ))}
           </div>
         ) : (
-          <p data-reveal="up" className="font-sans text-15 leading-body text-muted">
-            New {category.badge} programs are being scheduled. Contact our admissions team for upcoming batch dates.
-          </p>
+          <div data-reveal="up" className="state-panel">
+            <p className="font-sans text-15 leading-body text-muted">
+              New {category.badge} programs are being scheduled. Contact our admissions team for upcoming batch dates.
+            </p>
+          </div>
         )}
       </Section>
 
       {all.length ? (
         <Section containerClassName="flex flex-col gap-8 xl:gap-10">
           <div data-reveal-stagger="up" className="flex w-full flex-col items-start gap-2 leading-native">
-            <h2 className="font-heading text-28 font-semibold text-heading xl:text-36">Course Duration &amp; Syllabus</h2>
+            <h2 className="display font-heading text-28 font-semibold text-heading xl:text-40">Course Duration &amp; Syllabus</h2>
             <p className="font-sans text-16 text-muted">
               Download the detailed syllabus of any {category.badge} program.
             </p>

@@ -16,14 +16,14 @@ export function CategorySection({
   viewAllLabel: string;
 }) {
   return (
-    <Section containerClassName="flex flex-col gap-8">
+    <Section tilt containerClassName="flex flex-col gap-8">
       <div data-reveal-stagger="up" className="flex w-full flex-col items-start gap-2 leading-native">
         <h2 className="font-heading text-24 font-semibold text-heading md:text-28 xl:text-32">
           {category.overviewTitle}
         </h2>
         <p className="font-sans text-16 text-muted">{category.tagline}</p>
       </div>
-      <div data-reveal-stagger="up" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      <div data-reveal-stagger="flip" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {courses.map((course) => (
           <CompactCourseCard
             key={course.slug}

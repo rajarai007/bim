@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Figtree } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -23,6 +23,11 @@ const figtree = Figtree({
  * app/api/revalidate). Must match CONTENT_REVALIDATE_SECONDS in lib/api.ts.
  */
 export const revalidate = 60;
+
+export const viewport: Viewport = {
+  themeColor: "#07090f",
+  colorScheme: "dark",
+};
 
 export const metadata: Metadata = {
   title: {

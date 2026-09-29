@@ -167,7 +167,7 @@ export function ContactForm({ courses }: { courses: CourseOption[] }) {
         label="I agree to be contacted by admissions counselors regarding the course details."
       />
 
-      <Button type="submit" fullWidth disabled={status === "submitting"}>
+      <Button type="submit" fullWidth disabled={status === "submitting"} loading={status === "submitting"}>
         {status === "submitting" ? "Submitting…" : "Submit Query"}
       </Button>
 
@@ -177,7 +177,7 @@ export function ContactForm({ courses }: { courses: CourseOption[] }) {
             Thank you — your query has been received. Our counselors will reach out shortly.
           </span>
         ) : status === "error" ? (
-          <span className="text-primary">{serverMessage ?? "Something went wrong. Please try again."}</span>
+          <span className="text-primary-bright">{serverMessage ?? "Something went wrong. Please try again."}</span>
         ) : null}
       </p>
     </form>

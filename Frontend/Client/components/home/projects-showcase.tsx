@@ -7,7 +7,7 @@ import type { Project } from "@/types";
 
 export function ProjectsShowcase({ projects }: { projects: Project[] }) {
   return (
-    <Section tone="surface" containerClassName="flex flex-col gap-10 xl:gap-12">
+    <Section tone="surface" tilt containerClassName="flex flex-col gap-10 xl:gap-12">
       <div className="flex w-full flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
         <SectionHeading
           badge="Classroom Execution Portfolio"
@@ -20,7 +20,7 @@ export function ProjectsShowcase({ projects }: { projects: Project[] }) {
           </Button>
         </div>
       </div>
-      <div data-reveal-stagger="up" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div data-reveal-stagger="flip" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {projects.map((project) => (
           <ProjectShowcaseCard key={project.id} project={project} />
         ))}

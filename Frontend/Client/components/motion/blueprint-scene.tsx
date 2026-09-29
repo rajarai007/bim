@@ -20,9 +20,9 @@ type P3 = [number, number, number];
 type Kind = "plate" | "column" | "mullion" | "roof" | "core" | "grid";
 type Seg = { a: P3; b: P3; kind: Kind };
 
-const INK = "15 23 42"; // --color-heading
-const TEAL = "10 158 138"; // --color-accent
-const ORANGE = "255 90 31"; // --color-primary
+const INK = "214 222 245"; // light ink on the dark sheet
+const TEAL = "34 211 197"; // --color-accent
+const ORANGE = "255 106 43"; // --color-primary (lifted a touch for dark)
 
 const FLOOR_H = 0.17;
 
@@ -164,6 +164,11 @@ export function BlueprintScene() {
     let last = 0;
     let t = 0; // seconds of animation time
     let ready = false;
+    // 0 → 1 over the first seconds: floors assemble from the ground up.
+    let build = 0;
+    const BUILD_SECONDS = 2.6;
+    const easeOut = (x: number) => 1 - Math.pow(1 - x, 4);
+    const smooth = (x: number) => x * x * (3 - 2 * x);
     /** Matches --follow-mid (400ms) so the model leans in step with the depth layers. */
     const FOLLOW = 0.4;
 
@@ -180,9 +185,11 @@ export function BlueprintScene() {
     };
 
     /* ---- Projection ---------------------------------------------------- */
+    // Vertical stretch applied to every point: the exploded-axonometric view.
+    let explode = 0;
     const project = (p: P3, yaw: number, pitch: number, unit: number, cx: number, cy: number, out: number[]) => {
       const x = p[0] - model.center[0];
-      const y = p[1] - model.center[1];
+      const y = (p[1] - model.center[1]) * (1 + explode * 0.7) + explode * 0.25;
       const z = p[2] - model.center[2];
       const cyaw = Math.cos(yaw);
       const syaw = Math.sin(yaw);
@@ -228,9 +235,21 @@ export function BlueprintScene() {
       const yaw = -0.55 + t * 0.09 + yawEased * 0.32;
       const pitch = 0.4 + pitchEased * 0.09 + scroll * 0.3;
       const fade = 1 - scroll * 0.85;
+      explode = smooth(Math.min(1, scroll * 1.4));
+      build = reduce.matches ? 1 : Math.min(1, build + dt / BUILD_SECONDS);
+      const rise = easeOut(build);
+      // Each segment appears once the build front passes its height, dropping the last bit into place.
+      const top = model.main.top + FLOOR_H;
+      const assembly = (a: P3, b: P3) => {
+        const h = Math.max(a[1], b[1]) / top;
+        return Math.max(0, Math.min(1, (rise * 1.3 - h) / 0.3));
+      };
+      const settle = (k: number) => (1 - k) * 0.22;
       const mobileMute = wide ? 1 : 0.42; // copy sits on top of the model on phones
 
       ctx.clearRect(0, 0, w, h);
+      // Additive blending: crossings and glows brighten like a hologram.
+      ctx.globalCompositeOperation = "lighter";
       ctx.lineCap = "round";
 
       /* Ground grid + structure: batched by kind so we set style once per kind. */
@@ -238,8 +257,11 @@ export function BlueprintScene() {
       for (const kind of kinds) {
         for (const seg of model.segs) {
           if (seg.kind !== kind) continue;
-          project(seg.a, yaw, pitch, unit, cx, cy, A);
-          project(seg.b, yaw, pitch, unit, cx, cy, B);
+          const k = kind === "grid" ? 1 : assembly(seg.a, seg.b);
+          if (k <= 0) continue;
+          const lift = settle(k);
+          project([seg.a[0], seg.a[1] + lift, seg.a[2]], yaw, pitch, unit, cx, cy, A);
+          project([seg.b[0], seg.b[1] + lift, seg.b[2]], yaw, pitch, unit, cx, cy, B);
           const depth = (A[2] + B[2]) / 2; // ≈ -1.6 … 1.6
           const near = Math.max(0, Math.min(1, 0.5 - depth * 0.28));
           let alpha: number;
@@ -248,7 +270,7 @@ export function BlueprintScene() {
           switch (kind) {
             case "grid": {
               // Grid fades with distance from the model's footprint.
-              alpha = 0.04 + near * 0.08;
+              alpha = 0.05 + near * 0.1;
               width = 1;
               break;
             }
@@ -261,7 +283,7 @@ export function BlueprintScene() {
               width = 1;
               break;
             case "plate":
-              alpha = 0.16 + near * 0.26;
+              alpha = 0.2 + near * 0.3;
               width = 1;
               break;
             case "column":
@@ -274,7 +296,7 @@ export function BlueprintScene() {
               width = 1.4;
               rgb = ORANGE;
           }
-          ctx.strokeStyle = `rgb(${rgb} / ${(alpha * fade * mobileMute).toFixed(3)})`;
+          ctx.strokeStyle = `rgb(${rgb} / ${(alpha * fade * mobileMute * k).toFixed(3)})`;
           ctx.lineWidth = width;
           ctx.beginPath();
           ctx.moveTo(A[0], A[1]);
@@ -286,6 +308,7 @@ export function BlueprintScene() {
       /* Section-cut plane sweeping through the main tower. */
       const m = model.main;
       const level = 0.25 + ((Math.sin(t * 0.35) + 1) / 2) * (m.top - 0.5);
+      const cutAlpha = Math.max(0, Math.min(1, (rise - 0.7) / 0.3));
       const pad = 0.12;
       const corners: P3[] = [
         [m.x0 - pad, level, m.z0 - pad],
@@ -300,9 +323,9 @@ export function BlueprintScene() {
         else ctx.lineTo(A[0], A[1]);
       });
       ctx.closePath();
-      ctx.fillStyle = `rgb(${TEAL} / ${(0.07 * fade * mobileMute).toFixed(3)})`;
+      ctx.fillStyle = `rgb(${TEAL} / ${(0.07 * fade * mobileMute * cutAlpha).toFixed(3)})`;
       ctx.fill();
-      ctx.strokeStyle = `rgb(${TEAL} / ${(0.55 * fade * mobileMute).toFixed(3)})`;
+      ctx.strokeStyle = `rgb(${TEAL} / ${(0.55 * fade * mobileMute * cutAlpha).toFixed(3)})`;
       ctx.lineWidth = 1;
       ctx.stroke();
       // Where the plane cuts the columns: hot orange intersection points.
@@ -314,7 +337,7 @@ export function BlueprintScene() {
       ] as const) {
         project([x, level, z], yaw, pitch, unit, cx, cy, A);
         const r = 14 * A[3];
-        ctx.globalAlpha = 0.9 * fade * mobileMute;
+        ctx.globalAlpha = 0.9 * fade * mobileMute * cutAlpha;
         ctx.drawImage(orangeGlow, A[0] - r, A[1] - r, r * 2, r * 2);
         ctx.globalAlpha = 1;
       }
@@ -323,7 +346,7 @@ export function BlueprintScene() {
       for (const n of model.nodes) {
         project(n, yaw, pitch, unit, cx, cy, A);
         const r = 7 * A[3];
-        ctx.globalAlpha = 0.55 * fade * mobileMute;
+        ctx.globalAlpha = 0.55 * fade * mobileMute * cutAlpha;
         ctx.drawImage(tealGlow, A[0] - r, A[1] - r, r * 2, r * 2);
       }
       ctx.globalAlpha = 1;
@@ -356,7 +379,7 @@ export function BlueprintScene() {
           const d2 = dx * dx + dy * dy + dz * dz;
           if (d2 > LINK * LINK) continue;
           const d = Math.sqrt(d2);
-          const alpha = (1 - d / LINK) * 0.16 * fade * mobileMute;
+          const alpha = (1 - d / LINK) * 0.2 * fade * mobileMute;
           ctx.strokeStyle = `rgb(${INK} / ${alpha.toFixed(3)})`;
           ctx.beginPath();
           ctx.moveTo(pts[i][0], pts[i][1]);

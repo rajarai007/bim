@@ -11,9 +11,9 @@ import type { SiteSettings } from "@/types";
  */
 export function SocialRail({ settings }: { settings: SiteSettings }) {
   const links = [
-    { label: "LinkedIn", href: settings.social.linkedin, brand: "#0a66c2", Mark: LinkedinMark },
-    { label: "WhatsApp", href: settings.contact.whatsappHref, brand: "#22a75a", Mark: WhatsappMark },
-    { label: "Instagram", href: settings.social.instagram, brand: "#d62976", Mark: InstagramMark },
+    { label: "LinkedIn", href: settings.social.linkedin, brand: "#3b9cff", Mark: LinkedinMark },
+    { label: "WhatsApp", href: settings.contact.whatsappHref, brand: "#3ddc84", Mark: WhatsappMark },
+    { label: "Instagram", href: settings.social.instagram, brand: "#ff5fa2", Mark: InstagramMark },
   ].filter((link): link is typeof link & { href: string } => Boolean(link.href));
 
   if (!links.length) return null;
@@ -35,8 +35,8 @@ export function SocialRail({ settings }: { settings: SiteSettings }) {
           className={cn(
             "glass flex size-10 items-center justify-center rounded-full text-[var(--brand)] md:size-11",
             "transition-[background-color,color,border-color,box-shadow,translate] duration-300 ease-brand",
-            "hover:-translate-x-1 hover:border-[var(--brand)] hover:bg-[var(--brand)] hover:text-white",
-            "hover:shadow-[0_12px_24px_-10px_var(--brand)] focus-visible:border-[var(--brand)]",
+            "hover:-translate-x-1 hover:border-[var(--brand)] hover:bg-[var(--brand)] hover:text-canvas",
+            "hover:shadow-[0_14px_28px_-10px_var(--brand)] focus-visible:border-[var(--brand)]",
           )}
         >
           <Mark className="size-[18px] md:size-5" />
