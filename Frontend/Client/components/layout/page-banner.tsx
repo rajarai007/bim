@@ -6,7 +6,7 @@ import { SplitWords } from "@/components/motion/split-words";
 import { cn } from "@/lib/utils";
 
 /**
- * Page hero used by every inner page: a photo sunk into the dark, an animated
+ * Page hero used by every inner page: a photo washed into the cream, an animated
  * gradient mesh, the drafting layers, a large display H1, optional intro copy
  * and a glass breadcrumb.
  */

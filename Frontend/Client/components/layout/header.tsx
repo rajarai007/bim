@@ -98,7 +98,7 @@ export function Header({ contact }: { contact: SiteSettings["contact"] }) {
   }, []);
 
   const iconButton =
-    "flex size-10 items-center justify-center rounded-full border border-line bg-white/4 text-body shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-[background-color,color,border-color,translate,scale,box-shadow] duration-300 ease-brand hover:-translate-y-0.5 hover:border-line-strong hover:bg-white/8 hover:text-heading active:translate-y-0 active:scale-95";
+    "flex size-10 items-center justify-center rounded-full border border-line bg-heading/4 text-body shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-[background-color,color,border-color,translate,scale,box-shadow] duration-300 ease-brand hover:-translate-y-0.5 hover:border-line-strong hover:bg-heading/8 hover:text-heading active:translate-y-0 active:scale-95";
 
   return (
     <header className="header-in sticky top-0 z-50 w-full">

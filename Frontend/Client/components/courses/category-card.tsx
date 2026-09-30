@@ -13,8 +13,6 @@ export function CategoryCard({ category }: { category: Category }) {
       data-tilt
       className="card-lift group relative flex h-full flex-col items-start gap-5 rounded-lg bg-surface/80 p-8 hover:border-accent/40"
     >
-      {/* Drafting grid surfaces behind the content on hover. */}
-      <span aria-hidden className="blueprint-bg pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-500 ease-brand group-hover:opacity-100" />
       <span className="well relative size-12 group-hover:-translate-y-1" data-tone="accent">
         <CategoryIcon icon={category.icon} className="size-6 transition-transform duration-400 ease-brand group-hover:rotate-6" />
       </span>

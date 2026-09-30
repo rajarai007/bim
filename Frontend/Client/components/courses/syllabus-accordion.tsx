@@ -27,7 +27,7 @@ export function SyllabusAccordion({ modules }: { modules: SyllabusModule[] }) {
           <div
             key={module.title}
             className={cn(
-              "glass flex w-full flex-col rounded-md p-5 transition-[border-color,gap,box-shadow] duration-300 ease-brand hover:border-accent/40 hover:shadow-[var(--shadow-sheet-lifted),0_0_0_1px_rgb(34_211_197/0.15)]",
+              "glass flex w-full flex-col rounded-md p-5 transition-[border-color,gap,box-shadow] duration-300 ease-brand hover:border-accent/40 hover:shadow-[var(--shadow-sheet-lifted),0_0_0_1px_rgb(13_148_136/0.15)]",
               open ? "gap-2.5" : "gap-0",
             )}
           >

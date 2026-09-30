@@ -11,9 +11,9 @@ import type { SiteSettings } from "@/types";
  */
 export function SocialRail({ settings }: { settings: SiteSettings }) {
   const links = [
-    { label: "LinkedIn", href: settings.social.linkedin, brand: "#3b9cff", Mark: LinkedinMark },
-    { label: "WhatsApp", href: settings.contact.whatsappHref, brand: "#3ddc84", Mark: WhatsappMark },
-    { label: "Instagram", href: settings.social.instagram, brand: "#ff5fa2", Mark: InstagramMark },
+    { label: "LinkedIn", href: settings.social.linkedin, brand: "#0a66c2", Mark: LinkedinMark },
+    { label: "WhatsApp", href: settings.contact.whatsappHref, brand: "#1fa855", Mark: WhatsappMark },
+    { label: "Instagram", href: settings.social.instagram, brand: "#e1306c", Mark: InstagramMark },
   ].filter((link): link is typeof link & { href: string } => Boolean(link.href));
 
   if (!links.length) return null;

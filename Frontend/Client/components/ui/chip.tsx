@@ -37,7 +37,7 @@ export function Tag({
   return (
     <span
       className={cn(
-        "inline-flex items-start rounded-pill border border-line bg-white/5 px-2 py-1 font-sans font-medium leading-native whitespace-nowrap transition-[background-color,color,border-color] duration-200 hover:border-primary/40 hover:bg-primary-soft hover:text-primary-bright",
+        "inline-flex items-start rounded-pill border border-line bg-heading/5 px-2 py-1 font-sans font-medium leading-native whitespace-nowrap transition-[background-color,color,border-color] duration-200 hover:border-primary/40 hover:bg-primary-soft hover:text-primary-bright",
         tone === "muted" ? "text-10 text-muted" : "text-11 text-body",
       )}
     >

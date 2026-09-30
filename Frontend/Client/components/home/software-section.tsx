@@ -3,6 +3,9 @@ import { Cube } from "@/components/motion/drafting-marks";
 import { SoftwareChip } from "@/components/ui/chip";
 import { softwareList } from "@/data/site";
 
+/** Extra copies of the row so the belt never shows a gap on wide screens. */
+const BELT_COPIES = 3;
+
 export function SoftwareSection() {
   return (
     <Section tone="surface" className="overflow-clip" containerClassName="relative flex flex-col gap-8 xl:gap-10">
@@ -15,13 +18,26 @@ export function SoftwareSection() {
       <h2 data-reveal="up" className="w-full text-center font-heading text-22 font-semibold leading-native text-heading md:text-24">
         Software &amp; Technologies We Cover
       </h2>
-      <ul data-reveal-stagger="scale" className="flex w-full flex-wrap items-start justify-center gap-3 md:gap-4 [--stagger-step:40ms]">
-        {softwareList.map((name) => (
-          <li key={name}>
-            <SoftwareChip label={name} />
-          </li>
+      {/* A slow conveyor of the toolset. Without motion (or JS) only the first
+          list shows, wrapped and centred; the copies are decoration. */}
+      <div data-reveal="fade" className="marquee [--marquee-gap:12px] md:[--marquee-gap:16px]">
+        <ul className="marquee-track">
+          {softwareList.map((name) => (
+            <li key={name}>
+              <SoftwareChip label={name} />
+            </li>
+          ))}
+        </ul>
+        {Array.from({ length: BELT_COPIES }, (_, copy) => (
+          <ul key={copy} aria-hidden className="marquee-track">
+            {softwareList.map((name) => (
+              <li key={name}>
+                <SoftwareChip label={name} />
+              </li>
+            ))}
+          </ul>
         ))}
-      </ul>
+      </div>
     </Section>
   );
 }

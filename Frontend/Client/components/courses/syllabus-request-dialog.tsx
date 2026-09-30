@@ -186,14 +186,14 @@ function SyllabusModal({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="group/close absolute top-4 right-4 z-10 flex size-9 items-center justify-center rounded-full text-muted transition-[background-color,color,rotate] duration-300 ease-brand hover:bg-white/10 hover:text-heading hover:rotate-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          className="group/close absolute top-4 right-4 z-10 flex size-9 items-center justify-center rounded-full text-muted transition-[background-color,color,rotate] duration-300 ease-brand hover:bg-heading/10 hover:text-heading hover:rotate-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
           <X className="size-4" aria-hidden />
         </button>
 
         {status === "success" ? (
           <div className="flex flex-col items-center gap-5 py-4 text-center" role="status" aria-live="polite">
-            <span className="modal-check flex size-16 items-center justify-center rounded-full bg-accent-soft text-accent shadow-[0_0_0_10px_rgb(34_211_197/0.1),0_0_40px_rgb(34_211_197/0.35)]">
+            <span className="modal-check flex size-16 items-center justify-center rounded-full bg-accent-soft text-accent shadow-[0_0_0_10px_rgb(13_148_136/0.1),0_0_40px_rgb(13_148_136/0.35)]">
               <svg viewBox="0 0 24 24" className="size-8" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                 <path d="M5 12.5 10 17.5 19 7.5" />
               </svg>

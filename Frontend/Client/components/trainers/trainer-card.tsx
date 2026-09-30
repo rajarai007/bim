@@ -57,7 +57,7 @@ export function TrainerCard({ trainer }: { trainer: Trainer }) {
               target="_blank"
               rel="noreferrer"
               aria-label={`${trainer.name} on LinkedIn`}
-              className="flex size-4 shrink-0 items-center justify-center text-muted transition-[color,scale] duration-300 ease-brand hover:scale-125 hover:text-[#3b9cff]"
+              className="flex size-4 shrink-0 items-center justify-center text-muted transition-[color,scale] duration-300 ease-brand hover:scale-125 hover:text-[#0a66c2]"
             >
               <LinkedinIcon className="size-4" />
             </a>

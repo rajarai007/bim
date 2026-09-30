@@ -20,9 +20,9 @@ type P3 = [number, number, number];
 type Kind = "plate" | "column" | "mullion" | "roof" | "core" | "grid";
 type Seg = { a: P3; b: P3; kind: Kind };
 
-const INK = "214 222 245"; // light ink on the dark sheet
-const TEAL = "34 211 197"; // --color-accent
-const ORANGE = "255 106 43"; // --color-primary (lifted a touch for dark)
+const INK = "60 45 20"; // dark ink on the cream sheet
+const TEAL = "13 148 136"; // --color-accent, a touch brighter for lines
+const ORANGE = "255 90 31"; // --color-primary
 
 const FLOOR_H = 0.17;
 
@@ -248,8 +248,8 @@ export function BlueprintScene() {
       const mobileMute = wide ? 1 : 0.42; // copy sits on top of the model on phones
 
       ctx.clearRect(0, 0, w, h);
-      // Additive blending: crossings and glows brighten like a hologram.
-      ctx.globalCompositeOperation = "lighter";
+      // Multiply: crossings deepen like ink on paper.
+      ctx.globalCompositeOperation = "multiply";
       ctx.lineCap = "round";
 
       /* Ground grid + structure: batched by kind so we set style once per kind. */

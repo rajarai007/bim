@@ -25,8 +25,8 @@ const figtree = Figtree({
 export const revalidate = 60;
 
 export const viewport: Viewport = {
-  themeColor: "#07090f",
-  colorScheme: "dark",
+  themeColor: "#f7f2e8",
+  colorScheme: "light",
 };
 
 export const metadata: Metadata = {

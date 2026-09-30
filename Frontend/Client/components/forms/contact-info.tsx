@@ -102,7 +102,7 @@ export function ContactInfo({ contact }: { contact: SiteSettings["contact"] }) {
             sizes="(min-width: 1280px) 480px, (min-width: 1024px) 420px, 100vw"
             className="object-cover opacity-80 saturate-[0.7] transition-[transform,opacity,filter] duration-700 ease-brand group-hover:scale-[1.06] group-hover:opacity-100 group-hover:saturate-100"
           />
-          <div aria-hidden className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_50%,transparent,rgb(7_9_15/0.6))]" />
+          <div aria-hidden className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_50%,transparent,rgb(247_242_232/0.6))]" />
           <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 rounded-[inherit]" />
           <span className="glass glass-edge relative rounded-pill px-4 py-2 font-sans text-11 font-semibold leading-native tracking-[0.08em] text-primary-bright whitespace-nowrap transition-[scale] duration-500 ease-brand group-hover:scale-105">
             CENTERED AT OKHLA HEAD

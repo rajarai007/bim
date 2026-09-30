@@ -44,7 +44,7 @@ export function FooterLogo() {
     <Link
       href={routes.home}
       aria-label={`${siteConfig.name} — home`}
-      className="group inline-flex items-center justify-center rounded-lg border border-white/10 bg-[#0a0d14] px-5 py-4 transition-transform duration-300 ease-brand hover:scale-[1.02]"
+      className="group inline-flex items-center justify-center rounded-lg border border-heading/10 bg-heading px-5 py-4 transition-transform duration-300 ease-brand hover:scale-[1.02]"
     >
       <Image src={brand.full} alt={siteConfig.name} width={1000} height={845} sizes="170px" className="h-auto w-[170px]" />
     </Link>

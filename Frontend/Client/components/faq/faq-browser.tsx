@@ -43,7 +43,7 @@ export function FaqBrowser({
                 "group flex shrink-0 items-center gap-2 rounded-md border p-4 text-left font-sans text-14 font-semibold leading-native shadow-[inset_0_1px_0_rgb(255_255_255/0.04)] transition-[color,border-color,background-color,translate,box-shadow] duration-300 ease-brand active:scale-[0.98] lg:w-full lg:hover:translate-x-1",
                 selected
                   ? "border-primary/60 bg-primary-soft text-primary-bright shadow-[inset_0_1px_0_rgb(255_255_255/0.08),0_14px_30px_-16px_rgb(255_90_31/0.6)]"
-                  : "border-line bg-white/3 text-body hover:border-line-strong hover:bg-white/6 hover:text-heading",
+                  : "border-line bg-heading/3 text-body hover:border-line-strong hover:bg-heading/6 hover:text-heading",
               )}
             >
               <span className="flex-1 whitespace-nowrap lg:whitespace-normal">{category.label}</span>

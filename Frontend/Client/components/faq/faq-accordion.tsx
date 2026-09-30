@@ -52,7 +52,7 @@ export function FaqAccordion({
           <div
             key={item.id}
             className={cn(
-              "glass-edge flex w-full flex-col rounded-md p-6 transition-[border-color,gap,box-shadow] duration-300 ease-brand hover:border-accent/40 hover:shadow-[var(--shadow-sheet-lifted),0_0_0_1px_rgb(34_211_197/0.15)]",
+              "glass-edge flex w-full flex-col rounded-md p-6 transition-[border-color,gap,box-shadow] duration-300 ease-brand hover:border-accent/40 hover:shadow-[var(--shadow-sheet-lifted),0_0_0_1px_rgb(13_148_136/0.15)]",
               tones[tone],
               open ? "gap-3 border-accent/30" : "gap-0",
             )}

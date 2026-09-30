@@ -37,7 +37,7 @@ export function ProjectFilters({ projects, categories }: { projects: Project[]; 
                 "shrink-0 rounded-pill border px-5 py-2.5 font-sans text-14 font-semibold leading-native shadow-[inset_0_1px_0_rgb(255_255_255/0.06)] transition-[background-color,border-color,color,translate,scale,box-shadow] duration-300 ease-brand hover:-translate-y-0.5 active:translate-y-0 active:scale-95 active:duration-100",
                 selected
                   ? "btn-primary border-transparent text-white"
-                  : "border-line bg-white/4 text-body hover:border-line-strong hover:bg-white/8 hover:text-heading",
+                  : "border-line bg-heading/4 text-body hover:border-line-strong hover:bg-heading/8 hover:text-heading",
               )}
             >
               {filter.label}

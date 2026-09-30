@@ -40,14 +40,13 @@ export function Footer({ settings, categories }: { settings: SiteSettings; categ
   });
   const { contact } = settings;
   return (
-    <footer className="relative w-full overflow-clip bg-[#05070c]">
+    <footer className="relative w-full overflow-clip bg-elevated">
       {/* Lit seam between the page and the footer, and a low glow under it. */}
       <div aria-hidden className="section-rule absolute inset-x-0 top-0" />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 h-[60%] bg-[radial-gradient(60%_80%_at_50%_100%,rgb(255_90_31/0.08),transparent_70%)]"
       />
-      <div aria-hidden className="floor-grid" data-static />
       <Container className="relative flex flex-col gap-10 pt-14 pb-8 md:gap-12 md:pt-18 xl:gap-16 xl:pt-24 xl:pb-10">
         <div data-reveal-stagger="up" className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:gap-12 [--stagger-step:120ms]">
           <div className="flex flex-col items-start gap-6">
@@ -64,7 +63,7 @@ export function Footer({ settings, categories }: { settings: SiteSettings; categ
                     target="_blank"
                     rel="noreferrer"
                     aria-label={label}
-                    className="flex size-10 items-center justify-center rounded-full border border-line bg-white/4 text-body shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-[background-color,color,translate,box-shadow,border-color] duration-300 ease-brand hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-white hover:shadow-[0_12px_24px_-8px_rgb(255_90_31/0.7)]"
+                    className="flex size-10 items-center justify-center rounded-full border border-line bg-heading/4 text-body shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-[background-color,color,translate,box-shadow,border-color] duration-300 ease-brand hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-white hover:shadow-[0_12px_24px_-8px_rgb(255_90_31/0.7)]"
                   >
                     <Icon className="size-4" aria-hidden />
                   </a>

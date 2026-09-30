@@ -59,7 +59,7 @@ export function Hero({ categories = [] }: { categories?: Category[] }) {
     // `overflow-clip` (not hidden): a scroll container would capture the
     // copy's scroll-driven `view()` timeline instead of the viewport.
     <section className="relative flex w-full items-center overflow-clip xl:min-h-[780px]">
-      {/* Far layer: the site photo sunk into the dark, drifting on scroll. */}
+      {/* Far layer: the site photo washed into the cream, drifting on scroll. */}
       <div aria-hidden className="photo-fade pointer-events-none absolute inset-0 opacity-50">
         <div data-parallax="0.25" className="absolute inset-x-0 -inset-y-[20%] will-change-transform">
           <Image
@@ -95,9 +95,6 @@ export function Hero({ categories = [] }: { categories?: Category[] }) {
           data-tone="accent"
         />
       </div>
-
-      {/* Perspective floor under the model (tablet and up). */}
-      <div aria-hidden className="floor-grid hidden md:block" />
 
       {/* Mid layer: the live wireframe model. */}
       <HeroScene />

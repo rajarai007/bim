@@ -3,7 +3,7 @@ import { ChevronDown } from "lucide-react";
 import { ChevronDownWide } from "@/components/icons/chevron-down-wide";
 import { cn } from "@/lib/utils";
 
-// The control recipe (dark glass, brand focus ring + glow, invalid state) is
+// The control recipe (paper glass, brand focus ring + glow, invalid state) is
 // `.control` in globals.css; `data-surface` picks the fill for the surface the
 // form sits on.
 const controlBase = "control";
@@ -137,7 +137,7 @@ export function Checkbox({
           <input
             id={id}
             type="checkbox"
-            className="peer size-[18px] cursor-pointer appearance-none rounded-xs border border-line-strong bg-white/5 transition-[border-color,box-shadow,background-color] duration-200 checked:border-primary checked:bg-primary-soft checked:shadow-[0_0_0_3px_rgb(255_90_31/0.18)] focus-visible:shadow-[0_0_0_3px_rgb(34_211_197/0.35)]"
+            className="peer size-[18px] cursor-pointer appearance-none rounded-xs border border-line-strong bg-heading/5 transition-[border-color,box-shadow,background-color] duration-200 checked:border-primary checked:bg-primary-soft checked:shadow-[0_0_0_3px_rgb(255_90_31/0.18)] focus-visible:shadow-[0_0_0_3px_rgb(13_148_136/0.35)]"
             aria-invalid={error ? true : undefined}
             {...rest}
           />

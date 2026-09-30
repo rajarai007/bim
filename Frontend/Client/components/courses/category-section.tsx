@@ -37,7 +37,7 @@ export function CategorySection({
       <Link
         href={routes.category(category.slug)}
         data-reveal="up"
-        className="group/link flex items-center gap-2 font-sans text-15 font-semibold leading-native text-primary transition-colors hover:text-[#ff6b36]"
+        className="group/link flex items-center gap-2 font-sans text-15 font-semibold leading-native text-primary transition-colors hover:text-primary-deep"
       >
         {viewAllLabel}
         <ChevronWide

@@ -51,7 +51,7 @@ export function CourseDurationTable({ category, courses }: { category: Category;
                 <a
                   href={routes.courseSyllabus(category.slug, course.slug)}
                   download
-                  className={cn(action, "bg-accent text-[#04201d] hover:bg-accent-strong hover:shadow-[0_10px_24px_-10px_rgb(34_211_197/0.7)]")}
+                  className={cn(action, "bg-accent text-white hover:bg-accent-strong hover:shadow-[0_10px_24px_-10px_rgb(13_148_136/0.7)]")}
                 >
                   <Download className="hidden size-4 md:inline" aria-hidden />
                   Download

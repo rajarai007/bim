@@ -52,24 +52,18 @@ export function Cube({
 }
 
 /**
- * Decorative drafting layers for full-bleed sections: an isometric grid that
- * fades in from one corner, dimension lines with ticks, a survey point with
- * its glow, a scan line sweeping the band, and 3D ornaments (gyroscope rings
- * and a wireframe cube). Each layer sits at its own depth so the pointer
- * parallaxes them against the copy. Presentational only (aria-hidden), must
- * live inside a `relative overflow-clip` section, and hides its finer layers
- * below `md` so phones only pay for the grid.
+ * Decorative drafting layers for full-bleed sections: dimension lines with
+ * ticks, a survey point with its glow, a scan line sweeping the band, and 3D
+ * ornaments (gyroscope rings and a wireframe cube). Each layer sits at its own
+ * depth so the pointer parallaxes them against the copy. Presentational only
+ * (aria-hidden), must live inside a `relative overflow-clip` section, and
+ * hides its finer layers below `md` so phones only pay for the scan line.
  */
 export function DraftingMarks({ variant = "banner", className }: { variant?: Variant; className?: string }) {
   const band = variant === "band";
   const compact = variant === "compact";
   return (
     <div aria-hidden className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}>
-      {/* Far: isometric grid, right-hand side */}
-      <div
-        data-depth="0.15"
-        className={cn("iso-grid absolute inset-y-0 right-0 w-[70%]", compact ? "opacity-60" : "opacity-100")}
-      />
       {/* Scanner pass */}
       <span className="scanline" style={{ "--scan-travel": band ? "420px" : "360px" } as CSSProperties} />
       {/* Mid: dimension lines + ticks */}

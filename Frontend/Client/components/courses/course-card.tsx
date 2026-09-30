@@ -65,7 +65,7 @@ function CardImage({
       ) : (
         photo
       )}
-      {/* The photo sinks into the card's dark surface; the wash lifts on hover. */}
+      {/* The photo fades into the card's cream surface; the wash lifts on hover. */}
       <div
         aria-hidden
         className="photo-sink absolute inset-0 opacity-90 transition-opacity duration-500 ease-brand group-hover:opacity-50"
