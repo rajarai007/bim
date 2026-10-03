@@ -7,9 +7,13 @@ import { PageBanner } from "@/components/layout/page-banner";
 import { Section } from "@/components/layout/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getCategories, getCategoryBySlug, getCoursesByCategory } from "@/features/courses/service";
+import { siteConfig } from "@/lib/config";
 import { routes } from "@/lib/constants";
+import { courseListSchema } from "@/lib/schema";
+import { buildMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { PageTransition } from "@/components/motion/page-transition";
+import { JsonLd } from "@/components/seo/json-ld";
 
 /**
  * Four cards per row at desktop; a partial final row of 2–3 cards stretches
@@ -40,7 +44,18 @@ export async function generateMetadata({
   const category = await getCategoryBySlug(slug);
   // Thrown here (before streaming starts) so the response carries a real 404 status.
   if (!category) notFound();
-  return { title: category.name, description: category.description };
+  const courses = await getCoursesByCategory(category.slug);
+  // The card summary is the right length for a search snippet; the hero description is not.
+  const summary = category.summary.trim().replace(/[.!?]*$/, ".");
+  return {
+    ...buildMetadata({
+      path: routes.category(category.slug),
+      title: `${category.name} Courses in Delhi | ${siteConfig.name}`,
+      description: `${summary} Classes in New Delhi and online.`,
+    }),
+    // A category with nothing published yet is a placeholder: keep it out of the index until it has courses.
+    ...(courses.length ? {} : { robots: { index: false, follow: true } }),
+  };
 }
 
 export default async function CategoryPage({ params }: PageProps<"/courses/[category]">) {
@@ -53,6 +68,7 @@ export default async function CategoryPage({ params }: PageProps<"/courses/[cate
 
   return (
     <PageTransition>
+      {all.length ? <JsonLd data={courseListSchema(`${category.name} courses`, all)} /> : null}
       <PageBanner
         title={category.name}
         description={category.description}

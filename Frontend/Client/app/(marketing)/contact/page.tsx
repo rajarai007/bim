@@ -11,8 +11,9 @@ import { routes } from "@/lib/constants";
 import { PageTransition } from "@/components/motion/page-transition";
 
 const defaults = {
-  title: "Contact",
-  description: "Submit your training query or visit our workstation lab in Okhla, New Delhi. Call, WhatsApp or email the admissions team.",
+  title: "Contact BIM Career Academy | Okhla, New Delhi",
+  description:
+    "Visit BIM Career Academy at Okhla Head, Jamia Nagar, New Delhi 110025, call or WhatsApp +91 84487 65107, or send an enquiry about BIM, Revit and MEP courses.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

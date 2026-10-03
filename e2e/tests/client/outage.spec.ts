@@ -31,6 +31,6 @@ test.describe("API outage", () => {
 
     await startApi();
     await page.getByRole("button", { name: "Try again" }).click();
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Our Courses");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("BIM Courses in Delhi");
   });
 });

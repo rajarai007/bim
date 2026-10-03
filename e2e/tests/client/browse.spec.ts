@@ -11,7 +11,8 @@ test.describe("FAQ page", () => {
     const tabs = page.getByRole("tablist", { name: "FAQ categories" }).getByRole("tab");
     await expect(tabs).toHaveCount(categories.length);
     const panel = page.getByRole("tabpanel");
-    const questions = panel.locator("h3 button[aria-expanded]");
+    // Questions sit directly under the page title here, so they are h2 (h3 in the home-page preview).
+    const questions = panel.locator("h2 button[aria-expanded]");
 
     // First tab (General Queries) shows every published question, first three expanded.
     await expect(tabs.first()).toHaveAttribute("aria-selected", "true");
@@ -50,20 +51,20 @@ test.describe("Projects page", () => {
     const tabs = page.getByRole("tablist", { name: /Filter projects/ }).getByRole("tab");
     await expect(tabs).toHaveCount(categories.length + 1);
     const grid = page.getByRole("tabpanel");
-    const cards = grid.locator("article, [data-project], h3");
-    await expect(grid.getByRole("heading", { level: 3 })).toHaveCount(projects.length);
+    const cards = grid.locator("article, [data-project], h2");
+    await expect(grid.getByRole("heading", { level: 2 })).toHaveCount(projects.length);
     for (const c of categories) {
       await tabs.filter({ hasText: c.badge }).click();
       const expected = projects.filter((p) => p.category.slug === c.slug);
       if (expected.length) {
-        await expect(grid.getByRole("heading", { level: 3 })).toHaveCount(expected.length);
-        for (const p of expected) await expect(grid.getByRole("heading", { level: 3, name: p.title })).toBeVisible();
+        await expect(grid.getByRole("heading", { level: 2 })).toHaveCount(expected.length);
+        for (const p of expected) await expect(grid.getByRole("heading", { level: 2, name: p.title })).toBeVisible();
       } else {
         await expect(grid).toContainText("No projects in this category yet.");
       }
     }
     await tabs.first().click();
-    await expect(grid.getByRole("heading", { level: 3 })).toHaveCount(projects.length);
+    await expect(grid.getByRole("heading", { level: 2 })).toHaveCount(projects.length);
     void cards;
   });
 });
@@ -73,7 +74,7 @@ test.describe("Trainers page", () => {
     const trainers = await apiData<{ id: number; name: string; role: string; experience: string; linkedin: string | null; tags: string[] }[]>("GET", "/trainers", { auth: false });
     await page.goto("/trainers");
     for (const t of trainers) {
-      await expect(page.getByRole("heading", { level: 3, name: t.name })).toBeVisible();
+      await expect(page.getByRole("heading", { level: 2, name: t.name })).toBeVisible();
       await expect(page.getByText(t.experience).first()).toBeVisible();
       const link = page.getByRole("link", { name: `${t.name} on LinkedIn` });
       if (t.linkedin) {

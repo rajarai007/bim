@@ -88,6 +88,30 @@ system" and "Spatial system" comments in `app/globals.css`:
 All of it is gated behind `prefers-reduced-motion`, `(hover: hover) and (pointer: fine)` and
 `scripting: enabled`; the hero canvas pauses off-screen and on hidden tabs.
 
+## SEO
+
+- **Head tags**: `lib/seo.ts` → `buildMetadata()` gives every indexable page its title, description,
+  self-referencing canonical, robots directive and Open Graph / X card tags. Static pages go through
+  `getPageMetadata()` (`features/pages/service.ts`), so the title and description saved in the admin
+  console (SEO tab) win over the defaults in each `page.tsx`. Course pages use the meta title /
+  description saved on the course; category pages build theirs from the category name and summary.
+  The canonical origin is `siteConfig.url` (`lib/config.ts`, override with `NEXT_PUBLIC_SITE_URL`).
+- **`/robots.txt` and `/sitemap.xml`**: `app/robots.ts`, `app/sitemap.ts`. The sitemap is generated from
+  the live catalogue (static pages, categories that have courses, active courses) and refreshes with the
+  page cache.
+- **Structured data**: `lib/schema.ts` builds the JSON-LD and `components/seo/json-ld.tsx` renders it:
+  the academy (EducationalOrganization + LocalBusiness) on every page via `SiteChrome`, `WebSite` on the
+  home page, `BreadcrumbList` from the `Breadcrumb` component, `Course` + `FAQPage` on course pages,
+  `FAQPage` on `/faq`, `ItemList` on the course listings and `Person` on `/trainers`. It only states what
+  the page shows: no prices, ratings, reviews or coordinates.
+- **Course FAQs**: `features/courses/faqs.ts` (batch facts from the course record, plus per-course answers
+  keyed by slug). The site-wide FAQs live in the database (admin console → FAQs).
+- **Share image**: `public/images/og-default.jpg` (1200×630). **Verification**: set
+  `GOOGLE_SITE_VERIFICATION` / `BING_SITE_VERIFICATION` at build time.
+- **Not indexed**: 404s (automatic), categories without courses, and the syllabus PDF route
+  (`X-Robots-Tag: noindex`). The admin console and the API send `noindex` headers of their own.
+- `e2e/tests/client/seo.spec.ts` checks all of the above against a running site.
+
 ## Backend integration
 
 All content is read through `features/<domain>/service.ts`, which call the REST API with

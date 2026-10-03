@@ -4,7 +4,7 @@ import { Tag } from "@/components/ui/chip";
 import { Divider } from "@/components/ui/divider";
 import type { Project } from "@/types";
 
-/** Portfolio card on the Projects page. */
+/** Portfolio card on the Projects page, where the cards follow the page title directly (so `h2`). */
 export function ProjectCard({ project }: { project: Project }) {
   const { category } = project;
   return (
@@ -27,9 +27,9 @@ export function ProjectCard({ project }: { project: Project }) {
         <div className="flex w-full items-center justify-between">
           <Badge size="sm">{category.badge}</Badge>
         </div>
-        <h3 className="w-full font-heading text-18 font-semibold leading-native text-heading">
+        <h2 className="w-full font-heading text-18 font-semibold leading-native text-heading">
           {project.title}
-        </h3>
+        </h2>
         <p className="w-full font-sans text-13 leading-normal text-muted">{project.description}</p>
         <Divider className="mt-auto" />
         <ul className="flex w-full flex-wrap gap-1.5">

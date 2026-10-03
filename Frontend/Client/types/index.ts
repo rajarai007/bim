@@ -27,6 +27,8 @@ export type Category = CategoryRef & {
   /** Heading used on the courses overview page. */
   overviewTitle: string;
   courseCount: number;
+  /** ISO timestamp of the last edit (sitemap `lastmod`); absent on older API builds. */
+  updatedAt?: string;
 };
 
 export type SyllabusModule = {
@@ -58,6 +60,8 @@ export type Course = {
   /** Pinned to the home-page grid / category "Featured Programs" row. */
   featured: boolean;
   category: CategoryRef;
+  /** ISO timestamp of the last edit (sitemap `lastmod`); absent on older API builds. */
+  updatedAt?: string;
 };
 
 export type CourseDetail = Course & {
@@ -153,6 +157,7 @@ export type PageMeta = {
   title: string;
   metaTitle: string | null;
   metaDescription: string | null;
+  updatedAt?: string;
 };
 
 export type Feature = {

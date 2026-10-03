@@ -21,12 +21,13 @@ export function Logo({ className }: { className?: string }) {
       className={cn("group flex items-center gap-3", className)}
     >
       <span className="coin relative size-10 shrink-0">
-        <Image src={brand.mark} alt="" fill sizes="40px" priority className="object-contain" />
+        {/* In view at once, so not lazy; too small to be worth a preload that would compete with the hero image. */}
+        <Image src={brand.mark} alt="" fill sizes="40px" loading="eager" className="object-contain" />
       </span>
       <span className="flex flex-col items-start gap-0.5 leading-native whitespace-nowrap">
         <span className="font-heading text-18 font-extrabold text-heading">
           {siteConfig.shortName}
-        </span>
+        </span>{" "}
         <span className="font-sans text-10 font-semibold text-accent">
           {siteConfig.tagline}
         </span>

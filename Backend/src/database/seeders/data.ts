@@ -846,55 +846,57 @@ export const pages = [
     path: "/",
     title: "Homepage",
     sectionCount: 12,
-    metaTitle: "BIM Career Academy — Build Your Career in BIM & Design Technology",
+    metaTitle: "BIM Training Institute in Delhi | BIM Career Academy",
     metaDescription:
-      "India's premier offline & online training institute for BIM, Structural Design, MEP Design & Interior Design Software.",
+      "BIM training institute in Delhi for Revit Architecture, Revit Structure, Revit MEP and Navisworks. Project-based classes at Okhla, New Delhi, and live online.",
   },
   {
     path: "/courses",
     title: "Courses Overview",
     sectionCount: 5,
-    metaTitle: "Courses | BIM Career Academy",
+    metaTitle: "BIM & Revit Courses in Delhi | BIM Career Academy",
     metaDescription:
-      "Explore our comprehensive range of BIM, Structural, MEP & Interior Design training programs.",
+      "Compare BIM courses in Delhi: Revit Architecture, Revit Structure, Revit MEP and Navisworks BIM coordination. Check duration, syllabus and batch options.",
   },
   {
     path: "/about",
     title: "About Us",
     sectionCount: 5,
-    metaTitle: "About Us | BIM Career Academy",
+    metaTitle: "About BIM Career Academy | BIM Institute in New Delhi",
     metaDescription:
-      "Practical, industry-aligned offline & online training in BIM, structural, MEP and interior design software.",
+      "BIM Career Academy is a BIM institute in Okhla, New Delhi, founded by Mohd Asif. Practical Revit, Navisworks, structural and MEP training, offline and online.",
   },
   {
     path: "/contact",
     title: "Contact",
     sectionCount: 2,
-    metaTitle: "Contact | BIM Career Academy",
-    metaDescription: "Submit your training query or visit our workstation lab in Okhla, New Delhi.",
+    metaTitle: "Contact BIM Career Academy | Okhla, New Delhi",
+    metaDescription:
+      "Visit BIM Career Academy at Okhla Head, Jamia Nagar, New Delhi 110025, call or WhatsApp +91 84487 65107, or send an enquiry about BIM, Revit and MEP courses.",
   },
   {
     path: "/trainers",
     title: "Trainers",
     sectionCount: 3,
-    metaTitle: "Trainers | BIM Career Academy",
+    metaTitle: "BIM & Revit Trainers | BIM Career Academy",
     metaDescription:
-      "Learn from experienced AEC industry professionals with decade-long real-world BIM and structural design consulting expertise.",
+      "Meet the trainers at BIM Career Academy, New Delhi, and see their experience, specialisations and the BIM, Revit and structural software they teach.",
   },
   {
     path: "/projects",
     title: "Projects",
     sectionCount: 3,
-    metaTitle: "Projects | BIM Career Academy",
+    metaTitle: "BIM Training Projects | BIM Career Academy",
     metaDescription:
-      "Explore the practical digital construction, structural framing, and high-fidelity rendering projects executed by our students.",
+      "Browse the BIM, structural and MEP projects students work on at BIM Career Academy, New Delhi, from coordinated Revit models to MEP services layouts.",
   },
   {
     path: "/faq",
     title: "FAQ",
     sectionCount: 3,
-    metaTitle: "FAQ | BIM Career Academy",
-    metaDescription: "Answers about enrollment, batches, certifications, and workstation facilities at BIM Career Academy.",
+    metaTitle: "BIM Course FAQs | BIM Career Academy",
+    metaDescription:
+      "Answers to common questions about BIM and Revit training at BIM Career Academy, New Delhi: courses, duration, eligibility, online classes and fees.",
   },
   {
     path: "/privacy-policy",

@@ -64,7 +64,7 @@ export function FaqBrowser({
         className="flex w-full min-w-0 flex-1 flex-col"
       >
         {visible.length ? (
-          <FaqAccordion key={active} items={visible} tone="surface" />
+          <FaqAccordion key={active} items={visible} tone="surface" headingLevel={2} />
         ) : (
           <div className="state-panel">
             <span className="well well-round size-12" data-tone="muted" aria-hidden>

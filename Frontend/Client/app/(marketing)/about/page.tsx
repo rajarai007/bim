@@ -11,9 +11,9 @@ import { PageTransition } from "@/components/motion/page-transition";
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageMetadata("/about", {
-    title: "About Us",
+    title: "About BIM Career Academy | BIM Institute in New Delhi",
     description:
-      "BIM Career Academy delivers practical, industry-aligned offline & online training in BIM, structural and MEP software.",
+      "BIM Career Academy is a BIM institute in Okhla, New Delhi, founded by Mohd Asif. Practical Revit, Navisworks, structural and MEP training, offline and online.",
   });
 }
 

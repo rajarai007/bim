@@ -11,9 +11,9 @@ import { PageTransition } from "@/components/motion/page-transition";
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageMetadata("/projects", {
-    title: "Projects",
+    title: "BIM Training Projects | BIM Career Academy",
     description:
-      "Explore the practical digital construction, structural framing, and high-fidelity rendering projects executed by our students.",
+      "Browse the BIM, structural and MEP projects students work on at BIM Career Academy, New Delhi, from coordinated Revit models to MEP services layouts.",
   });
 }
 

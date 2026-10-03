@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
 import { CheckWide } from "@/components/icons/check-wide";
@@ -7,6 +8,7 @@ import { CompactCourseCard, courseMorphName } from "@/components/courses/course-
 import { EnquiryCard } from "@/components/courses/enquiry-card";
 import { SyllabusAccordion } from "@/components/courses/syllabus-accordion";
 import { SyllabusRequestDialog } from "@/components/courses/syllabus-request-dialog";
+import { FaqAccordion } from "@/components/faq/faq-accordion";
 import { Breadcrumb } from "@/components/layout/breadcrumb";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
@@ -14,12 +16,19 @@ import { SplitWords } from "@/components/motion/split-words";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Pill, SoftwareChip } from "@/components/ui/chip";
+import { getCourseFaqs } from "@/features/courses/faqs";
 import { getCourseBySlug, getCourses } from "@/features/courses/service";
 import { getSiteSettings } from "@/features/settings/service";
 import { routes } from "@/lib/constants";
+import { courseSchema, faqSchema } from "@/lib/schema";
+import { buildMetadata, courseHeading, withSiteName } from "@/lib/seo";
 import { PageTransition } from "@/components/motion/page-transition";
+import { JsonLd } from "@/components/seo/json-ld";
 
 type Props = PageProps<"/courses/[category]/[slug]">;
+
+/** Cards in the "Related Programs" row. */
+const RELATED_LIMIT = 3;
 
 /** Prerender every active course at build; ones added later render on first visit, then cache. */
 export async function generateStaticParams() {
@@ -31,18 +40,38 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const course = await getCourseBySlug(slug);
   // Thrown here (before streaming starts) so the response carries a real 404 status.
   if (!course || course.category.slug !== categorySlug) notFound();
-  return { title: { absolute: course.seo.title }, description: course.seo.description };
+  // The API falls back to the bare course title when no meta title was saved in the admin console.
+  const hasMetaTitle = course.seo.title && course.seo.title !== course.title;
+  return buildMetadata({
+    path: routes.course(course.category.slug, course.slug),
+    title: hasMetaTitle ? course.seo.title : withSiteName(courseHeading(course.title)),
+    description: course.seo.description,
+  });
 }
 
 const h2 =
   "font-heading text-24 font-semibold leading-native text-heading xl:text-28";
 
+const textLink = "font-semibold text-primary-bright transition-colors hover:text-heading";
+
 export default async function CoursePage({ params }: Props) {
   const { category: categorySlug, slug } = await params;
-  const [course, settings] = await Promise.all([getCourseBySlug(slug), getSiteSettings()]);
+  const [course, settings, catalogue] = await Promise.all([
+    getCourseBySlug(slug),
+    getSiteSettings(),
+    getCourses().catch(() => []),
+  ]);
   if (!course || course.category.slug !== categorySlug) notFound();
 
-  const { detail, related, category } = course;
+  const { detail, category } = course;
+  // Same-category courses first, topped up from the rest of the catalogue so every course page links to others.
+  const related = [
+    ...course.related,
+    ...catalogue.filter((c) => c.slug !== course.slug && !course.related.some((r) => r.slug === c.slug)),
+  ].slice(0, RELATED_LIMIT);
+  // The API serves the full description for both fields; show the one-line summary up here and the full text once, under "Course Overview".
+  const intro = detail.heroDescription && detail.heroDescription !== detail.overview ? detail.heroDescription : course.description;
+  const faqs = getCourseFaqs(course, settings.contact);
   const meta = [
     ["Duration", detail.meta.duration],
     ["Training Mode", detail.meta.mode],
@@ -51,6 +80,8 @@ export default async function CoursePage({ params }: Props) {
 
   return (
     <PageTransition>
+      <JsonLd data={courseSchema(course)} />
+      {faqs.length ? <JsonLd data={faqSchema(faqs)} /> : null}
       <Container className="pt-6" data-enter="fade">
         <Breadcrumb
           glyph="wide"
@@ -76,10 +107,10 @@ export default async function CoursePage({ params }: Props) {
             data-enter="words"
             className="display font-heading text-36 font-medium text-heading md:text-48 xl:text-56 [--enter-delay:80ms]"
           >
-            <SplitWords text={detail.heroTitle} />
+            <SplitWords text={courseHeading(detail.heroTitle)} />
           </h1>
           <p data-enter="up" className="font-sans text-16 leading-body text-muted [--enter-delay:250ms]">
-            {detail.heroDescription}
+            {intro}
           </p>
           {/* Key facts as a viewer-style spec strip. */}
           <dl
@@ -129,6 +160,7 @@ export default async function CoursePage({ params }: Props) {
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 preload
                 loading="eager"
+                fetchPriority="high"
                 className="object-cover transition-transform duration-700 ease-brand group-hover:scale-[1.04]"
               />
             </div>
@@ -228,6 +260,33 @@ export default async function CoursePage({ params }: Props) {
               </ul>
             </div>
           ) : null}
+
+          {faqs.length ? (
+            <div className="flex w-full flex-col gap-5">
+              <h2 data-reveal="up" className={h2}>Frequently Asked Questions</h2>
+              <FaqAccordion items={faqs} tone="elevated" answerLeading="normal" allOpen />
+            </div>
+          ) : null}
+
+          <p data-reveal="up" className="font-sans text-15 leading-body text-muted">
+            Compare this with our other{" "}
+            <Link href={routes.category(category.slug)} className={textLink}>
+              {category.name} courses
+            </Link>
+            , see the{" "}
+            <Link href={routes.projects} className={textLink}>
+              training projects
+            </Link>{" "}
+            students work on, meet{" "}
+            <Link href={routes.trainers} className={textLink}>
+              our trainers
+            </Link>
+            , or read the{" "}
+            <Link href={routes.faq} className={textLink}>
+              BIM training FAQs
+            </Link>
+            .
+          </p>
         </div>
 
         {/* `self-stretch` gives the sticky panel room to travel with the syllabus. */}

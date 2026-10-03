@@ -9,7 +9,7 @@ import { PageTransition } from "@/components/motion/page-transition";
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageMetadata("/privacy-policy", {
-    title: "Privacy Policy",
+    title: `Privacy Policy | ${siteConfig.name}`,
     description: `How ${siteConfig.name} collects, uses and protects the information you share with us.`,
   });
 }

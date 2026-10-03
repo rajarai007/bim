@@ -37,6 +37,13 @@ export function createApp() {
   app.use("/images", express.static(path.join(env.assetsDir, "images"), staticOptions));
   app.use("/uploads", serveStoredUploads, express.static(env.uploadDir, staticOptions));
 
+  // Everything below is JSON for the two frontends, never a page: keep the API host out of
+  // search results. Media above is left alone, since the site's image optimizer fetches it.
+  app.use((_req, res, next) => {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow");
+    next();
+  });
+
   // Liveness only: no database round-trip. Keep-alive pings use this so they wake the
   // Render instance without also waking the Neon compute (which bills per active hour).
   app.get("/health/live", (_req, res) => {

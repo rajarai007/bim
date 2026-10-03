@@ -6,12 +6,15 @@ import type { SiteSettings } from "@/types";
 type Tone = "primary" | "accent" | "whatsapp" | "muted";
 type Row = { label: string; value: string; href?: string; tone: Tone; icon: React.ReactNode };
 
+/** Google Maps search for the address as written (no place ID or coordinates are assumed). */
+const mapsUrl = (address: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+
 function buildRows(contact: SiteSettings["contact"]): Row[] {
   const rows: Row[] = [
     {
       label: "PHYSICAL OFFICE LAB",
       value: contact.address,
-      href: undefined,
+      href: mapsUrl(contact.address),
       tone: "primary",
       icon: <MapPin className="size-4" aria-hidden />,
     },
@@ -75,7 +78,7 @@ export function ContactInfo({ contact }: { contact: SiteSettings["contact"] }) {
                 {row.href ? (
                   <a
                     href={row.href}
-                    className="font-sans text-15 font-semibold text-heading transition-colors hover:text-primary-bright"
+                    className="font-sans text-15 font-semibold leading-compact text-heading transition-colors hover:text-primary-bright"
                     target={row.href.startsWith("http") ? "_blank" : undefined}
                     rel={row.href.startsWith("http") ? "noreferrer" : undefined}
                   >

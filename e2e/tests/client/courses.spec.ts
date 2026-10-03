@@ -1,5 +1,6 @@
 import { test, expect } from "../../helpers/fixtures";
 import { apiData } from "../../helpers/api";
+import { courseHeading } from "../../helpers/seo";
 import { CLIENT_URL } from "../../playwright.config";
 
 type PublicCourse = { id: number; slug: string; title: string; duration: string; featured: boolean; syllabusUrl: string | null; category: { slug: string; name: string; badge: string } };
@@ -67,7 +68,7 @@ test("course detail renders the API data and the syllabus accordion works", asyn
   const course = await apiData<CourseDetail>("GET", `/courses/${slug}`, { auth: false });
   await page.goto(`/courses/${course.category.slug}/${course.slug}`);
 
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(course.detail.heroTitle);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(courseHeading(course.detail.heroTitle));
   await expect(page).toHaveTitle(new RegExp(course.title.split(" ")[0]));
   const meta = page.locator("dl");
   await expect(meta).toContainText(course.detail.meta.duration);
@@ -83,7 +84,8 @@ test("course detail renders the API data and the syllabus accordion works", asyn
 
   // Syllabus accordion: all modules open by default, toggling collapses/expands.
   const buttons = page.getByRole("button", { name: /.+/ }).filter({ has: page.locator(":scope[aria-controls]") });
-  const moduleButtons = page.locator("h3 button[aria-expanded]");
+  // Scoped to the syllabus block: the course FAQs further down are an accordion too.
+  const moduleButtons = page.getByRole("heading", { level: 2, name: "Syllabus Modules" }).locator("xpath=..").locator("h3 button[aria-expanded]");
   await expect(moduleButtons).toHaveCount(course.detail.modules.length);
   if (course.detail.modules.length) {
     const first = moduleButtons.first();
@@ -97,16 +99,23 @@ test("course detail renders the API data and the syllabus accordion works", asyn
   }
   void buttons;
 
-  // Related programs link to sibling courses of the same category.
+  // Related programs: sibling courses of the same category first, topped up from the rest of
+  // the catalogue (three cards at most), so the row only disappears when this is the only course.
   const related = page.getByRole("heading", { level: 2, name: "Related Programs" });
-  if (course.related.length) {
+  if (courses.length > 1) {
     await expect(related).toBeVisible();
-    for (const r of course.related) {
-      await expect(page.getByRole("link", { name: new RegExp(r.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")) }).first()).toHaveAttribute("href", `/courses/${r.category.slug}/${r.slug}`);
+    const cards = related.locator("xpath=..").locator("article");
+    await expect(cards).toHaveCount(Math.min(3, courses.length - 1));
+    for (const r of course.related.slice(0, 3)) {
+      await expect(cards.getByRole("link", { name: r.title, exact: true })).toHaveAttribute("href", `/courses/${r.category.slug}/${r.slug}`);
     }
   } else {
     await expect(related).toHaveCount(0);
   }
+
+  // Course FAQs: a second accordion, mirrored as FAQPage structured data (see seo.spec.ts).
+  const faqs = page.getByRole("heading", { level: 2, name: "Frequently Asked Questions" }).locator("xpath=..").locator("h3 button[aria-expanded]");
+  await expect(faqs.first()).toHaveText(`How long is the ${course.title} course?`);
 
   // CTA buttons: "Enquire Now" leads to the contact page; "Download Syllabus" opens the enquiry popup
   // (the PDF itself only downloads after the popup form is submitted, see forms.spec.ts).

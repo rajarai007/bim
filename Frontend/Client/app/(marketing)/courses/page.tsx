@@ -5,11 +5,14 @@ import { Section } from "@/components/layout/section";
 import { getCategories, getCourses } from "@/features/courses/service";
 import { getPageMetadata } from "@/features/pages/service";
 import { routes } from "@/lib/constants";
+import { courseListSchema } from "@/lib/schema";
 import { PageTransition } from "@/components/motion/page-transition";
+import { JsonLd } from "@/components/seo/json-ld";
 
 const defaults = {
-  title: "Courses",
-  description: "Explore our comprehensive range of BIM, Structural & MEP training programs.",
+  title: "BIM & Revit Courses in Delhi | BIM Career Academy",
+  description:
+    "Compare BIM courses in Delhi: Revit Architecture, Revit Structure, Revit MEP and Navisworks BIM coordination. Check duration, syllabus and batch options.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -27,12 +30,15 @@ export default async function CoursesPage() {
       courses: courses.filter((c) => c.category.slug === category.slug).slice(0, OVERVIEW_LIMIT),
     }))
     .filter((s) => s.courses.length > 0);
+  // Structured data lists exactly the courses shown on the page.
+  const listed = sections.flatMap((s) => s.courses);
 
   return (
     <PageTransition>
+      {listed.length ? <JsonLd data={courseListSchema("BIM, structural and MEP design courses", listed)} /> : null}
       <PageBanner
-        title="Our Courses"
-        description="Explore our comprehensive range of BIM, Structural & MEP training programs"
+        title="BIM Courses in Delhi"
+        description="Revit, Navisworks, structural and MEP design courses taught on live projects, at our New Delhi centre and in live online batches."
         glyph="wide"
         crumbs={[{ label: "Home", href: routes.home }, { label: "Courses" }]}
       />

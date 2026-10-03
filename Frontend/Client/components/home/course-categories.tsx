@@ -6,7 +6,7 @@ import type { Category } from "@/types";
 export function CourseCategories({ categories }: { categories: Category[] }) {
   return (
     <Section tone="surface" tilt containerClassName="flex flex-col gap-10 xl:gap-12">
-      <SectionHeading badge="Curriculum Domains" title="Specialized Training Divisions" align="center" />
+      <SectionHeading badge="Curriculum Domains" title="BIM, Structural & MEP Design Training" align="center" />
       <div data-reveal-stagger="flip" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {categories.map((category) => (
           <CategoryCard key={category.id} category={category} />

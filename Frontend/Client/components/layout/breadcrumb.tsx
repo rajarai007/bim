@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ChevronWide } from "@/components/icons/chevron-wide";
 import { ChevronRight } from "lucide-react";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbSchema } from "@/lib/schema";
 import { cn } from "@/lib/utils";
 
 export type Crumb = { label: string; href?: string };
@@ -8,6 +10,8 @@ export type Crumb = { label: string; href?: string };
 /**
  * Breadcrumb trail. Two chevron glyphs exist: the wide custom vector on
  * course pages and Lucide's chevron-right elsewhere — `glyph` selects which.
+ * The same trail is published as BreadcrumbList structured data, so search
+ * results can show the path instead of the raw URL.
  */
 export function Breadcrumb({
   items,
@@ -27,6 +31,7 @@ export function Breadcrumb({
 
   return (
     <nav aria-label="Breadcrumb" className={cn("flex items-center gap-2", className)}>
+      <JsonLd data={breadcrumbSchema(items)} />
       <ol className="flex flex-wrap items-center gap-2">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;

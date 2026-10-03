@@ -1,5 +1,6 @@
 import { test, expect } from "../../helpers/fixtures";
 import { apiData } from "../../helpers/api";
+import { courseHeading } from "../../helpers/seo";
 
 /**
  * Smoke test for every public page: it loads with the right status, renders
@@ -7,9 +8,9 @@ import { apiData } from "../../helpers/api";
  * console / network log is clean.
  */
 const pages: { path: string; h1: string | RegExp; title: RegExp }[] = [
-  { path: "/", h1: /Build Your Career/i, title: /BIM Career Academy/ },
-  { path: "/about", h1: "About BIM Career Academy", title: /About Us/ },
-  { path: "/courses", h1: "Our Courses", title: /Courses/ },
+  { path: "/", h1: "BIM & Revit Training Institute in Delhi", title: /BIM Career Academy/ },
+  { path: "/about", h1: "About BIM Career Academy", title: /About/ },
+  { path: "/courses", h1: "BIM Courses in Delhi", title: /Courses/ },
   { path: "/trainers", h1: "Meet Our Expert Trainers", title: /Trainers/ },
   { path: "/projects", h1: "Our Training Portfolio", title: /Projects/ },
   { path: "/faq", h1: "Frequently Asked Questions", title: /FAQ/ },
@@ -59,7 +60,8 @@ test("category and course pages render for every active category", async ({ page
   const first = courses[0];
   const res = await page.goto(`/courses/${first.category.slug}/${first.slug}`);
   expect(res?.status()).toBe(200);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(first.title);
+  // The course heading is the title plus "Course", unless the title already says what it is.
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(courseHeading(first.title));
   expect(audit.problems).toEqual([]);
 });
 

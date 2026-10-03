@@ -11,9 +11,10 @@ import { useEffect, useRef } from "react";
 /* different depths and catch fire near the pointer. No grid, no straight    */
 /* lines: only slow, soft curves.                                            */
 /*                                                                           */
-/* Cheap by design: one rAF loop (30 fps on phones) that pauses when the tab */
-/* is hidden, DPR capped at 1.5 (1 on phones), fewer ribbons and motes on    */
-/* small screens, and a single static frame under reduced motion.            */
+/* Cheap by design: one rAF loop (30 fps on phones) that starts only after    */
+/* the page has loaded and gone idle and pauses when the tab is hidden, DPR  */
+/* capped at 1.5 (1 on phones), fewer ribbons and motes on small screens,    */
+/* and a single static frame under reduced motion.                           */
 /* ------------------------------------------------------------------------ */
 
 const INK = "60 45 20"; // dark ink on the cream sheet
@@ -249,6 +250,8 @@ export function AmbientFlow() {
     let frame = 0;
     let running = false;
     let last = 0;
+    /** Set once the page has loaded and gone idle (see the end of this effect); nothing draws before that. */
+    let armed = false;
     const loop = (now: number) => {
       frame = requestAnimationFrame(loop);
       // Phones run at half rate: everything here moves slowly enough to hide it.
@@ -269,6 +272,7 @@ export function AmbientFlow() {
       frame = 0;
     };
     const sync = () => {
+      if (!armed) return;
       if (document.hidden) stop();
       else start();
     };
@@ -288,6 +292,7 @@ export function AmbientFlow() {
       ty = -1;
     };
     const onMotionPref = () => {
+      if (!armed) return;
       stop();
       if (reduce.matches) draw(0);
       else sync();
@@ -297,10 +302,24 @@ export function AmbientFlow() {
       if (reduce.matches) draw(0);
     });
 
-    resize();
-    if (reduce.matches) draw(0); // one calm frame, no loop
-    sync();
-    ro.observe(host);
+    // The layer is decoration that dissolves in on its own, so its first frames wait
+    // until the page has loaded and the main thread is idle: drawing never competes
+    // with the hero image, hydration or the visitor's first tap.
+    let idle = 0;
+    const hasIdle = typeof window.requestIdleCallback === "function";
+    const arm = () => {
+      armed = true;
+      resize();
+      if (reduce.matches) draw(0); // one calm frame, no loop
+      sync();
+      ro.observe(host);
+    };
+    const whenLoaded = () => {
+      // Safari has no requestIdleCallback; a short timeout after `load` stands in.
+      idle = hasIdle ? window.requestIdleCallback(arm, { timeout: 2000 }) : window.setTimeout(arm, 300);
+    };
+    if (document.readyState === "complete") whenLoaded();
+    else window.addEventListener("load", whenLoaded, { once: true });
     document.addEventListener("visibilitychange", sync);
     document.addEventListener("pointermove", onPointer, { passive: true });
     document.addEventListener("pointerleave", onLeave);
@@ -308,6 +327,9 @@ export function AmbientFlow() {
 
     return () => {
       stop();
+      window.removeEventListener("load", whenLoaded);
+      if (hasIdle) window.cancelIdleCallback(idle);
+      else window.clearTimeout(idle);
       ro.disconnect();
       document.removeEventListener("visibilitychange", sync);
       document.removeEventListener("pointermove", onPointer);

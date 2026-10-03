@@ -34,6 +34,7 @@ export function PageBanner({
             fill
             sizes="100vw"
             preload
+            fetchPriority="high"
             className="object-cover"
           />
         </div>

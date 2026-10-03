@@ -20,6 +20,8 @@ export async function GET(req: NextRequest, ctx: RouteContext<"/courses/[categor
     "Content-Disposition": `attachment; filename="${slug}-syllabus.pdf"`,
     // The download URL is stable per course while the content behind it changes in the admin console.
     "Cache-Control": "no-store",
+    // A download, not a landing page: the course page should be what ranks, not a bare PDF.
+    "X-Robots-Tag": "noindex",
   });
 
   try {

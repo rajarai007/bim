@@ -19,10 +19,15 @@ import { getShowcaseProjects } from "@/features/projects/service";
 import { getTestimonials } from "@/features/testimonials/service";
 import { getHomeTrainers } from "@/features/trainers/service";
 import { siteConfig } from "@/lib/config";
+import { websiteSchema } from "@/lib/schema";
 import { PageTransition } from "@/components/motion/page-transition";
+import { JsonLd } from "@/components/seo/json-ld";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return getPageMetadata("/", { title: siteConfig.name, description: siteConfig.description });
+  return getPageMetadata("/", {
+    title: `BIM Training Institute in Delhi | ${siteConfig.name}`,
+    description: siteConfig.description,
+  });
 }
 
 export default async function HomePage() {
@@ -37,6 +42,7 @@ export default async function HomePage() {
 
   return (
     <PageTransition>
+      <JsonLd data={websiteSchema()} />
       <Hero categories={categories} />
       <AboutPreview />
       {categories.length ? <CourseCategories categories={categories} /> : null}

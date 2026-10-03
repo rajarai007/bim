@@ -29,12 +29,32 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
+/**
+ * Site-wide defaults. Each page adds its own title, description, canonical URL
+ * and share tags through `buildMetadata` (lib/seo.ts); what is declared here
+ * covers pages that set nothing, such as the 404 screen.
+ */
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  applicationName: siteConfig.name,
+  category: "education",
+  openGraph: {
+    type: "website",
+    siteName: siteConfig.name,
+    locale: "en_IN",
+    images: [siteConfig.ogImage],
+  },
+  twitter: { card: "summary_large_image" },
+  // Search Console / Bing Webmaster ownership tags, set as build-time env vars (see .env.example).
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    other: process.env.BING_SITE_VERIFICATION ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION } : undefined,
+  },
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {

@@ -7,7 +7,6 @@ import { Container } from "@/components/layout/container";
 import { HeroScene } from "@/components/motion/hero-scene";
 import { SplitWords } from "@/components/motion/split-words";
 import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/lib/config";
 import { routes } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import type { Category } from "@/types";
@@ -45,9 +44,13 @@ const hud = [
   },
 ] as const;
 
-const headlineLead = "Build Your Career in";
-const headlineGlow = "BIM & Design Technology";
+// The page's single H1 says what the academy is and where; the label above it and
+// the intro below name the disciplines and software. Kept to two display lines.
+const headlineLead = "BIM & Revit Training";
+const headlineGlow = "Institute in Delhi";
 const leadWords = headlineLead.split(" ").length;
+const intro =
+  "Learn Revit Architecture, Revit Structure, Revit MEP and Navisworks on live projects. Offline classes in New Delhi and live online batches.";
 
 /**
  * Home hero. Layers, far to near: washed photo → gradient mesh → light orbs →
@@ -68,6 +71,7 @@ export function Hero({ categories = [] }: { categories?: Category[] }) {
             fill
             sizes="100vw"
             preload
+            fetchPriority="high"
             className="kenburns object-cover"
           />
         </div>
@@ -123,7 +127,7 @@ export function Hero({ categories = [] }: { categories?: Category[] }) {
           <div data-enter="left">
             <span className="glass glass-edge inline-flex items-center gap-2.5 rounded-pill px-4 py-2 font-sans text-12 font-semibold tracking-[0.06em] text-body uppercase">
               <span className="pulse-dot" />
-              AEC Industry Specialization
+              BIM, Structural &amp; MEP Design
             </span>
           </div>
           <h1
@@ -139,7 +143,7 @@ export function Hero({ categories = [] }: { categories?: Category[] }) {
             data-enter="up"
             className="max-w-[600px] font-sans text-16 leading-body text-body md:text-18 [--enter-delay:250ms]"
           >
-            {siteConfig.description}
+            {intro}
           </p>
           <div
             data-enter-stagger="up"

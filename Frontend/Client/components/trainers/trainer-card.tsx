@@ -11,7 +11,7 @@ import type { Trainer } from "@/types";
  */
 export const trainerColumn = "w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-24px)]";
 
-/** Full trainer card used on the Trainers page. */
+/** Full trainer card used on the Trainers page, where the cards follow the page title directly (so `h2`). */
 export function TrainerCard({ trainer }: { trainer: Trainer }) {
   return (
     <article
@@ -34,9 +34,9 @@ export function TrainerCard({ trainer }: { trainer: Trainer }) {
         <div aria-hidden className="viewer-frame pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-brand group-hover:opacity-100" />
       </div>
       <div className="flex flex-1 flex-col items-start gap-3 p-5">
-        <h3 className="w-full font-heading text-20 font-semibold leading-native text-heading">
+        <h2 className="w-full font-heading text-20 font-semibold leading-native text-heading">
           {trainer.name}
-        </h3>
+        </h2>
         <p className="w-full font-sans text-14 font-semibold leading-native text-primary">
           {trainer.role}
         </p>

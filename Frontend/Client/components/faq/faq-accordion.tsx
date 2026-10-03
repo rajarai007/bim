@@ -6,6 +6,8 @@ import type { FaqItem } from "@/types";
 import { cn } from "@/lib/utils";
 
 type Tone = "elevated" | "surface";
+/** What the accordion needs from a question; API FAQs and per-course FAQs both fit. */
+export type AccordionItem = Pick<FaqItem, "id" | "question" | "answer" | "defaultOpen">;
 
 const tones: Record<Tone, string> = {
   elevated: "glass",
@@ -15,20 +17,25 @@ const tones: Record<Tone, string> = {
 /**
  * Accessible accordion. Items with `defaultOpen` start expanded; when
  * `allOpen` is set every item starts expanded (home-page preview).
+ * `headingLevel` keeps the document outline unbroken: questions are `h3`
+ * under a section heading, and `h2` where they sit directly under the page title.
  */
 export function FaqAccordion({
   items,
   tone = "surface",
   allOpen = false,
   answerLeading = "body",
+  headingLevel = 3,
   className,
 }: {
-  items: FaqItem[];
+  items: AccordionItem[];
   tone?: Tone;
   allOpen?: boolean;
   answerLeading?: "body" | "normal";
+  headingLevel?: 2 | 3;
   className?: string;
 }) {
+  const Heading = headingLevel === 2 ? "h2" : "h3";
   const baseId = useId();
   const [openIds, setOpenIds] = useState<Set<number>>(
     () => new Set(items.filter((i) => allOpen || i.defaultOpen).map((i) => i.id)),
@@ -57,7 +64,7 @@ export function FaqAccordion({
               open ? "gap-3 border-accent/30" : "gap-0",
             )}
           >
-            <h3 className="m-0">
+            <Heading className="m-0">
               <button
                 id={buttonId}
                 type="button"
@@ -78,7 +85,7 @@ export function FaqAccordion({
                   <ChevronDown aria-hidden className="size-4 text-accent" />
                 </span>
               </button>
-            </h3>
+            </Heading>
             <div
               id={panelId}
               role="region"

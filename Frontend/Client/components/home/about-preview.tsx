@@ -45,9 +45,9 @@ export function AboutPreview() {
           Engineering the Future of Construction Professionals
         </h2>
         <p className="font-sans text-16 leading-body text-muted">
-          BIM Career Academy is committed to delivering practical, industry-aligned training in
-          architectural technology. We focus on bridging the gap between academic theory and
-          real-world execution.
+          BIM Career Academy is a BIM training institute in New Delhi delivering practical,
+          industry-aligned training in Revit, Navisworks, structural and MEP design. We focus on
+          bridging the gap between academic theory and real-world execution.
         </p>
         <ul data-reveal-stagger="left" className="flex w-full flex-col gap-3 [--stagger-offset:500ms]">
           {aboutBullets.map((bullet) => (

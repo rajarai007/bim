@@ -11,7 +11,7 @@ export function FeaturedCourses({ courses }: { courses: Course[] }) {
       <SectionHeading
         badge="Popular Training Programs"
         badgeTone="primary"
-        title="Featured Architectural Engineering Courses"
+        title="Featured BIM Courses in Delhi"
       />
       {/* Four courses fill one row on wide screens instead of leaving one orphaned under three. */}
       <div

@@ -6,13 +6,15 @@ import { TrainerCard } from "@/components/trainers/trainer-card";
 import { getPageMetadata } from "@/features/pages/service";
 import { getTrainers } from "@/features/trainers/service";
 import { routes } from "@/lib/constants";
+import { trainerSchema } from "@/lib/schema";
 import { PageTransition } from "@/components/motion/page-transition";
+import { JsonLd } from "@/components/seo/json-ld";
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageMetadata("/trainers", {
-    title: "Trainers",
+    title: "BIM & Revit Trainers | BIM Career Academy",
     description:
-      "Learn from experienced AEC industry professionals with real-world BIM and structural design expertise.",
+      "Meet the trainers at BIM Career Academy, New Delhi, and see their experience, specialisations and the BIM, Revit and structural software they teach.",
   });
 }
 
@@ -20,6 +22,7 @@ export default async function TrainersPage() {
   const trainers = await getTrainers();
   return (
     <PageTransition>
+      {trainers.length ? <JsonLd data={trainerSchema(trainers)} /> : null}
       <PageBanner
         title="Meet Our Expert Trainers"
         description="Learn from experienced AEC industry professionals with real-world BIM and structural design expertise."

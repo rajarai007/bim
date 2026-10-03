@@ -1,9 +1,10 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 import { apiFetch, ApiError } from "@/lib/api";
+import { buildMetadata } from "@/lib/seo";
 import type { PageMeta } from "@/types";
 
-const getPages = cache(async (): Promise<PageMeta[]> => {
+export const getPages = cache(async (): Promise<PageMeta[]> => {
   try {
     return await apiFetch<PageMeta[]>("/pages");
   } catch (err) {
@@ -13,11 +14,16 @@ const getPages = cache(async (): Promise<PageMeta[]> => {
   }
 });
 
-/** SEO meta managed in the admin console, falling back to the static values. */
+/**
+ * Head tags for a static page. The title and description set in the admin
+ * console (SEO tab) win; `defaults` are used until one is saved there.
+ * Both are complete titles, written without relying on the layout template.
+ */
 export async function getPageMetadata(path: string, defaults: { title: string; description: string }): Promise<Metadata> {
   const page = (await getPages()).find((p) => p.path === path);
-  return {
-    title: page?.metaTitle ? { absolute: page.metaTitle } : defaults.title,
-    description: page?.metaDescription ?? defaults.description,
-  };
+  return buildMetadata({
+    path,
+    title: page?.metaTitle || defaults.title,
+    description: page?.metaDescription || defaults.description,
+  });
 }

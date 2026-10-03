@@ -5,7 +5,7 @@ browser and verifies every action against the API and the database.
 
 | Project       | What it covers |
 |---------------|----------------|
-| `client`      | every public page (load, SEO head, images, console/network audit), navigation, breadcrumbs, footer, FAQ tabs/accordion, project filters, trainers, contact + course enquiry forms (validation, DB verification, failure/loading states), admin→client content sync, mobile layout, API outage error page |
+| `client`      | every public page (load, SEO head, images, console/network audit), search-engine contract (`seo.spec.ts`: one H1, canonical, share tags, unique titles, structured data, robots.txt, sitemap, noindex rules), navigation, breadcrumbs, footer, FAQ tabs/accordion, project filters, trainers, contact + course enquiry forms (validation, DB verification, failure/loading states), admin→client content sync, mobile layout, API outage error page |
 | `admin-setup` | signs in once through the login form and stores the session cookie |
 | `admin`       | auth (redirects, forged/expired cookies, remember-me, logout, forgot/reset password), dashboard, course list/editor (create → draft → publish → edit → delete, validation, featured), categories/trainers/testimonials/projects/FAQs dialogs, enquiries (filters, manage panel, notes, status, CSV export), settings/SEO/content, media library, profile + password, mobile drawer, API outage recovery |
 

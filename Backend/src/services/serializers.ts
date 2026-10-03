@@ -25,6 +25,7 @@ export function publicCategory(c: Category) {
     footerLabel: c.footerLabel,
     overviewTitle: c.overviewTitle,
     courseCount: c.courseCount ?? 0,
+    updatedAt: c.updatedAt,
   };
 }
 
@@ -41,6 +42,8 @@ export function publicCourseCard(c: Course) {
     syllabusUrl: c.syllabusUrl,
     featured: c.isFeatured,
     category: { id: c.categoryId, slug: c.categorySlug, name: c.categoryName, badge: c.categoryBadge },
+    // Last edit time: the public site publishes it as <lastmod> in its sitemap.
+    updatedAt: c.updatedAt,
   };
 }
 

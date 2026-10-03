@@ -10,7 +10,7 @@ import {
 import { Container } from "@/components/layout/container";
 import { Divider } from "@/components/ui/divider";
 import { routes } from "@/lib/constants";
-import type { Category, SiteSettings } from "@/types";
+import type { Category, Course, SiteSettings } from "@/types";
 
 const socialIcons = [
   { key: "instagram", label: "Instagram", Icon: InstagramIcon },
@@ -24,16 +24,30 @@ const quickLinks = [
   { label: "About Us", href: routes.about },
   { label: "Courses", href: routes.courses },
   { label: "Why Choose Us", href: routes.whyChooseUs },
+  { label: "Trainers", href: routes.trainers },
   { label: "Projects", href: routes.projects },
+  { label: "FAQs", href: routes.faq },
+  { label: "Contact", href: routes.contact },
   { label: "Privacy Policy", href: routes.privacy },
 ];
+
+/** Course links shown in the footer; the full catalogue stays one click away on /courses. */
+const FOOTER_COURSES = 6;
 
 const linkClass =
   "group/link inline-flex items-center gap-2 font-sans text-14 leading-native text-muted transition-[color,translate] duration-300 ease-brand hover:translate-x-1 hover:text-heading";
 
 const headingClass = "label text-heading";
 
-export function Footer({ settings, categories }: { settings: SiteSettings; categories: Category[] }) {
+export function Footer({
+  settings,
+  categories,
+  courses,
+}: {
+  settings: SiteSettings;
+  categories: Category[];
+  courses: Course[];
+}) {
   const socials = socialIcons.flatMap(({ key, label, Icon }) => {
     const href = settings.social[key];
     return href ? [{ label, Icon, href }] : [];
@@ -72,17 +86,34 @@ export function Footer({ settings, categories }: { settings: SiteSettings; categ
             </ul>
           </div>
 
-          <div className="flex flex-col gap-5">
-            <h2 className={headingClass}>Categories</h2>
-            <ul className="flex flex-col gap-3">
-              {categories.map((c) => (
-                <li key={c.id}>
-                  <Link href={routes.category(c.slug)} className={linkClass}>
-                    {c.footerLabel}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-5">
+              <h2 className={headingClass}>Categories</h2>
+              <ul className="flex flex-col gap-3">
+                {categories.map((c) => (
+                  <li key={c.id}>
+                    <Link href={routes.category(c.slug)} className={linkClass}>
+                      {c.footerLabel}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Every page links straight to the course pages by name. */}
+            {courses.length ? (
+              <div className="flex flex-col gap-5">
+                <h2 className={headingClass}>Courses</h2>
+                <ul className="flex flex-col gap-3">
+                  {courses.slice(0, FOOTER_COURSES).map((course) => (
+                    <li key={course.id}>
+                      <Link href={routes.course(course.category.slug, course.slug)} className={linkClass}>
+                        {course.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
           </div>
 
           <div className="flex flex-col gap-5">
